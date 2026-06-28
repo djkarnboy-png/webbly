@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -22,9 +23,15 @@ export function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/60 bg-white/82 shadow-sm shadow-slate-950/5 backdrop-blur-xl">
       <nav className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3" onClick={() => setIsOpen(false)}>
-          <span className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl bg-slate-950 text-white shadow-lg shadow-blue-950/20">
-            <span className="absolute inset-0 bg-[linear-gradient(135deg,#2563eb,#7c3aed)] opacity-90" />
-            <span className="relative text-lg font-black">W</span>
+          <span className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-lg shadow-blue-950/10">
+            <Image
+              src="/webbly-logo-mark.png"
+              alt="Webbly logo"
+              width={96}
+              height={52}
+              priority
+              className="h-7 w-9 object-contain"
+            />
           </span>
           <span>
             <span className="block text-xl font-black tracking-tight text-slate-950">
