@@ -49,8 +49,8 @@ export default function CreatorsPage() {
             </div>
             <div className="mt-7">
               <MvpNotice>
-                MVP demo: creator accounts, dashboards, analytics, and live
-                uploads are mocked in the frontend only.
+                Early preview: creator accounts, dashboards, analytics, and
+                live uploads are shown as frontend-only product concepts.
               </MvpNotice>
             </div>
           </div>
@@ -87,7 +87,7 @@ export default function CreatorsPage() {
                 More than a template shelf.
               </h2>
               <p className="mt-4 text-lg leading-8 text-slate-600">
-                The prototype is shaped around a future marketplace where a
+                This early preview is shaped around a future marketplace where a
                 single listing can sell directly, start conversations, or become
                 a custom project brief.
               </p>
@@ -114,15 +114,15 @@ export default function CreatorsPage() {
             </h2>
             <p className="mt-4 text-lg leading-8 text-slate-600">
               The UI captures the fields a marketplace listing needs today while
-              keeping the implementation frontend-only for this prototype.
+              keeping the implementation frontend-only for this preview.
             </p>
           </div>
 
           <form className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-xl shadow-blue-950/5">
             <div className="grid gap-5">
-              <MvpNotice tone="slate" title="Prototype form">
-                Submissions are not saved yet. This is designed to map cleanly
-                to a future Supabase template table.
+              <MvpNotice tone="slate" title="Frontend preview">
+                Submissions are demo-only for now. The fields are structured so
+                a future backend can store listings cleanly.
               </MvpNotice>
               <Field label="Template name" placeholder="Modern Cafe Website" />
               <div className="grid gap-5 sm:grid-cols-2">
@@ -170,7 +170,7 @@ export default function CreatorsPage() {
                 type="button"
                 className="h-12 rounded-full bg-slate-950 px-6 text-sm font-black text-white shadow-sm shadow-slate-950/20 transition hover:bg-slate-800"
               >
-                Submit Template Demo
+                Submit Template Preview
               </button>
             </div>
           </form>
@@ -192,7 +192,7 @@ function CreatorDashboardMockup() {
             <h2 className="mt-2 text-2xl font-black">Template performance</h2>
           </div>
           <span className="rounded-full bg-emerald-400 px-3 py-1 text-xs font-black text-slate-950">
-            Demo
+            Preview
           </span>
         </div>
         <div className="mt-6 grid gap-3 sm:grid-cols-3">

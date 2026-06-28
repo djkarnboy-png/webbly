@@ -5,7 +5,7 @@ type MvpNoticeProps = {
 };
 
 export function MvpNotice({
-  title = "MVP mode",
+  title = "Early preview",
   children,
   tone = "blue",
 }: MvpNoticeProps) {

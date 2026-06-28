@@ -36,8 +36,8 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1 pt-[72px]">
             <div className="border-b border-blue-100 bg-blue-50 px-4 py-3 text-center text-sm font-semibold text-blue-950">
-              MVP mode: browsing, filtering, and request forms work. Buying
-              templates, login, and creator accounts are coming soon.
+              Early preview: browse templates, filter the marketplace, and send
+              demo requests. Payments and creator accounts are coming soon.
             </div>
             {children}
           </main>

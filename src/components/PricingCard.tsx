@@ -83,7 +83,7 @@ export function PricingCard({
               : ""
           }`}
         >
-          Start Creator Demo
+          Start Creator Preview
         </ButtonLink>
       </div>
     </article>

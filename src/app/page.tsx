@@ -7,10 +7,10 @@ import { TemplatePreview } from "@/components/TemplatePreview";
 import { getAllTemplates } from "@/lib/marketplace";
 
 const stats = [
-  ["120+", "curated template concepts"],
+  ["120+", "template directions explored"],
   ["8", "business categories"],
-  ["Small biz", "built for real operators"],
-  ["MVP", "frontend demo"],
+  ["4.8/5", "mock buyer confidence"],
+  ["48h", "typical creator reply goal"],
 ];
 
 const featuredCategories = [
@@ -53,10 +53,16 @@ const trustCards = [
     metric: "12 listings",
   },
   {
-    title: "Stay in MVP mode",
-    copy: "Buying, accounts, and delivery are intentionally marked as coming soon while the marketplace experience is prototyped.",
-    metric: "frontend",
+    title: "Preview the workflow",
+    copy: "Payments, accounts, and delivery are clearly marked as coming soon while buyers can still understand the request journey.",
+    metric: "early preview",
   },
+];
+
+const processCards = [
+  ["Pick a style", "Start from a template that already feels close to the business."],
+  ["Send a brief", "Share budget, pages, timeline, and the visual direction you prefer."],
+  ["Creator replies", "The future workflow is built around creators responding with a practical next step."],
 ];
 
 export default function Home() {
@@ -80,7 +86,7 @@ export default function Home() {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/75 px-4 py-2 text-sm font-bold text-blue-700 shadow-sm backdrop-blur">
               <span className="h-2 w-2 rounded-full bg-emerald-400" />
-              Premium frontend marketplace demo
+              Early preview of the Webbly marketplace
             </div>
             <h1 className="mt-6 max-w-5xl text-5xl font-black tracking-tight text-slate-950 sm:text-6xl lg:text-7xl">
               Find a business website you love. Hire the creator behind it.
@@ -214,8 +220,8 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <SectionIntro
             eyebrow="Built for confidence"
-            title="A marketplace prototype that explains the next step."
-            copy="Webbly now shows more of the real buying flow: what a buyer requests, what a creator sees, and which features are still intentionally mocked."
+            title="A marketplace preview that explains the next step."
+            copy="Webbly now shows more of the real buying flow: what a buyer requests, what a creator sees, and which features are clearly marked as coming soon."
           />
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {trustCards.map((card) => (
@@ -241,9 +247,33 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="bg-white px-6 py-20">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+          <SectionIntro
+            eyebrow="After you find a style"
+            title="The request flow is built around real project context."
+            copy="Business owners are not just browsing pictures. Webbly nudges them toward the details a creator needs to price and scope a useful next step."
+          />
+          <div className="grid gap-4 md:grid-cols-3">
+            {processCards.map(([title, copy], index) => (
+              <article
+                key={title}
+                className="rounded-[2rem] border border-slate-200 bg-slate-50 p-5 shadow-sm"
+              >
+                <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-950 text-sm font-black text-white">
+                  {index + 1}
+                </span>
+                <h3 className="mt-5 text-xl font-black text-slate-950">{title}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{copy}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <CTASection
         title="Browse a direction. Then request the website your business actually needs."
-        description="Webbly is still frontend-only, but the buying journey now feels closer to the premium marketplace it is meant to become."
+        description="Webbly is an early frontend preview, but the browsing and request journey is shaped around the premium marketplace it is meant to become."
       />
     </>
   );
@@ -280,15 +310,15 @@ function MarketplaceMockup({ templateName }: { templateName: string }) {
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
-                Marketplace dashboard
+                Marketplace preview
               </p>
-              <h3 className="mt-2 text-xl font-black">Curated matches</h3>
+              <h3 className="mt-2 text-xl font-black">Style match board</h3>
             </div>
             <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-950">
-              Best match
+              97% fit
             </span>
           </div>
-          <div className="mt-5 grid gap-3 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="mt-5 grid gap-3 lg:grid-cols-[1.15fr_0.85fr]">
             <TemplatePreview
               name={templateName}
               category="Online Stores"
@@ -296,7 +326,20 @@ function MarketplaceMockup({ templateName }: { templateName: string }) {
               size="hero"
             />
             <div className="grid gap-3">
-              {["Salon booking", "Cafe menu", "Gym landing"].map((item, index) => (
+              <div className="rounded-2xl border border-white/10 bg-white/8 p-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold">Request snapshot</span>
+                  <span className="rounded-full bg-emerald-300 px-2 py-1 text-[10px] font-black text-slate-950">
+                    Ready
+                  </span>
+                </div>
+                <div className="mt-4 space-y-2">
+                  <span className="block h-8 rounded-xl bg-white/12" />
+                  <span className="block h-8 rounded-xl bg-white/10" />
+                  <span className="block h-10 rounded-xl bg-gradient-to-r from-blue-400 to-violet-400" />
+                </div>
+              </div>
+              {["Salon booking", "Cafe menu"].map((item, index) => (
                 <div
                   key={item}
                   className="rounded-2xl border border-white/10 bg-white/8 p-4"
@@ -313,6 +356,11 @@ function MarketplaceMockup({ templateName }: { templateName: string }) {
                 </div>
               ))}
             </div>
+          </div>
+          <div className="mt-3 grid gap-3 rounded-2xl border border-white/10 bg-white/8 p-3 text-xs font-semibold text-slate-300 sm:grid-cols-3">
+            <span>Browse styles before hiring</span>
+            <span>See creator response time</span>
+            <span>Request similar builds</span>
           </div>
         </div>
       </div>

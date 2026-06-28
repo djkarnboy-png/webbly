@@ -101,7 +101,7 @@ export function filterTemplates({
 }
 
 export async function createWebsiteRequest(input: WebsiteRequestInput) {
-  // Supabase-ready seam: replace this mock with an insert into a requests table.
+  // Backend-ready adapter: replace this mock with a real request insert later.
   return {
     id: `mock_${Date.now()}`,
     status: "received" as const,

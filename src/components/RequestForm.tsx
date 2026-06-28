@@ -44,10 +44,10 @@ export function RequestForm({ context, onSubmitted }: RequestFormProps) {
 
   const helperText = useMemo(() => {
     if (context?.requestType === "contact") {
-      return "Send a note to the creator. In MVP mode, Webbly records this locally as a prototype interaction.";
+      return "Send a focused note to the creator with your business type, budget, and the style you are interested in.";
     }
 
-    return "Tell the creator what you want built. This prototype validates the request flow before a backend is connected.";
+    return "Share the website direction you like and what you need next. Requests are demo-only in this early preview.";
   }, [context?.requestType]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -76,12 +76,24 @@ export function RequestForm({ context, onSubmitted }: RequestFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="grid gap-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+      className="grid gap-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
       noValidate
     >
-      <div className="rounded-2xl border border-blue-100 bg-blue-50 p-4">
-        <p className="text-sm font-black text-blue-950">MVP mode</p>
-        <p className="mt-1 text-sm leading-6 text-blue-900">{helperText}</p>
+      <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-violet-50 p-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="text-sm font-black text-blue-950">Early preview request</p>
+            <p className="mt-1 text-sm leading-6 text-blue-900">{helperText}</p>
+          </div>
+          <span className="w-fit rounded-full bg-white/80 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-blue-700">
+            No message sent yet
+          </span>
+        </div>
+        <div className="mt-4 grid gap-2 text-xs font-bold text-blue-950 sm:grid-cols-3">
+          <span className="rounded-full bg-white/70 px-3 py-2">1. Share context</span>
+          <span className="rounded-full bg-white/70 px-3 py-2">2. Match the style</span>
+          <span className="rounded-full bg-white/70 px-3 py-2">3. Creator follow-up later</span>
+        </div>
       </div>
 
       {success ? (
@@ -89,7 +101,7 @@ export function RequestForm({ context, onSubmitted }: RequestFormProps) {
           className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-semibold text-emerald-900"
           role="status"
         >
-          Request sent! This is a demo for now.
+          Request sent - this is an early preview, so no real message was sent yet.
         </div>
       ) : null}
 
@@ -162,7 +174,7 @@ export function RequestForm({ context, onSubmitted }: RequestFormProps) {
       <Button
         type="submit"
         size="lg"
-        className="w-full sm:w-auto"
+        className="w-full shadow-md shadow-blue-600/15 sm:w-auto"
         disabled={isSubmitting}
       >
         {isSubmitting ? "Sending..." : "Submit Request"}

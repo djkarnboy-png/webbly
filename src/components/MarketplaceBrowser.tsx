@@ -52,11 +52,11 @@ export function MarketplaceBrowser({
               Find a template faster
             </p>
             <p className="text-sm text-slate-500">
-              Search and filters update the mock marketplace instantly.
+              Search and filters update this curated preview instantly.
             </p>
           </div>
           <span className="w-fit rounded-full bg-blue-50 px-3 py-1 text-xs font-black uppercase tracking-[0.14em] text-blue-700">
-            MVP mode
+            Early preview
           </span>
         </div>
 
@@ -180,7 +180,7 @@ export function MarketplaceBrowser({
           Showing {filteredTemplates.length} premium template matches
         </p>
         <p className="text-sm text-slate-500">
-          Buying, login, creator accounts, and payments are coming soon.
+          Payments, accounts, and digital delivery are coming soon.
         </p>
       </div>
 
@@ -197,7 +197,7 @@ export function MarketplaceBrowser({
           </p>
           <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-600">
             Try a broader business type, remove the price filter, or sort by
-            popular templates to browse the full mock catalog.
+            popular templates to browse the full preview catalog.
           </p>
           <button
             type="button"

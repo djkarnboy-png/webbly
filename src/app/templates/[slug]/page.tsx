@@ -97,13 +97,13 @@ export default async function TemplateDetailsPage({ params }: PageProps) {
                   Contact Creator
                 </RequestButton>
                 <Button size="lg" variant="secondary" disabled>
-                  Buy Template Demo
+                  Buy Template
                 </Button>
               </div>
               <div className="mt-4">
                 <MvpNotice tone="slate" title="Buying coming soon">
                   Checkout and downloadable template purchases are not active in
-                  this prototype yet.
+                  this early preview yet.
                 </MvpNotice>
               </div>
             </div>

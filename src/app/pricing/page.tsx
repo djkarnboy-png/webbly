@@ -42,11 +42,11 @@ const plans = [
 const faqs = [
   [
     "Can creators charge custom prices?",
-    "Yes. The prototype shows fixed template prices, but Webbly is designed so creators can keep control of template and custom project pricing.",
+    "Yes. This preview shows fixed template prices, but Webbly is designed so creators can keep control of template and custom project pricing.",
   ],
   [
     "Are payments active yet?",
-    "Not yet. Webbly is frontend-only MVP mode, so billing, checkout, and commission tracking are marked as coming soon.",
+    "Not yet. Webbly is frontend-only in this early preview, so billing, checkout, and commission tracking are marked as coming soon.",
   ],
   [
     "Can buyers request a similar website?",
@@ -79,8 +79,8 @@ export default function PricingPage() {
           </div>
           <div className="mx-auto mt-8 max-w-3xl">
             <MvpNotice>
-              Pricing cards are part of the prototype. Billing, paid creator
-              plans, and commission tracking are not active yet.
+              Pricing cards are part of the early product preview. Billing,
+              paid creator plans, and commission tracking are not active yet.
             </MvpNotice>
           </div>
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
@@ -95,8 +95,8 @@ export default function PricingPage() {
                 Marketplace feature comparison
               </h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                Frontend-only for now, structured around the paid features Webbly
-                could activate later.
+                Frontend preview for now, structured around the paid features
+                Webbly could activate later.
               </p>
             </div>
             <div className="grid divide-y divide-slate-200 text-sm md:grid-cols-4 md:divide-x md:divide-y-0">
@@ -132,9 +132,9 @@ export default function PricingPage() {
                 Payments will stay clear before they go live.
               </h2>
               <p className="mt-4 text-sm leading-6 text-slate-300">
-                The MVP separates creator visibility, buyer requests, and future
-                sale commissions so the business model is easy to test before
-                adding Stripe or backend accounts.
+                The preview separates creator visibility, buyer requests, and
+                future sale commissions so the business model is easy to test
+                before adding payments or backend accounts.
               </p>
               <div className="mt-8 grid grid-cols-3 gap-2">
                 <span className="h-16 rounded-2xl bg-white/10" />

@@ -19,8 +19,8 @@ export default function RequestPage() {
           </h1>
           <p className="mt-5 text-lg leading-8 text-slate-600">
             Tell the creator what kind of business you run, which style you like,
-            and what you need included. This MVP form is UI-only for now, ready
-            for a backend later.
+            and what you need included. This form is demo-only in the early
+            preview, with fields shaped for a future backend.
           </p>
           <div className="mt-8 rounded-2xl border border-blue-100 bg-blue-50 p-5">
             <p className="font-bold text-slate-950">What to include</p>
