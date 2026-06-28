@@ -8,6 +8,12 @@ const workflow = [
   ["Sell templates or receive custom requests", "Turn one visual direction into productized sales and higher-intent custom project leads."],
 ];
 
+const creatorBenefits = [
+  ["Productize portfolio work", "Reuse polished concepts that were never sold, then turn them into searchable template listings."],
+  ["Win warmer leads", "Buyers contact you after already choosing a visual direction, category, and approximate budget."],
+  ["Keep pricing flexible", "Show template prices now and leave room for custom website requests as Webbly grows."],
+];
+
 export const metadata = {
   title: "For Creators | Webbly",
   description:
@@ -56,13 +62,46 @@ export default function CreatorsPage() {
           {workflow.map(([title, copy], index) => (
             <article
               key={title}
-              className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm shadow-slate-950/5"
+              className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm shadow-slate-950/5"
             >
+              <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-blue-100 blur-2xl" />
               <p className="text-sm font-black text-blue-600">0{index + 1}</p>
               <h2 className="mt-8 text-2xl font-black text-slate-950">{title}</h2>
               <p className="mt-4 text-sm leading-6 text-slate-600">{copy}</p>
+              <div className="mt-6 grid grid-cols-3 gap-2">
+                <span className="h-11 rounded-2xl bg-slate-100" />
+                <span className="h-11 rounded-2xl bg-blue-100" />
+                <span className="h-11 rounded-2xl bg-violet-100" />
+              </div>
             </article>
           ))}
+        </div>
+
+        <div className="mt-16 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm shadow-slate-950/5">
+          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.18em] text-blue-600">
+                Creator upside
+              </p>
+              <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 md:text-5xl">
+                More than a template shelf.
+              </h2>
+              <p className="mt-4 text-lg leading-8 text-slate-600">
+                The prototype is shaped around a future marketplace where a
+                single listing can sell directly, start conversations, or become
+                a custom project brief.
+              </p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {creatorBenefits.map(([title, copy]) => (
+                <article key={title} className="rounded-3xl bg-slate-50 p-5">
+                  <span className="block h-10 w-10 rounded-2xl bg-gradient-to-br from-blue-600 to-violet-500" />
+                  <h3 className="mt-5 text-lg font-black text-slate-950">{title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{copy}</p>
+                </article>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="mt-16 grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
@@ -111,8 +150,18 @@ export default function CreatorsPage() {
                   className="resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-950 outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
                 />
               </label>
-              <div className="rounded-2xl border border-dashed border-blue-200 bg-gradient-to-br from-blue-50 to-violet-50 p-6 text-center">
-                <p className="font-black text-slate-950">Upload preview image</p>
+              <div className="rounded-2xl border border-dashed border-blue-200 bg-gradient-to-br from-blue-50 via-white to-violet-50 p-4">
+                <div className="rounded-2xl border border-white/80 bg-white/75 p-4 shadow-sm">
+                  <div className="grid grid-cols-[1.2fr_0.8fr] gap-3">
+                    <span className="h-24 rounded-2xl bg-gradient-to-br from-blue-100 to-violet-100" />
+                    <div className="space-y-2">
+                      <span className="block h-6 rounded-full bg-slate-200" />
+                      <span className="block h-6 w-2/3 rounded-full bg-blue-200" />
+                      <span className="block h-10 rounded-2xl bg-slate-950" />
+                    </div>
+                  </div>
+                </div>
+                <p className="mt-4 text-center font-black text-slate-950">Upload preview image</p>
                 <p className="mt-2 text-sm text-slate-600">
                   Homepage screenshot, mockup, or polished template cover.
                 </p>

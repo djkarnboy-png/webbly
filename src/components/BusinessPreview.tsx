@@ -87,18 +87,19 @@ export function BusinessPreview({
 
   return (
     <div
-      className={`relative isolate overflow-hidden rounded-2xl border border-white/75 shadow-inner ${
+      className={`relative isolate overflow-hidden rounded-[1.35rem] border border-white/80 shadow-inner ring-1 ring-white/60 ${
         isHero
           ? "min-h-[420px] md:min-h-[540px]"
-          : isCategory
-            ? "h-56 sm:h-60"
-            : "aspect-[4/3] min-h-[315px]"
+        : isCategory
+            ? "h-56 sm:h-64"
+            : "aspect-[1.18] min-h-[335px]"
       }`}
       style={{ background: gradient ?? theme.background }}
       aria-label={name ? `${name} preview` : `${category} preview`}
     >
       <div className="absolute -right-12 -top-14 h-40 w-40 rounded-full bg-white/35 blur-2xl" />
       <div className="absolute -bottom-20 -left-16 h-52 w-52 rounded-full bg-slate-950/10 blur-3xl" />
+      <div className="absolute inset-x-8 bottom-3 h-8 rounded-full bg-slate-950/15 blur-xl" />
       <PreviewShell category={category} label={theme.label} isDark={category === "Gyms"}>
         {renderScene(category, theme, variant)}
       </PreviewShell>
@@ -123,10 +124,10 @@ function PreviewShell({
   isDark: boolean;
 }) {
   return (
-    <div className="absolute inset-4 rounded-[1.35rem] border border-white/70 bg-white/50 p-2 shadow-2xl shadow-slate-950/10 backdrop-blur-sm">
+    <div className="absolute inset-4 rounded-[1.45rem] border border-white/75 bg-white/55 p-2 shadow-2xl shadow-slate-950/12 backdrop-blur-sm transition duration-300 group-hover:scale-[1.015]">
       <div
-        className={`h-full overflow-hidden rounded-[1rem] ${
-          isDark ? "bg-slate-950 text-white" : "bg-white/88 text-slate-950"
+        className={`h-full overflow-hidden rounded-[1.08rem] ring-1 ring-black/5 ${
+          isDark ? "bg-slate-950 text-white" : "bg-white/90 text-slate-950"
         }`}
       >
         <div className="flex items-center justify-between gap-3 border-b border-slate-200/70 px-3 py-2">
@@ -135,9 +136,8 @@ function PreviewShell({
             <span className="h-2 w-2 rounded-full bg-amber-400" />
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
           </div>
-          <span className="truncate text-[10px] font-black uppercase">
-            {label}
-          </span>
+          <span className="hidden h-2 max-w-24 flex-1 rounded-full bg-slate-200/70 sm:block" />
+          <span className="truncate text-[10px] font-black uppercase">{label}</span>
         </div>
         <div className="h-[calc(100%-33px)] p-3">{children}</div>
       </div>

@@ -41,6 +41,24 @@ const benefits = [
   },
 ];
 
+const trustCards = [
+  {
+    title: "Request with context",
+    copy: "Send the style you like, budget range, business type, and must-have pages so creators can reply with useful next steps.",
+    metric: "5 min",
+  },
+  {
+    title: "Compare real directions",
+    copy: "Every listing is framed around the actual buying journey: preview, price, tools, pages, features, and creator response time.",
+    metric: "12 listings",
+  },
+  {
+    title: "Stay in MVP mode",
+    copy: "Buying, accounts, and delivery are intentionally marked as coming soon while the marketplace experience is prototyped.",
+    metric: "frontend",
+  },
+];
+
 export default function Home() {
   const templates = getAllTemplates();
   const featured = [
@@ -80,6 +98,16 @@ export default function Home() {
                 Request a Website
               </RequestButton>
             </div>
+            <div className="mt-6 flex flex-wrap gap-2 text-sm font-semibold text-slate-600">
+              {["Browse styles first", "Contact the creator", "Request a similar build"].map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-slate-200 bg-white/75 px-3 py-1.5 shadow-sm backdrop-blur"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
             <div className="mt-10 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
               {stats.map(([value, label]) => (
                 <div
@@ -104,9 +132,6 @@ export default function Home() {
             title="Start with the kind of business you are building."
             copy="Each category is shaped around a real small-business workflow, not a generic website layout."
           />
-          <p className="mt-6 inline-flex rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-black text-blue-700 shadow-sm">
-            Visual card redesign active
-          </p>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {featuredCategories.map((category) => (
               <CategoryCard
@@ -171,16 +196,48 @@ export default function Home() {
           {benefits.map((benefit) => (
             <article
               key={benefit.title}
-              className="rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-8 shadow-sm"
+              className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-8 shadow-sm"
             >
+              <div className="absolute -right-12 -top-12 h-36 w-36 rounded-full bg-blue-100/70 blur-2xl" />
               <p className="text-sm font-black uppercase tracking-[0.18em] text-blue-600">
                 {benefit.title}
               </p>
-              <p className="mt-5 text-2xl font-black leading-tight text-slate-950 md:text-3xl">
+              <p className="relative mt-5 text-2xl font-black leading-tight text-slate-950 md:text-3xl">
                 {benefit.copy}
               </p>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="bg-slate-50 px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <SectionIntro
+            eyebrow="Built for confidence"
+            title="A marketplace prototype that explains the next step."
+            copy="Webbly now shows more of the real buying flow: what a buyer requests, what a creator sees, and which features are still intentionally mocked."
+          />
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {trustCards.map((card) => (
+              <article
+                key={card.title}
+                className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm shadow-slate-950/5"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="text-2xl font-black text-slate-950">{card.title}</h3>
+                  <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-black uppercase text-blue-700">
+                    {card.metric}
+                  </span>
+                </div>
+                <p className="mt-5 text-sm leading-6 text-slate-600">{card.copy}</p>
+                <div className="mt-6 grid grid-cols-3 gap-2">
+                  <span className="h-12 rounded-2xl bg-slate-100" />
+                  <span className="h-12 rounded-2xl bg-blue-100" />
+                  <span className="h-12 rounded-2xl bg-violet-100" />
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 

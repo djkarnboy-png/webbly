@@ -39,6 +39,21 @@ const plans = [
   },
 ];
 
+const faqs = [
+  [
+    "Can creators charge custom prices?",
+    "Yes. The prototype shows fixed template prices, but Webbly is designed so creators can keep control of template and custom project pricing.",
+  ],
+  [
+    "Are payments active yet?",
+    "Not yet. Webbly is frontend-only MVP mode, so billing, checkout, and commission tracking are marked as coming soon.",
+  ],
+  [
+    "Can buyers request a similar website?",
+    "Yes. Buyers can use the request flow to describe the business, budget, preferred style, and message for the creator.",
+  ],
+];
+
 export const metadata = {
   title: "Pricing | Webbly",
   description:
@@ -105,6 +120,41 @@ export default function PricingPage() {
                   ))}
                 </div>
               ))}
+            </div>
+          </div>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+            <div className="rounded-[2rem] border border-slate-200 bg-slate-950 p-8 text-white shadow-2xl shadow-blue-950/15">
+              <p className="text-sm font-black uppercase tracking-[0.18em] text-blue-300">
+                Coming soon
+              </p>
+              <h2 className="mt-4 text-3xl font-black tracking-tight">
+                Payments will stay clear before they go live.
+              </h2>
+              <p className="mt-4 text-sm leading-6 text-slate-300">
+                The MVP separates creator visibility, buyer requests, and future
+                sale commissions so the business model is easy to test before
+                adding Stripe or backend accounts.
+              </p>
+              <div className="mt-8 grid grid-cols-3 gap-2">
+                <span className="h-16 rounded-2xl bg-white/10" />
+                <span className="h-16 rounded-2xl bg-blue-400" />
+                <span className="h-16 rounded-2xl bg-violet-400" />
+              </div>
+            </div>
+
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+              <p className="text-sm font-black uppercase tracking-[0.18em] text-blue-600">
+                FAQ
+              </p>
+              <div className="mt-5 divide-y divide-slate-200">
+                {faqs.map(([question, answer]) => (
+                  <div key={question} className="py-5 first:pt-0 last:pb-0">
+                    <h3 className="text-lg font-black text-slate-950">{question}</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">{answer}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

@@ -12,11 +12,11 @@ export function TemplateCard({ template, compact = false }: TemplateCardProps) {
   const tools = template.tools.slice(0, compact ? 2 : 3);
 
   return (
-    <article className="group overflow-hidden rounded-[1.7rem] border border-slate-200/80 bg-white shadow-sm shadow-slate-950/5 transition duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-2xl hover:shadow-blue-950/12">
+    <article className="group overflow-hidden rounded-[1.85rem] border border-slate-200/80 bg-white shadow-sm shadow-slate-950/5 ring-1 ring-transparent transition duration-300 hover:-translate-y-1.5 hover:border-blue-200 hover:shadow-2xl hover:shadow-blue-950/14 hover:ring-blue-100">
       <ButtonLink
         href={`/templates/${template.slug}`}
         variant="ghost"
-        className="block h-auto rounded-none p-0 hover:bg-transparent"
+        className="relative block h-auto rounded-none p-0 hover:bg-transparent"
         aria-label={`View ${template.name} details`}
       >
         <TemplatePreview
@@ -24,8 +24,14 @@ export function TemplateCard({ template, compact = false }: TemplateCardProps) {
           category={template.category}
           gradient={template.gradient}
         />
+        <div className="pointer-events-none absolute inset-x-4 bottom-4 flex items-center justify-between gap-3 rounded-2xl border border-white/70 bg-white/88 px-3 py-2 text-xs font-black text-slate-950 shadow-lg shadow-slate-950/10 backdrop-blur">
+          <span className="truncate">Live preview mockup</span>
+          <span className="rounded-full bg-blue-600 px-2.5 py-1 text-white">
+            {template.popularity}% fit
+          </span>
+        </div>
       </ButtonLink>
-      <div className="space-y-5 p-5">
+      <div className="space-y-5 p-5 sm:p-6">
         <div>
           <div className="flex items-start justify-between gap-4">
             <div>
@@ -47,13 +53,13 @@ export function TemplateCard({ template, compact = false }: TemplateCardProps) {
                 {template.name}
               </ButtonLink>
             </div>
-            <p className="rounded-full border border-slate-200 bg-white px-3 py-1 text-sm font-black text-slate-950 shadow-sm">
+            <p className="rounded-full border border-slate-200 bg-slate-950 px-3 py-1 text-sm font-black text-white shadow-sm">
               ${template.price}
             </p>
           </div>
           <div className="mt-3 flex items-center justify-between gap-3 text-sm text-slate-600">
             <p>by {template.creator.name}</p>
-            <p className="font-semibold text-slate-500">{template.popularity}% fit</p>
+            <p className="font-semibold text-slate-500">{template.creator.responseTime}</p>
           </div>
         </div>
 
@@ -86,7 +92,7 @@ export function TemplateCard({ template, compact = false }: TemplateCardProps) {
         ) : null}
 
         <div className="grid gap-2 sm:grid-cols-2">
-          <ButtonLink href={`/templates/${template.slug}`} variant="secondary">
+          <ButtonLink href={`/templates/${template.slug}`} variant="secondary" className="shadow-md shadow-slate-950/15">
             View Details
           </ButtonLink>
           <RequestButton
