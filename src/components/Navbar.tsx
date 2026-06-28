@@ -22,25 +22,20 @@ export function Navbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/60 bg-white/82 shadow-sm shadow-slate-950/5 backdrop-blur-xl">
       <nav className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-3" onClick={() => setIsOpen(false)}>
-          <span className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-lg shadow-blue-950/10">
+        <Link
+          href="/"
+          className="relative block h-9 w-32 overflow-hidden"
+          aria-label="Webbly home"
+          onClick={() => setIsOpen(false)}
+        >
             <Image
-              src="/webbly-logo-mark.png"
+              src="/webbly-logo.png"
               alt="Webbly logo"
-              width={96}
-              height={52}
+              width={176}
+              height={176}
               priority
-              className="h-7 w-9 object-contain"
+              className="absolute left-1/2 top-[-98px] h-44 w-44 max-w-none -translate-x-1/2 object-contain"
             />
-          </span>
-          <span>
-            <span className="block text-xl font-black tracking-tight text-slate-950">
-              Webbly
-            </span>
-            <span className="hidden text-xs font-semibold text-slate-500 sm:block">
-              Template marketplace
-            </span>
-          </span>
         </Link>
 
         <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/70 p-1 lg:flex">
