@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -24,18 +23,35 @@ export function Navbar() {
       <nav className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
-          className="relative block h-9 w-32 overflow-hidden"
+          className="flex items-center gap-2.5"
           aria-label="Webbly home"
           onClick={() => setIsOpen(false)}
         >
-            <Image
-              src="/webbly-logo.png"
-              alt="Webbly logo"
-              width={176}
-              height={176}
-              priority
-              className="absolute left-1/2 top-[-98px] h-44 w-44 max-w-none -translate-x-1/2 object-contain"
+          <svg
+            className="h-8 w-12 shrink-0"
+            viewBox="0 0 64 44"
+            role="img"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id="webbly-mark-gradient" x1="4" y1="6" x2="60" y2="38">
+                <stop stopColor="#2563eb" />
+                <stop offset="0.55" stopColor="#1d4ed8" />
+                <stop offset="1" stopColor="#4f46e5" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M8 8 L20 36 L32 13 L44 36 L56 8"
+              fill="none"
+              stroke="url(#webbly-mark-gradient)"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="12"
             />
+          </svg>
+          <span className="text-3xl font-semibold leading-none tracking-tight text-slate-950">
+            webbly
+          </span>
         </Link>
 
         <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/70 p-1 lg:flex">
