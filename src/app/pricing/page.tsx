@@ -124,22 +124,26 @@ export default function PricingPage() {
           </div>
 
           <div className="mt-12 grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-            <div className="rounded-[2rem] border border-slate-200 bg-slate-950 p-8 text-white shadow-2xl shadow-blue-950/15">
-              <p className="text-sm font-black uppercase tracking-[0.18em] text-blue-300">
-                Coming soon
-              </p>
-              <h2 className="mt-4 text-3xl font-black tracking-tight">
-                Payments will stay clear before they go live.
-              </h2>
-              <p className="mt-4 text-sm leading-6 text-slate-300">
-                The preview separates creator visibility, buyer requests, and
-                future sale commissions so the business model is easy to test
-                before adding payments or backend accounts.
-              </p>
-              <div className="mt-8 grid grid-cols-3 gap-2">
-                <span className="h-16 rounded-2xl bg-white/10" />
-                <span className="h-16 rounded-2xl bg-blue-400" />
-                <span className="h-16 rounded-2xl bg-violet-400" />
+            <div className="relative rounded-[2rem] border border-slate-200 bg-slate-950 p-8 text-white shadow-2xl shadow-blue-950/15 overflow-hidden">
+              <div className="absolute top-0 right-0 h-64 w-64 bg-blue-500/10 blur-3xl rounded-full" />
+              <div className="absolute bottom-0 left-0 h-64 w-64 bg-violet-500/10 blur-3xl rounded-full" />
+              <div className="relative">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-300">
+                  Coming soon
+                </p>
+                <h2 className="mt-4 text-3xl font-black tracking-tight">
+                  Payments will stay clear before they go live.
+                </h2>
+                <p className="mt-4 text-sm leading-6 text-slate-300">
+                  The preview separates creator visibility, buyer requests, and
+                  future sale commissions so the business model is easy to test
+                  before adding payments or backend accounts.
+                </p>
+                <div className="mt-8 grid grid-cols-3 gap-2">
+                  <span className="h-16 rounded-2xl bg-white/10 backdrop-blur-sm" />
+                  <span className="h-16 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-500 shadow-lg shadow-blue-500/20" />
+                  <span className="h-16 rounded-2xl bg-gradient-to-br from-violet-400 to-violet-500 shadow-lg shadow-violet-500/20" />
+                </div>
               </div>
             </div>
 

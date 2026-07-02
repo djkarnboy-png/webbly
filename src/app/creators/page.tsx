@@ -182,43 +182,49 @@ export default function CreatorsPage() {
 
 function CreatorDashboardMockup() {
   return (
-    <div className="rounded-[2rem] border border-white/80 bg-white/75 p-3 shadow-2xl shadow-blue-950/10 backdrop-blur">
-      <div className="rounded-[1.5rem] bg-slate-950 p-5 text-white">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-300">
-              Creator dashboard
-            </p>
-            <h2 className="mt-2 text-2xl font-black">Template performance</h2>
+    <div className="relative">
+      <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-blue-200/50 via-violet-200/50 to-cyan-100/50 blur-3xl opacity-80" />
+      <div className="relative rounded-[2rem] border border-white/80 bg-white/80 p-3 shadow-2xl shadow-blue-950/15 backdrop-blur-md">
+        <div className="rounded-[1.5rem] bg-slate-950 p-5 sm:p-6 text-white shadow-inner relative overflow-hidden">
+          <div className="absolute top-0 right-0 h-64 w-64 bg-blue-500/10 blur-3xl rounded-full" />
+          <div className="absolute bottom-0 left-0 h-64 w-64 bg-violet-500/10 blur-3xl rounded-full" />
+          
+          <div className="relative flex items-center justify-between">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-300">
+                Creator dashboard
+              </p>
+              <h2 className="mt-2 text-2xl font-black">Template performance</h2>
+            </div>
+            <span className="rounded-full bg-emerald-400/20 px-3 py-1 text-xs font-black text-emerald-300 ring-1 ring-emerald-400/30 shadow-[inset_0_0_12px_rgba(52,211,153,0.3)]">
+              Preview
+            </span>
           </div>
-          <span className="rounded-full bg-emerald-400 px-3 py-1 text-xs font-black text-slate-950">
-            Preview
-          </span>
-        </div>
-        <div className="mt-6 grid gap-3 sm:grid-cols-3">
-          {[
-            ["1.8k", "views"],
-            ["48", "requests"],
-            ["12", "shortlists"],
-          ].map(([value, label]) => (
-            <div key={label} className="rounded-2xl bg-white/10 p-4">
-              <p className="text-2xl font-black">{value}</p>
-              <p className="text-sm text-slate-300">{label}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-5 space-y-3">
-          {["Salon booking", "Cafe menu", "Agency portfolio"].map((item) => (
-            <div key={item} className="rounded-2xl border border-white/10 bg-white/8 p-4">
-              <div className="flex items-center justify-between">
-                <p className="font-bold">{item}</p>
-                <p className="text-xs text-slate-400">Live concept</p>
+          <div className="relative mt-6 grid gap-3 sm:grid-cols-3">
+            {[
+              ["1.8k", "views"],
+              ["48", "requests"],
+              ["12", "shortlists"],
+            ].map(([value, label]) => (
+              <div key={label} className="rounded-2xl bg-white/5 border border-white/10 p-4 backdrop-blur-sm transition hover:bg-white/10">
+                <p className="text-2xl font-black text-white">{value}</p>
+                <p className="text-sm font-semibold text-slate-300">{label}</p>
               </div>
-              <div className="mt-4 h-2 rounded-full bg-white/10">
-                <div className="h-2 w-2/3 rounded-full bg-gradient-to-r from-blue-400 to-violet-400" />
+            ))}
+          </div>
+          <div className="relative mt-5 space-y-3">
+            {["Salon booking", "Cafe menu", "Agency portfolio"].map((item) => (
+              <div key={item} className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm transition hover:bg-white/10">
+                <div className="flex items-center justify-between">
+                  <p className="font-bold text-slate-100">{item}</p>
+                  <p className="text-xs font-semibold text-slate-400">Live concept</p>
+                </div>
+                <div className="mt-4 h-2 rounded-full bg-white/10 overflow-hidden">
+                  <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-blue-400 to-violet-400 shadow-[0_0_8px_rgba(96,165,250,0.8)]" />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

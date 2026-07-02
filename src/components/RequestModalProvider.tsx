@@ -65,8 +65,8 @@ export function RequestModalProvider({ children }: { children: ReactNode }) {
             aria-label="Close request form"
             onClick={closeRequestModal}
           />
-          <div className="relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-white/80 bg-white shadow-2xl shadow-slate-950/25">
-            <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-slate-200 bg-white/95 px-5 py-4 backdrop-blur sm:px-6">
+          <div className="relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-[2rem] border border-white/80 bg-white shadow-2xl shadow-slate-950/20 ring-1 ring-slate-900/5">
+            <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-slate-200/80 bg-white/90 px-5 py-5 backdrop-blur-md sm:px-8">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-600">
                   Webbly request

@@ -76,7 +76,7 @@ export function RequestForm({ context, onSubmitted }: RequestFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="grid gap-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+      className="grid gap-6 rounded-[2rem] border border-slate-200/60 bg-white p-6 shadow-sm sm:p-8"
       noValidate
     >
       <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-violet-50 p-4">
@@ -159,10 +159,10 @@ export function RequestForm({ context, onSubmitted }: RequestFormProps) {
           rows={6}
           placeholder="Share the pages, features, timeline, and anything important about the business."
           aria-invalid={Boolean(errors.message)}
-          className={`w-full resize-none rounded-xl border bg-white px-4 py-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:ring-4 ${
+          className={`w-full resize-none rounded-xl border px-4 py-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:bg-white focus:ring-4 ${
             errors.message
-              ? "border-rose-300 focus:border-rose-400 focus:ring-rose-100"
-              : "border-slate-200 focus:border-blue-400 focus:ring-blue-100"
+              ? "border-rose-300 bg-rose-50 focus:border-rose-400 focus:ring-rose-100"
+              : "border-slate-200 bg-slate-50 focus:border-blue-400 focus:ring-blue-500/10"
           }`}
         />
         {errors.message ? (
@@ -174,7 +174,7 @@ export function RequestForm({ context, onSubmitted }: RequestFormProps) {
       <Button
         type="submit"
         size="lg"
-        className="w-full shadow-md shadow-blue-600/15 sm:w-auto"
+        className="w-full shadow-lg shadow-blue-600/20 sm:w-auto mt-2"
         disabled={isSubmitting}
       >
         {isSubmitting ? "Sending..." : "Submit Request"}
@@ -210,10 +210,10 @@ function Field({
         type={type}
         placeholder={placeholder}
         aria-invalid={Boolean(error)}
-        className={`h-12 w-full rounded-xl border bg-white px-4 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:ring-4 ${
+        className={`h-12 w-full rounded-xl border px-4 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:bg-white focus:ring-4 ${
           error
-            ? "border-rose-300 focus:border-rose-400 focus:ring-rose-100"
-            : "border-slate-200 focus:border-blue-400 focus:ring-blue-100"
+            ? "border-rose-300 bg-rose-50 focus:border-rose-400 focus:ring-rose-100"
+            : "border-slate-200 bg-slate-50 focus:border-blue-400 focus:ring-blue-500/10"
         }`}
       />
       {error ? (

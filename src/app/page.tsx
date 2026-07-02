@@ -304,21 +304,24 @@ function SectionIntro({
 function MarketplaceMockup({ templateName }: { templateName: string }) {
   return (
     <div className="relative">
-      <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-blue-200 via-violet-200 to-cyan-100 blur-3xl" />
-      <div className="relative rounded-[2rem] border border-white/80 bg-white/80 p-3 shadow-2xl shadow-blue-950/15 backdrop-blur">
-        <div className="rounded-[1.5rem] border border-slate-200 bg-slate-950 p-4 text-white">
-          <div className="flex items-center justify-between gap-4">
+      <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-blue-200 via-violet-200 to-cyan-100 blur-3xl opacity-80" />
+      <div className="relative rounded-[2rem] border border-white/80 bg-white/80 p-3 shadow-2xl shadow-blue-950/15 backdrop-blur-md">
+        <div className="rounded-[1.5rem] border border-slate-200/50 bg-slate-950 p-5 sm:p-6 text-white shadow-inner relative overflow-hidden">
+          <div className="absolute top-0 right-0 h-64 w-64 bg-blue-500/10 blur-3xl rounded-full" />
+          <div className="absolute bottom-0 left-0 h-64 w-64 bg-violet-500/10 blur-3xl rounded-full" />
+          
+          <div className="relative flex items-center justify-between gap-4">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
                 Marketplace preview
               </p>
-              <h3 className="mt-2 text-xl font-black">Style match board</h3>
+              <h3 className="mt-2 text-2xl font-black">Style match board</h3>
             </div>
-            <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-950">
+            <span className="rounded-full bg-blue-500/20 px-3 py-1.5 text-xs font-black text-blue-200 ring-1 ring-blue-400/50 shadow-[inset_0_0_12px_rgba(59,130,246,0.3)]">
               97% fit
             </span>
           </div>
-          <div className="mt-5 grid gap-3 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="relative mt-6 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
             <TemplatePreview
               name={templateName}
               category="Online Stores"
@@ -326,38 +329,38 @@ function MarketplaceMockup({ templateName }: { templateName: string }) {
               size="hero"
             />
             <div className="grid gap-3">
-              <div className="rounded-2xl border border-white/10 bg-white/8 p-4">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm transition hover:bg-white/10">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold">Request snapshot</span>
-                  <span className="rounded-full bg-emerald-300 px-2 py-1 text-[10px] font-black text-slate-950">
+                  <span className="text-sm font-bold text-slate-200">Request snapshot</span>
+                  <span className="rounded-full bg-emerald-400/20 px-2.5 py-1 text-[10px] font-black text-emerald-300 ring-1 ring-emerald-400/30">
                     Ready
                   </span>
                 </div>
                 <div className="mt-4 space-y-2">
-                  <span className="block h-8 rounded-xl bg-white/12" />
                   <span className="block h-8 rounded-xl bg-white/10" />
-                  <span className="block h-10 rounded-xl bg-gradient-to-r from-blue-400 to-violet-400" />
+                  <span className="block h-8 rounded-xl bg-white/5 w-4/5" />
+                  <span className="block h-10 rounded-xl bg-gradient-to-r from-blue-500 to-violet-500 shadow-lg shadow-blue-500/20 mt-4" />
                 </div>
               </div>
               {["Salon booking", "Cafe menu"].map((item, index) => (
                 <div
                   key={item}
-                  className="rounded-2xl border border-white/10 bg-white/8 p-4"
+                  className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm transition hover:bg-white/10"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold">{item}</span>
-                    <span className="text-xs text-slate-400">{96 - index * 5}%</span>
+                    <span className="text-sm font-bold text-slate-200">{item}</span>
+                    <span className="text-xs font-semibold text-slate-400">{96 - index * 5}%</span>
                   </div>
                   <div className="mt-4 grid grid-cols-3 gap-2">
-                    <span className="h-10 rounded-xl bg-white/15" />
                     <span className="h-10 rounded-xl bg-white/10" />
-                    <span className="h-10 rounded-xl bg-blue-400" />
+                    <span className="h-10 rounded-xl bg-white/5" />
+                    <span className="h-10 rounded-xl bg-blue-500/80 shadow-md shadow-blue-500/20" />
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="mt-3 grid gap-3 rounded-2xl border border-white/10 bg-white/8 p-3 text-xs font-semibold text-slate-300 sm:grid-cols-3">
+          <div className="relative mt-4 grid gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 text-xs font-semibold text-slate-300 sm:grid-cols-3 backdrop-blur-sm text-center">
             <span>Browse styles before hiring</span>
             <span>See creator response time</span>
             <span>Request similar builds</span>

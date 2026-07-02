@@ -53,37 +53,53 @@ export default async function TemplateDetailsPage({ params }: PageProps) {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[1fr_420px]">
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.18em] text-blue-600">
-              {template.category} template
-            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <p className="text-sm font-black uppercase tracking-[0.18em] text-blue-600">
+                {template.category} template
+              </p>
+              {template.isNew && (
+                <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-black uppercase tracking-widest text-emerald-700 ring-1 ring-emerald-200/50">
+                  New
+                </span>
+              )}
+            </div>
             <h1 className="mt-4 text-4xl font-black tracking-tight text-slate-950 md:text-6xl">
               {template.name}
             </h1>
             <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
               {template.description}
             </p>
-            <div className="mt-8 rounded-[2rem] border border-white/80 bg-white p-3 shadow-2xl shadow-blue-950/10">
-              <TemplatePreview
-                name={template.name}
-                category={template.category}
-                gradient={template.gradient}
-                size="hero"
-              />
+            <div className="relative mt-8">
+              <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-br from-blue-200/50 via-violet-200/50 to-cyan-100/50 blur-2xl opacity-60" />
+              <div className="relative rounded-[2rem] border border-white/80 bg-white/80 p-3 shadow-2xl shadow-blue-950/10 backdrop-blur-sm">
+                <TemplatePreview
+                  name={template.name}
+                  category={template.category}
+                  gradient={template.gradient}
+                  size="hero"
+                />
+              </div>
             </div>
           </div>
 
           <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">
-            <div className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-xl shadow-slate-950/5">
-              <p className="text-sm font-semibold text-slate-500">Template price</p>
-              <p className="mt-1 text-4xl font-black text-slate-950">
-                ${template.price}
-              </p>
-              <div className="mt-5 grid gap-3">
+            <div className="rounded-[2rem] border border-slate-200/80 bg-white p-6 shadow-xl shadow-slate-950/5">
+              <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Template Price</p>
+              <div className="flex items-center gap-3 mt-1">
+                <p className="text-5xl font-black text-slate-950">
+                  ${template.price}
+                </p>
+                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
+                  One-time
+                </span>
+              </div>
+              <div className="mt-8 grid gap-3">
                 <RequestButton
                   size="lg"
                   templateName={template.name}
                   creatorName={template.creator.name}
                   requestType="similar"
+                  className="shadow-lg shadow-blue-600/20"
                 >
                   Request Similar Website
                 </RequestButton>
@@ -93,14 +109,15 @@ export default async function TemplateDetailsPage({ params }: PageProps) {
                   templateName={template.name}
                   creatorName={template.creator.name}
                   requestType="contact"
+                  className="border-slate-200 hover:border-slate-300 hover:bg-slate-50"
                 >
                   Contact Creator
                 </RequestButton>
-                <Button size="lg" variant="secondary" disabled>
+                <Button size="lg" variant="secondary" disabled className="bg-slate-50 text-slate-400">
                   Buy Template
                 </Button>
               </div>
-              <div className="mt-4">
+              <div className="mt-6 pt-6 border-t border-slate-100">
                 <MvpNotice tone="slate" title="Buying coming soon">
                   Checkout and downloadable template purchases are not active in
                   this early preview yet.
@@ -146,12 +163,12 @@ export default async function TemplateDetailsPage({ params }: PageProps) {
 
 function InfoBlock({ title, items }: { title: string; items: string[] }) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <article className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
       <h2 className="text-xl font-black text-slate-950">{title}</h2>
       <ul className="mt-5 space-y-3">
         {items.map((item) => (
           <li key={item} className="flex gap-3 text-sm leading-6 text-slate-600">
-            <span className="mt-2 h-2 w-2 rounded-full bg-blue-600" />
+            <span className="mt-2 h-2 w-2 rounded-full bg-blue-600 shrink-0" />
             <span>{item}</span>
           </li>
         ))}

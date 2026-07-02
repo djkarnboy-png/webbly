@@ -56,21 +56,23 @@ export function CategoryCard({ name, count, label = name }: CategoryCardProps) {
   return (
     <Link
       href={`/templates?category=${encodeURIComponent(name)}`}
-      className={`group relative overflow-hidden rounded-3xl border border-white/80 bg-gradient-to-br ${meta.gradient} p-4 shadow-sm shadow-slate-950/5 transition duration-300 hover:-translate-y-1.5 hover:border-white hover:shadow-2xl hover:shadow-blue-950/12`}
+      className={`group relative flex flex-col overflow-hidden rounded-[1.85rem] border border-white/80 bg-gradient-to-br ${meta.gradient} p-4 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-white hover:shadow-2xl hover:shadow-blue-900/10`}
     >
-      <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/45 blur-2xl" />
-      <div className="relative">
+      <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/50 blur-2xl transition-transform duration-500 group-hover:scale-125" />
+      <div className="relative flex flex-1 flex-col">
         <BusinessPreview category={name} variant="category" />
-        <div className="mt-5 flex items-center justify-between gap-3">
-          <p className="text-lg font-black text-slate-950">{label}</p>
-          <span className={`h-2.5 w-10 shrink-0 rounded-full ${meta.accent} transition group-hover:w-14`} />
-        </div>
-        <p className="mt-2 text-sm leading-6 text-slate-600">{meta.copy}</p>
-        <div className="mt-5 flex items-center justify-between rounded-2xl border border-white/70 bg-white/70 px-3 py-2 text-sm font-bold text-slate-950 shadow-sm backdrop-blur">
-          <span>{count} matching templates</span>
-          <span className="text-blue-600 transition group-hover:translate-x-0.5">
-            Browse
-          </span>
+        <div className="mt-5 flex flex-col flex-1">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-xl font-black text-slate-950">{label}</p>
+            <span className={`h-2.5 w-10 shrink-0 rounded-full ${meta.accent} transition-all duration-300 group-hover:w-16`} />
+          </div>
+          <p className="mt-2 text-sm leading-6 text-slate-600 flex-1">{meta.copy}</p>
+          <div className="mt-5 flex items-center justify-between rounded-[1rem] border border-white/70 bg-white/70 px-4 py-2.5 text-sm font-bold text-slate-900 shadow-sm backdrop-blur transition-colors duration-300 group-hover:bg-white/90">
+            <span>{count} templates</span>
+            <span className="text-blue-600 font-black transition-transform duration-300 group-hover:translate-x-1">
+              Browse →
+            </span>
+          </div>
         </div>
       </div>
     </Link>
