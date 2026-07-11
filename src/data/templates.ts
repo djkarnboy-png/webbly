@@ -19,6 +19,7 @@ export type Template = {
   isNew: boolean;
   tags: string[];
   tools: string[];
+  summary: string;
   description: string;
   features: string[];
   pages: string[];
@@ -65,6 +66,7 @@ export const templates: Template[] = [
     isNew: true,
     tags: ["Menu", "Reservations", "Mobile-first"],
     tools: ["Framer", "Figma"],
+    summary: "Warm cafe menus, seasonal specials, and visit details.",
     description:
       "A warm, polished cafe website built for independent coffee shops that need menus, seasonal specials, location details, and a smooth mobile browsing experience.",
     features: [
@@ -97,6 +99,7 @@ export const templates: Template[] = [
     isNew: false,
     tags: ["Booking", "Services", "Gallery"],
     tools: ["Webflow", "Figma"],
+    summary: "Elegant services, stylist profiles, and clear booking paths.",
     description:
       "A refined salon site for beauty teams that want to showcase services, stylists, testimonials, and appointment calls-to-action without feeling generic.",
     features: [
@@ -129,6 +132,7 @@ export const templates: Template[] = [
     isNew: true,
     tags: ["Memberships", "Classes", "Lead capture"],
     tools: ["Next.js", "Tailwind CSS"],
+    summary: "Bold class schedules, memberships, and trial offers.",
     description:
       "A high-converting landing page for gyms, trainers, and boutique studios that need class highlights, membership offers, and trial signups.",
     features: [
@@ -161,6 +165,7 @@ export const templates: Template[] = [
     isNew: false,
     tags: ["Listings", "Lead forms", "Neighborhoods"],
     tools: ["WordPress", "Elementor"],
+    summary: "Property listings, neighborhood guides, and lead capture.",
     description:
       "A trustworthy real estate template for agents who need featured listings, neighborhood guides, seller lead capture, and client testimonials.",
     features: [
@@ -193,6 +198,7 @@ export const templates: Template[] = [
     isNew: false,
     tags: ["Shopify", "Lookbook", "Product grid"],
     tools: ["Shopify", "Figma"],
+    summary: "Editorial product grids with a clear path to checkout.",
     description:
       "A modern Shopify storefront concept for apparel brands that want crisp product merchandising, editorial lookbooks, and strong conversion paths.",
     features: [
@@ -225,6 +231,7 @@ export const templates: Template[] = [
     isNew: true,
     tags: ["Courses", "Testimonials", "Inquiry form"],
     tools: ["Framer", "Notion"],
+    summary: "Course packages, learner results, and inquiry prompts.",
     description:
       "A clear, credible tutoring site for independent educators, exam coaches, and small learning centers that need to explain outcomes quickly.",
     features: [
@@ -257,6 +264,7 @@ export const templates: Template[] = [
     isNew: false,
     tags: ["Menu", "Events", "Reservations"],
     tools: ["Webflow", "Figma"],
+    summary: "Flexible menus, private events, and reservations.",
     description:
       "A polished restaurant website with flexible menu sections, private event promotion, chef notes, and reservation-ready calls-to-action.",
     features: [
@@ -289,6 +297,7 @@ export const templates: Template[] = [
     isNew: true,
     tags: ["Case studies", "Services", "Lead form"],
     tools: ["Next.js", "Tailwind CSS"],
+    summary: "Sharp case studies, services, and project inquiries.",
     description:
       "A sleek agency portfolio for studios, freelancers, and consultants who need sharp case studies and a clear path from proof to inquiry.",
     features: [
@@ -321,6 +330,7 @@ export const templates: Template[] = [
     isNew: false,
     tags: ["Orders", "Catering", "Gallery"],
     tools: ["WordPress", "WooCommerce"],
+    summary: "Daily bakes, custom orders, and catering requests.",
     description:
       "A friendly bakery site for local shops that want to highlight daily bakes, custom cakes, catering, and online order inquiries.",
     features: [
@@ -353,6 +363,7 @@ export const templates: Template[] = [
     isNew: true,
     tags: ["Appointments", "Services", "Trust signals"],
     tools: ["Webflow", "Figma"],
+    summary: "Calm service pages with trust and appointment prompts.",
     description:
       "A calm service-business site for clinics and appointment-based teams that need to explain treatments, insurance, and booking options clearly.",
     features: [
@@ -385,6 +396,7 @@ export const templates: Template[] = [
     isNew: false,
     tags: ["Quotes", "Service areas", "Reviews"],
     tools: ["Framer", "Figma"],
+    summary: "Local services, reviews, plans, and quote requests.",
     description:
       "A practical service website for home cleaning, maintenance, and local operators who need quote requests and proof of reliability.",
     features: [
@@ -417,6 +429,7 @@ export const templates: Template[] = [
     isNew: false,
     tags: ["Booking", "Packages", "Photos"],
     tools: ["Squarespace", "Figma"],
+    summary: "Friendly packages, galleries, policies, and booking.",
     description:
       "A cheerful appointment website for grooming studios with package pricing, policies, photo galleries, and booking prompts.",
     features: [

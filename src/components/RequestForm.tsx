@@ -109,21 +109,23 @@ export function RequestForm({
           <div>
             <p className="font-semibold text-slate-950">Share your project brief</p>
             <p className="mt-1 max-w-xl text-sm leading-6 text-slate-600">{helperText}</p>
-            <p className="mt-2 max-w-xl text-sm font-medium leading-6 text-slate-800">
-              This starts a conversation, not a purchase.
-            </p>
           </div>
           <span className="w-fit shrink-0 rounded-md bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700">
             Early preview
           </span>
         </div>
-        <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs font-medium text-slate-500">
-          <span>1. Share context</span>
-          <span>2. Confirm the style</span>
-          <span>3. Creator follows up</span>
+        <div className="mt-4 flex flex-wrap gap-3 text-xs font-semibold text-slate-600">
+          {["Share", "Match style", "Creator reply"].map((step, index) => (
+            <span key={step} className="inline-flex items-center gap-2">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-slate-950 text-[10px] text-white">
+                {index + 1}
+              </span>
+              {step}
+            </span>
+          ))}
         </div>
-        <p className="mt-3 text-xs leading-5 text-slate-500">
-          In the live marketplace, the creator would reply with questions, timing, and a quote. Requests are simulated in this preview.
+        <p className="mt-4 rounded-md bg-slate-50 px-3 py-2 text-xs leading-5 text-slate-600">
+          No purchase is made now. A creator would reply with timing and a quote.
         </p>
       </div>
 

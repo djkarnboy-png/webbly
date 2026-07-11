@@ -43,8 +43,8 @@ export function TemplateCard({ template, compact = false }: TemplateCardProps) {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col p-5">
-        <div className="flex items-start justify-between gap-4">
+      <div className={`flex flex-1 flex-col ${compact ? "p-4" : "p-5"}`}>
+        <div className="flex min-h-[78px] items-start justify-between gap-4">
           <div className="min-w-0">
             <p className="text-xs font-semibold uppercase text-blue-700">
               {template.category}
@@ -52,7 +52,7 @@ export function TemplateCard({ template, compact = false }: TemplateCardProps) {
             <ButtonLink
               href={`/templates/${template.slug}`}
               variant="ghost"
-              className="mt-1 h-auto justify-start rounded-none border-0 p-0 text-left text-xl font-bold leading-7 text-slate-950 hover:bg-transparent hover:text-blue-700 group-hover:text-blue-700"
+              className="mt-1 h-auto justify-start rounded-none border-0 p-0 text-left text-xl font-bold leading-7 text-slate-950 group-hover:text-blue-700 hover:bg-transparent hover:text-blue-700"
             >
               {template.name}
             </ButtonLink>
@@ -63,67 +63,36 @@ export function TemplateCard({ template, compact = false }: TemplateCardProps) {
           </div>
         </div>
 
-        {!compact ? (
-          <>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {template.tags.slice(0, 2).map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600"
-                >
-                  {tag}
-                </span>
-              ))}
-              {template.tags.length > 2 ? (
-                <span className="rounded-md bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-500">
-                  +{template.tags.length - 2}
-                </span>
-              ) : null}
-            </div>
-            <blockquote className="mt-4 line-clamp-2 text-sm leading-6 text-slate-600">
-              &ldquo;{template.creator.review}&rdquo;
-            </blockquote>
-          </>
-        ) : null}
+        <p className="mt-2 min-h-[48px] text-sm leading-6 text-slate-600">
+          {template.summary}
+        </p>
 
-        <div className="mt-5 grid grid-cols-3 divide-x divide-slate-200 rounded-md border border-slate-200 bg-slate-50 py-3 text-center">
-          <div className="px-2">
-            <p className="text-sm font-bold text-slate-950">{template.creator.rating.toFixed(1)}</p>
-            <p className="mt-0.5 text-[10px] font-medium uppercase text-slate-500">Rating</p>
-          </div>
-          <div className="px-2">
-            <p className="text-sm font-bold text-slate-950">{template.creator.completedProjects}</p>
-            <p className="mt-0.5 text-[10px] font-medium uppercase text-slate-500">Projects</p>
-          </div>
-          <div className="px-2">
-            <p className="text-sm font-bold text-slate-950">{template.creator.deliveryTime}</p>
-            <p className="mt-0.5 text-[10px] font-medium uppercase text-slate-500">Delivery</p>
-          </div>
-        </div>
-
-        <div className="mt-4 flex items-center gap-3">
+        <div className="mt-4 flex items-center gap-3 border-t border-slate-100 pt-4">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-950 text-xs font-bold text-white">
             {template.creator.avatar}
           </span>
           <div className="min-w-0 flex-1">
-            <div className="flex min-w-0 items-center gap-2">
-              <p className="truncate text-sm font-semibold text-slate-900">
-                {template.creator.name}
-              </p>
+            <p className="text-sm font-semibold leading-5 text-slate-900">
+              {template.creator.name}
+            </p>
+            <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
               {template.creator.verified ? (
                 <span className="inline-flex shrink-0 items-center gap-1 text-[10px] font-bold uppercase text-blue-700">
                   <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
                   Verified
                 </span>
               ) : null}
+              <span className="text-xs text-slate-500">
+                {template.creator.responseTime}
+              </span>
             </div>
-            <p className="truncate text-xs text-slate-500">
-              {template.creator.responseTime}
-            </p>
           </div>
+          <span className="shrink-0 rounded-md bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800">
+            {template.creator.rating.toFixed(1)} / 5
+          </span>
         </div>
 
-        <div className="mt-5 grid gap-2 sm:grid-cols-2">
+        <div className="mt-auto grid gap-2 pt-5 sm:grid-cols-2">
           <RequestButton
             templateName={template.name}
             creatorName={template.creator.name}

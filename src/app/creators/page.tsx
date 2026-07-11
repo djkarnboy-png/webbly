@@ -1,4 +1,5 @@
 import { ButtonLink } from "@/components/Button";
+import { BusinessPreview } from "@/components/BusinessPreview";
 import { MvpNotice } from "@/components/MvpNotice";
 import { SectionHeading } from "@/components/SectionHeading";
 import { getCategories } from "@/lib/marketplace";
@@ -6,26 +7,26 @@ import { getCategories } from "@/lib/marketplace";
 const workflow = [
   {
     number: "01",
-    title: "Publish a design direction",
-    copy: "Turn a sample site, unused concept, or portfolio project into a clear marketplace listing.",
+    title: "Upload a design",
+    copy: "Turn a concept into a polished listing.",
   },
   {
     number: "02",
-    title: "Get discovered through style",
-    copy: "Small businesses browse by category and visual direction before they decide who to contact.",
+    title: "Get discovered",
+    copy: "Buyers find it by business type and style.",
   },
   {
     number: "03",
-    title: "Receive a better starting brief",
-    copy: "Requests arrive with business type, budget, preferred style, and the project context you need.",
+    title: "Receive requests",
+    copy: "Get a brief with budget and scope.",
   },
 ];
 
 const creatorBenefits = [
-  ["Turn unused website designs into leads", "Give polished concepts another route to earn attention instead of leaving them in an archive."],
-  ["Get clients who already like your style", "The template does the early visual alignment before the buyer opens a conversation."],
-  ["Sell templates or receive custom requests", "One listing can support productized sales and higher-value custom work later."],
-  ["No cold DMs, no blank briefs", "Buyers start with a real reference, a business type, and a rough budget."],
+  ["Turn concepts into leads", "Give strong portfolio work another way to be found."],
+  ["Meet style-matched buyers", "Buyers contact you after seeing a direction they like."],
+  ["Sell or customize", "Use one listing for templates and custom requests."],
+  ["Start with a real brief", "Receive a reference, business type, and budget."],
 ];
 
 const roadmap = [
@@ -46,17 +47,16 @@ export default function CreatorsPage() {
   return (
     <>
       <section className="relative isolate overflow-hidden border-b border-slate-200 bg-white">
-        <CreatorDashboardScene />
+        <CreatorWorkflowScene />
         <div className="relative mx-auto flex min-h-[500px] max-w-[1280px] items-center px-5 py-14 sm:px-6 sm:py-16 lg:min-h-[560px] lg:px-8">
-          <div className="max-w-[720px]">
+          <div className="max-w-[620px]">
             <p className="text-sm font-semibold uppercase text-blue-700">For creators</p>
-            <h1 className="mt-4 text-balance text-[42px] font-bold leading-[1.03] text-slate-950 sm:text-[56px] lg:text-[62px]">
+            <h1 className="mt-4 text-balance text-[42px] font-bold leading-[1.03] text-slate-950 sm:text-[54px] lg:text-[58px]">
               Turn your best website concepts into warmer leads.
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
-              Show small businesses the kind of work you want to make more of,
-              sell templates later, and receive custom requests from buyers who
-              already understand your style.
+              Upload website concepts, get discovered by style, and receive
+              clearer project requests.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="#upload-preview" size="lg">
@@ -68,8 +68,7 @@ export default function CreatorsPage() {
             </div>
             <div className="mt-7 max-w-xl">
               <MvpNotice>
-                Creator accounts and live uploads are coming soon. Use this page
-                to shape how a future listing could look.
+                Creator accounts and live uploads are coming soon.
               </MvpNotice>
             </div>
           </div>
@@ -79,13 +78,13 @@ export default function CreatorsPage() {
       <section className="border-b border-slate-200 bg-slate-950 px-5 text-white sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1280px] grid-cols-3 divide-x divide-white/10">
           {[
-            ["Unlimited", "future Pro listings"],
-            ["48h", "reply-time goal"],
-            ["100%", "creator-controlled pricing"],
-          ].map(([value, label]) => (
-            <div key={label} className="py-5 text-center sm:py-6">
-              <p className="text-xl font-bold sm:text-2xl">{value}</p>
-              <p className="mt-1 text-[11px] text-slate-400 sm:text-sm">{label}</p>
+            ["Upload designs", "Show your style"],
+            ["Set your price", "Keep control"],
+            ["Receive requests", "Start with context"],
+          ].map(([title, label]) => (
+            <div key={title} className="px-2 py-5 text-center sm:py-6">
+              <p className="text-xs font-semibold text-white sm:text-base">{title}</p>
+              <p className="mt-1 hidden text-sm text-slate-400 sm:block">{label}</p>
             </div>
           ))}
         </div>
@@ -96,16 +95,21 @@ export default function CreatorsPage() {
           <SectionHeading
             eyebrow="How creators use Webbly"
             title="Let the design start the conversation."
-            description="The workflow is deliberately simple: publish a visual direction, get found by the right business type, and receive a request with useful context."
+            description="Upload, get discovered, and receive a useful brief."
           />
-          <div className="mt-10 grid border-y border-slate-200 md:grid-cols-3 md:divide-x md:divide-slate-200">
-            {workflow.map((step) => (
-              <article key={step.number} className="border-b border-slate-200 py-7 last:border-b-0 md:border-b-0 md:px-7 md:first:pl-0 md:last:pr-0">
-                <p className="text-sm font-semibold text-blue-700">{step.number}</p>
-                <h2 className="mt-5 text-2xl font-bold leading-tight text-slate-950">
-                  {step.title}
-                </h2>
-                <p className="mt-4 text-sm leading-6 text-slate-600">{step.copy}</p>
+          <div className="mt-10 grid gap-7 md:grid-cols-3">
+            {workflow.map((step, index) => (
+              <article key={step.number} className="border-t-2 border-slate-200 pt-5">
+                <CreatorStepVisual step={index} />
+                <div className="mt-5 flex items-start gap-4">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-blue-600 text-xs font-bold text-white">
+                    {step.number}
+                  </span>
+                  <div>
+                    <h2 className="text-xl font-bold text-slate-950">{step.title}</h2>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">{step.copy}</p>
+                  </div>
+                </div>
               </article>
             ))}
           </div>
@@ -116,8 +120,8 @@ export default function CreatorsPage() {
         <div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[0.75fr_1.25fr]">
           <SectionHeading
             eyebrow="Why list on Webbly"
-            title="Make portfolio work easier to discover and easier to buy."
-            description="Webbly is built around higher-intent discovery, where buyers choose a direction before asking a creator to scope the work."
+            title="Make your portfolio easier to discover."
+            description="Buyers choose a direction before they ask for a quote."
           />
           <div className="grid gap-x-8 gap-y-0 sm:grid-cols-2">
             {creatorBenefits.map(([title, copy]) => (
@@ -139,7 +143,7 @@ export default function CreatorsPage() {
             <SectionHeading
               eyebrow="Listing preview"
               title="Package your work like a marketplace product."
-              description="Use the fields below to see how a future Webbly listing will capture the information buyers need to compare your template."
+              description="Preview the details buyers use to compare your work."
             />
             <div className="mt-8 border-y border-slate-200">
               {roadmap.map(([phase, item]) => (
@@ -181,7 +185,7 @@ export default function CreatorsPage() {
                 <span className="text-sm font-semibold text-slate-700">Description</span>
                 <textarea
                   rows={5}
-                  placeholder="Explain the ideal buyer, included sections, and what makes this template useful."
+                  placeholder="Who is this for, and what is included?"
                   className="resize-none rounded-md border border-slate-300 bg-white px-4 py-3 text-sm text-slate-950 outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                 />
               </label>
@@ -215,7 +219,7 @@ export default function CreatorsPage() {
             Show buyers the work you want to be hired for.
           </h2>
           <p className="max-w-2xl text-base leading-7 text-slate-600">
-            Explore the creator plans, then shape the listing you want to publish when accounts go live.
+            Shape your listing now and publish it when creator accounts go live.
           </p>
           <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
             <ButtonLink href="/pricing" size="lg">View creator pricing</ButtonLink>
@@ -227,43 +231,122 @@ export default function CreatorsPage() {
   );
 }
 
-function CreatorDashboardScene() {
+function CreatorWorkflowScene() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-      <div className="site-grid absolute inset-0 opacity-45" />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_51%,rgba(255,255,255,0.9)_68%,rgba(255,255,255,0.2)_100%)]" />
-      <div className="absolute -bottom-16 -right-28 w-[430px] opacity-20 sm:w-[560px] lg:bottom-10 lg:right-[2%] lg:w-[46%] lg:opacity-100">
-        <div className="rounded-lg border border-slate-700 bg-slate-950 p-4 text-white shadow-[0_24px_70px_rgba(16,24,40,0.24)] sm:p-5">
-          <div className="flex items-center justify-between border-b border-white/10 pb-4">
-            <div>
-              <p className="text-xs font-semibold uppercase text-blue-300">Creator workspace</p>
-              <p className="mt-1 text-xl font-bold">Listing performance</p>
-            </div>
-            <span className="rounded-md bg-emerald-400/15 px-2 py-1 text-xs font-semibold text-emerald-300">Preview</span>
+      <div className="site-grid absolute inset-0 opacity-35" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_54%,rgba(255,255,255,0.92)_68%,rgba(255,255,255,0.2)_100%)]" />
+      <div className="absolute right-[-220px] top-1/2 hidden h-[500px] w-[560px] -translate-y-1/2 opacity-30 md:block lg:right-[-140px] lg:opacity-70 xl:right-[calc((100vw-1280px)/2)] xl:opacity-100">
+        <div className="absolute left-32 top-16 z-10 w-[340px] overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_24px_60px_rgba(16,24,40,0.16)]">
+          <div className="flex items-center justify-end gap-3 border-b border-slate-200 px-4 py-3">
+            <p className="text-xs font-bold uppercase text-blue-700">Template upload</p>
+            <span className="rounded-md bg-amber-50 px-2 py-1 text-[10px] font-bold text-amber-800">
+              Draft
+            </span>
           </div>
-          <div className="grid grid-cols-3 divide-x divide-white/10 border-b border-white/10 py-5">
-            {[["1.8k", "views"], ["48", "requests"], ["12", "shortlists"]].map(([value, label]) => (
-              <div key={label} className="px-4 first:pl-0">
-                <p className="text-2xl font-bold">{value}</p>
-                <p className="mt-1 text-xs text-slate-400">{label}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 space-y-3">
-            {["Salon booking", "Cafe menu", "Agency portfolio"].map((item, index) => (
-              <div key={item} className="grid grid-cols-[42px_1fr_auto] items-center gap-3 border-b border-white/10 pb-3 last:border-b-0">
-                <span className={`h-9 rounded ${["bg-pink-300", "bg-amber-300", "bg-blue-300"][index]}`} />
-                <div>
-                  <p className="text-sm font-semibold">{item}</p>
-                  <div className="mt-2 h-1.5 rounded-full bg-white/10">
-                    <span className="block h-full rounded-full bg-blue-400" style={{ width: `${82 - index * 9}%` }} />
-                  </div>
-                </div>
-                <span className="text-xs text-slate-400">Live</span>
-              </div>
-            ))}
+          <div className="bg-slate-50 p-1.5">
+            <BusinessPreview category="Cafes" variant="category" />
           </div>
         </div>
+
+        <div className="absolute left-0 top-5 z-20 w-[250px] rounded-lg border border-slate-200 bg-white p-4 shadow-[0_18px_45px_rgba(16,24,40,0.12)]">
+          <div className="flex items-center gap-3">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-xs font-bold text-white">
+              MS
+            </span>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-bold text-slate-950">Maya Studio</p>
+                <span className="h-2 w-2 shrink-0 rounded-full bg-blue-600" />
+              </div>
+              <p className="mt-0.5 text-xs text-slate-500">Cafe websites</p>
+            </div>
+          </div>
+          <div className="mt-4 grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-100 pt-3 text-center">
+            <div>
+              <p className="text-sm font-bold text-slate-950">4.9 / 5</p>
+              <p className="mt-1 text-[10px] uppercase text-slate-500">Rating</p>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-slate-950">18</p>
+              <p className="mt-1 text-[10px] uppercase text-slate-500">Projects</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="absolute bottom-1 left-4 z-30 w-[300px] rounded-lg border border-blue-200 bg-white p-4 shadow-[0_20px_50px_rgba(36,87,245,0.14)]">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-bold uppercase text-blue-700">New request</p>
+              <p className="mt-1 text-sm font-bold text-slate-950">Cafe website customization</p>
+            </div>
+            <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-500" />
+          </div>
+          <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-3">
+            <p className="text-xs font-medium text-slate-500">$2.5k-$5k budget</p>
+            <span className="rounded-md bg-blue-600 px-3 py-1.5 text-[10px] font-bold text-white">
+              Review brief
+            </span>
+          </div>
+        </div>
+
+        <div className="absolute bottom-4 right-0 z-40 w-[210px] rounded-lg bg-slate-950 p-4 text-white shadow-[0_20px_50px_rgba(16,24,40,0.2)]">
+          <p className="text-xs font-semibold text-blue-300">Qualified leads</p>
+          <div className="mt-2 flex items-end justify-between gap-3">
+            <p className="text-3xl font-bold">12</p>
+            <div className="flex items-end gap-1">
+              {["h-3", "h-5", "h-7", "h-9"].map((height) => (
+                <span key={height} className={`w-3 rounded-t bg-blue-400 ${height}`} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CreatorStepVisual({ step }: { step: number }) {
+  if (step === 0) {
+    return (
+      <div className="h-36 rounded-md border border-slate-200 bg-[#eef3ff] p-4">
+        <div className="grid h-full grid-cols-[1.15fr_0.85fr] gap-3 rounded-md border border-blue-100 bg-white p-3">
+          <span className="rounded-md bg-gradient-to-br from-amber-100 to-orange-200" />
+          <span className="grid gap-2">
+            <span className="rounded-md bg-slate-100" />
+            <span className="rounded-md bg-blue-100" />
+            <span className="rounded-md bg-blue-600" />
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  if (step === 1) {
+    return (
+      <div className="h-36 rounded-md border border-slate-200 bg-[#f6f7fb] p-4">
+        <span className="block h-8 rounded-md border border-slate-200 bg-white" />
+        <div className="mt-3 grid grid-cols-3 gap-2">
+          {["bg-amber-200", "bg-pink-200", "bg-blue-200"].map((color) => (
+            <span key={color} className={`h-16 rounded-md ${color}`} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-36 rounded-md border border-slate-800 bg-slate-950 p-4 text-white">
+      <div className="flex items-start justify-between">
+        <div>
+          <span className="block h-2 w-16 rounded-full bg-blue-400" />
+          <span className="mt-3 block h-3 w-32 rounded-full bg-white/80" />
+        </div>
+        <span className="h-3 w-3 rounded-full bg-emerald-400" />
+      </div>
+      <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-3">
+        <span className="h-2 w-24 rounded-full bg-white/20" />
+        <span className="h-8 w-24 rounded-md bg-blue-500" />
       </div>
     </div>
   );

@@ -54,7 +54,7 @@ export function MarketplaceBrowser({
             <input
               value={search}
               onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search by business type, style, or creator"
+              placeholder="Search templates or creators"
               className="h-12 w-full rounded-md border border-slate-300 bg-white px-4 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
             />
           </label>

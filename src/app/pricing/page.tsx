@@ -127,7 +127,7 @@ export default function PricingPage() {
                   <tr key={row[0]} className="transition hover:bg-slate-50">
                     {row.map((cell, index) => (
                       <td
-                        key={`${row[0]}-${cell}`}
+                        key={`${row[0]}-${index}`}
                         className={`px-5 py-4 ${index === 0 ? "font-semibold text-slate-950" : "text-slate-600"}`}
                       >
                         {cell}

@@ -1,11 +1,11 @@
 import { ButtonLink } from "@/components/Button";
+import { BusinessPreview } from "@/components/BusinessPreview";
 import { CategoryCard } from "@/components/CategoryCard";
 import { CreatorCard } from "@/components/CreatorCard";
 import { CTASection } from "@/components/CTASection";
 import { RequestButton } from "@/components/RequestButton";
 import { SectionHeading } from "@/components/SectionHeading";
 import { TemplateCard } from "@/components/TemplateCard";
-import { TemplatePreview } from "@/components/TemplatePreview";
 import type { Template } from "@/data/templates";
 import { getAllTemplates } from "@/lib/marketplace";
 
@@ -21,9 +21,9 @@ const featuredCategories = [
 ];
 
 const browseSteps = [
-  ["01", "Browse templates", "Filter by business type, budget, or creator."],
-  ["02", "Choose a style", "Compare previews, pages, tools, and fit."],
-  ["03", "Request a website", "Send the creator a useful project brief."],
+  ["01", "Browse styles", "Pick a business category."],
+  ["02", "Choose a direction", "Compare the preview and creator."],
+  ["03", "Send a request", "Share your needs and budget."],
 ];
 
 const businessBenefits = [
@@ -83,9 +83,13 @@ export default function Home() {
   ]
     .map((slug) => templates.find((template) => template.slug === slug))
     .filter((template) => template !== undefined);
-  const heroTemplate =
-    templates.find((template) => template.slug === "online-clothing-store") ??
-    templates[0];
+  const heroTemplates = [
+    "modern-cafe-website",
+    "premium-salon-booking-site",
+    "online-clothing-store",
+  ]
+    .map((slug) => templates.find((template) => template.slug === slug))
+    .filter((template) => template !== undefined);
   const featuredCreators = [templates[0], templates[1], templates[7]].filter(
     (template) => template !== undefined,
   );
@@ -93,20 +97,14 @@ export default function Home() {
   return (
     <>
       <section className="relative isolate overflow-hidden border-b border-slate-200 bg-white">
-        <HeroMarketplaceScene
-          name={heroTemplate.name}
-          category={heroTemplate.category}
-          gradient={heroTemplate.gradient}
-          popularity={heroTemplate.popularity}
-          creator={heroTemplate.creator}
-        />
+        <HeroTemplateStack templates={heroTemplates} />
         <div className="relative mx-auto flex min-h-[450px] max-w-[1280px] items-center px-5 py-12 sm:min-h-[520px] sm:px-6 sm:py-16 lg:min-h-[570px] lg:px-8">
-          <div className="max-w-[760px]">
+          <div className="max-w-[660px]">
             <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/90 px-3 py-2 text-sm font-semibold text-blue-800 shadow-sm backdrop-blur">
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
               Website inspiration with a creator attached
             </div>
-            <h1 className="mt-5 max-w-[740px] text-balance text-[44px] font-bold leading-[1.02] text-slate-950 sm:text-[56px] lg:text-[64px]">
+            <h1 className="mt-5 text-balance text-[44px] font-bold leading-[1.02] text-slate-950 sm:text-[56px] lg:text-[60px]">
               Find a website style you love. Hire the creator behind it.
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
@@ -139,15 +137,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="overflow-x-auto border-b border-slate-800 bg-slate-950 text-white">
-        <div className="mx-auto grid min-w-[720px] max-w-[1280px] grid-cols-3 divide-x divide-white/10 px-4 sm:px-6 lg:px-8">
-          {browseSteps.map(([number, title, copy]) => (
-            <div key={title} className="flex items-center gap-4 px-5 py-5 first:pl-0 last:pr-0">
+      <section className="border-b border-slate-800 bg-slate-950 text-white">
+        <div className="mx-auto grid max-w-[1280px] grid-cols-3 divide-x divide-white/10 px-4 sm:px-6 lg:px-8">
+          {browseSteps.map(([number, title]) => (
+            <div key={title} className="flex items-center justify-center gap-2 px-2 py-4 sm:gap-4 sm:px-5 sm:py-5">
               <span className="text-sm font-semibold text-blue-300">{number}</span>
-              <div>
-                <p className="font-semibold text-white">{title}</p>
-                <p className="mt-1 text-xs text-slate-400">{copy}</p>
-              </div>
+              <p className="text-xs font-semibold text-white sm:text-base">{title}</p>
             </div>
           ))}
         </div>
@@ -198,23 +193,29 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="how-it-works" className="bg-slate-950 px-5 py-16 text-white sm:px-6 sm:py-20 lg:px-8">
-        <div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+      <section id="how-it-works" className="border-y border-slate-200 bg-white px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-[1280px]">
           <SectionHeading
             eyebrow="How it works"
-            title="From browsing to a useful creator brief."
-            description="Choose a direction first, then share the context a creator needs."
-            inverse
+            title="Browse. Choose. Request."
+            description="Three simple steps from inspiration to a creator conversation."
           />
-          <ol className="border-t border-white/15">
-            {browseSteps.map(([number, title, copy]) => (
+          <ol className="mt-10 grid gap-7 lg:grid-cols-3">
+            {browseSteps.map(([number, title, copy], index) => (
               <li
                 key={title}
-                className="grid gap-3 border-b border-white/15 py-6 sm:grid-cols-[72px_220px_1fr] sm:items-start"
+                className="border-t-2 border-slate-200 pt-5"
               >
-                <span className="text-sm font-semibold text-blue-300">{number}</span>
-                <h3 className="text-xl font-semibold text-white">{title}</h3>
-                <p className="text-sm leading-6 text-slate-400">{copy}</p>
+                <HowStepVisual step={index} />
+                <div className="mt-5 flex items-start gap-4">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-blue-600 text-xs font-bold text-white">
+                    {number}
+                  </span>
+                  <div>
+                    <h3 className="text-xl font-bold text-slate-950">{title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">{copy}</p>
+                  </div>
+                </div>
               </li>
             ))}
           </ol>
@@ -321,52 +322,138 @@ export default function Home() {
   );
 }
 
-function HeroMarketplaceScene({
-  name,
-  category,
-  gradient,
-  popularity,
-  creator,
-}: {
-  name: string;
-  category: string;
-  gradient: string;
-  popularity: number;
-  creator: Template["creator"];
-}) {
+function HeroTemplateStack({ templates }: { templates: Template[] }) {
+  const positions = [
+    "left-0 top-24 z-10 w-[300px] -rotate-2 opacity-90",
+    "right-0 top-2 z-20 w-[315px] rotate-2",
+    "bottom-0 left-24 z-30 w-[360px]",
+  ];
+
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-      <div className="site-grid absolute inset-0 opacity-50" />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_48%,rgba(255,255,255,0.92)_62%,rgba(255,255,255,0.25)_100%)]" />
-      <div className="absolute -bottom-24 -right-40 w-[430px] opacity-25 sm:-right-28 sm:w-[560px] lg:-bottom-28 lg:right-[-5%] lg:w-[56%] lg:opacity-100">
-        <TemplatePreview
-          name={name}
-          category={category}
-          gradient={gradient}
-          size="hero"
-        />
-        <div className="absolute -left-10 top-20 hidden w-56 rounded-lg border border-slate-200 bg-white p-4 shadow-[0_18px_50px_rgba(16,24,40,0.14)] xl:block">
-          <p className="text-xs font-semibold uppercase text-blue-700">Style match</p>
-          <div className="mt-3 flex items-center justify-between">
-            <span className="text-sm font-semibold text-slate-950">Online store</span>
-            <span className="text-sm font-bold text-emerald-600">{popularity}%</span>
+      <div className="site-grid absolute inset-0 opacity-35" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_54%,rgba(255,255,255,0.92)_68%,rgba(255,255,255,0.25)_100%)]" />
+      <div className="absolute right-[-220px] top-1/2 hidden h-[520px] w-[560px] -translate-y-1/2 opacity-30 md:block lg:right-[-140px] lg:opacity-70 xl:right-[calc((100vw-1280px)/2)] xl:opacity-100">
+        {templates.map((template, index) => (
+          <HeroStackCard
+            key={template.slug}
+            template={template}
+            className={positions[index] ?? positions[0]}
+            featured={index === templates.length - 1}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function HeroStackCard({
+  template,
+  className,
+  featured,
+}: {
+  template: Template;
+  className: string;
+  featured: boolean;
+}) {
+  return (
+    <article
+      className={`absolute overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_24px_60px_rgba(16,24,40,0.16)] ${className}`}
+    >
+      <div className="relative border-b border-slate-200 bg-slate-50 p-1.5">
+        <BusinessPreview category={template.category} variant="category" />
+        {!featured ? (
+          <>
+            <span className="absolute left-3 top-3 rounded-md bg-white/95 px-2 py-1 text-[10px] font-bold uppercase text-slate-900 shadow-sm">
+              {template.category}
+            </span>
+            <span className="absolute bottom-3 right-3 rounded-md bg-slate-950 px-2 py-1 text-xs font-bold text-white shadow-sm">
+              ${template.price}
+            </span>
+          </>
+        ) : null}
+      </div>
+      {featured ? (
+        <div className="p-4">
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <span className="text-[10px] font-bold uppercase text-blue-700">
+                {template.category}
+              </span>
+              <p className="mt-1 text-base font-bold text-slate-950">
+                {template.name}
+              </p>
+            </div>
+            <p className="shrink-0 text-lg font-bold text-slate-950">
+              ${template.price}
+            </p>
           </div>
-          <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100">
-            <span
-              className="block h-full rounded-full bg-blue-600"
-              style={{ width: `${popularity}%` }}
-            />
+          <div className="mt-3 flex items-center justify-between gap-3 border-t border-slate-100 pt-3">
+            <div className="flex min-w-0 items-center gap-2">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-950 text-[9px] font-bold text-white">
+                {template.creator.avatar}
+              </span>
+              <p className="text-xs font-semibold text-slate-700">
+                {template.creator.name} / {template.creator.rating.toFixed(1)}
+              </p>
+            </div>
+            <span className="shrink-0 rounded-md bg-blue-600 px-2.5 py-1.5 text-[10px] font-bold text-white">
+              View style
+            </span>
           </div>
         </div>
-        <div className="absolute -left-16 bottom-24 hidden w-64 rounded-lg border border-slate-200 bg-slate-950 p-4 text-white shadow-[0_18px_50px_rgba(16,24,40,0.2)] xl:block">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-semibold">Verified creator</p>
-            <span className="h-2 w-2 rounded-full bg-emerald-400" />
-          </div>
-          <p className="mt-3 text-xs leading-5 text-slate-400">
-            {creator.responseTime}. {creator.rating.toFixed(1)} rating across {creator.completedProjects} completed projects.
-          </p>
+      ) : null}
+    </article>
+  );
+}
+
+function HowStepVisual({ step }: { step: number }) {
+  if (step === 0) {
+    return (
+      <div className="h-36 rounded-md border border-slate-200 bg-[#f6f7fb] p-4">
+        <div className="flex items-center gap-2">
+          <span className="h-7 flex-1 rounded-md border border-slate-200 bg-white" />
+          <span className="h-7 w-16 rounded-md bg-slate-950" />
         </div>
+        <div className="mt-3 grid grid-cols-3 gap-2">
+          {["bg-amber-200", "bg-pink-200", "bg-emerald-300", "bg-indigo-200", "bg-violet-200", "bg-sky-200"].map(
+            (color) => (
+              <span key={color} className={`h-8 rounded-md ${color}`} />
+            ),
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (step === 1) {
+    return (
+      <div className="relative h-36 overflow-hidden rounded-md border border-slate-200 bg-[#eef3ff]">
+        <div className="absolute left-5 top-5 h-24 w-[54%] rounded-md border border-slate-200 bg-white p-2 shadow-sm">
+          <span className="block h-12 rounded bg-amber-100" />
+          <span className="mt-2 block h-2 w-2/3 rounded-full bg-slate-200" />
+        </div>
+        <div className="absolute bottom-4 right-5 h-24 w-[54%] rounded-md border-2 border-blue-500 bg-white p-2 shadow-md">
+          <span className="block h-12 rounded bg-violet-100" />
+          <div className="mt-2 flex items-center justify-between">
+            <span className="block h-2 w-1/2 rounded-full bg-slate-200" />
+            <span className="h-4 w-4 rounded-full bg-blue-600" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-36 rounded-md border border-slate-200 bg-slate-950 p-4">
+      <div className="grid grid-cols-2 gap-2">
+        <span className="h-8 rounded-md bg-white/10" />
+        <span className="h-8 rounded-md bg-white/10" />
+      </div>
+      <span className="mt-2 block h-8 rounded-md bg-white/10" />
+      <div className="mt-3 flex items-center justify-between gap-3">
+        <span className="h-2 flex-1 rounded-full bg-white/15" />
+        <span className="h-8 w-24 rounded-md bg-blue-500" />
       </div>
     </div>
   );
