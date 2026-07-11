@@ -355,16 +355,16 @@ function HeroStackCard({
       className={`absolute overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_24px_60px_rgba(16,24,40,0.16)] ${className}`}
     >
       <div className="relative border-b border-slate-200 bg-slate-50 p-1.5">
-        <BusinessPreview category={template.category} variant="category" />
+        <BusinessPreview
+          category={template.category}
+          name={template.name}
+          gradient={template.gradient}
+          variant="stack"
+        />
         {!featured ? (
-          <>
-            <span className="absolute left-3 top-3 rounded-md bg-white/95 px-2 py-1 text-[10px] font-bold uppercase text-slate-900 shadow-sm">
-              {template.category}
-            </span>
-            <span className="absolute bottom-3 right-3 rounded-md bg-slate-950 px-2 py-1 text-xs font-bold text-white shadow-sm">
-              ${template.price}
-            </span>
-          </>
+          <span className="absolute bottom-3 right-3 rounded-md bg-slate-950 px-2 py-1 text-xs font-bold text-white shadow-sm">
+            ${template.price}
+          </span>
         ) : null}
       </div>
       {featured ? (

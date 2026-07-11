@@ -15,7 +15,7 @@ export function TemplateCard({ template, compact = false }: TemplateCardProps) {
       data-template-card={template.slug}
       className="group flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_8px_24px_rgba(16,24,40,0.07)] transition duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-[0_24px_50px_rgba(16,24,40,0.14)]"
     >
-      <div className="relative border-b border-slate-200 bg-slate-100 p-1.5">
+      <div className="relative border-b border-slate-200 bg-slate-100 p-2">
         <Link
           href={`/templates/${template.slug}`}
           className="block w-full rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
@@ -44,7 +44,7 @@ export function TemplateCard({ template, compact = false }: TemplateCardProps) {
       </div>
 
       <div className={`flex flex-1 flex-col ${compact ? "p-4" : "p-5"}`}>
-        <div className="flex min-h-[78px] items-start justify-between gap-4">
+        <div className="flex min-h-[70px] items-start justify-between gap-4">
           <div className="min-w-0">
             <p className="text-xs font-semibold uppercase text-blue-700">
               {template.category}
@@ -63,7 +63,7 @@ export function TemplateCard({ template, compact = false }: TemplateCardProps) {
           </div>
         </div>
 
-        <p className="mt-2 min-h-[48px] text-sm leading-6 text-slate-600">
+        <p className="mt-2 min-h-[42px] text-sm leading-6 text-slate-600">
           {template.summary}
         </p>
 
