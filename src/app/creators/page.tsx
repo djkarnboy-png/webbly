@@ -68,8 +68,8 @@ export default function CreatorsPage() {
             </div>
             <div className="mt-7 max-w-xl">
               <MvpNotice>
-                Creator accounts and live uploads are not active yet. This page
-                previews how the future listing workflow will feel.
+                Creator accounts and live uploads are coming soon. Use this page
+                to shape how a future listing could look.
               </MvpNotice>
             </div>
           </div>
@@ -155,7 +155,7 @@ export default function CreatorsPage() {
             <div className="flex flex-col gap-3 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="font-semibold text-slate-950">New template listing</p>
-                <p className="mt-1 text-sm text-slate-500">Frontend preview only</p>
+                <p className="mt-1 text-sm text-slate-500">Early preview</p>
               </div>
               <span className="w-fit rounded-md bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
                 Draft
@@ -175,7 +175,7 @@ export default function CreatorsPage() {
                 </label>
                 <Field label="Starting price" placeholder="$149" />
               </div>
-              <Field label="Website preview URL" placeholder="https://your-demo-site.com" />
+              <Field label="Website preview URL" placeholder="https://your-preview-site.com" />
               <Field label="Tools used" placeholder="Framer, Webflow, Shopify, Next.js..." />
               <label className="grid gap-2">
                 <span className="text-sm font-semibold text-slate-700">Description</span>
@@ -195,7 +195,7 @@ export default function CreatorsPage() {
                   </span>
                 </div>
                 <p className="mt-4 font-semibold text-slate-950">Upload a template cover</p>
-                <p className="mt-1 text-sm text-slate-600">PNG or JPG preview. Uploads are not active yet.</p>
+                <p className="mt-1 text-sm text-slate-600">PNG or JPG preview. Uploads are coming soon.</p>
               </div>
               <button
                 type="button"
@@ -215,7 +215,7 @@ export default function CreatorsPage() {
             Show buyers the work you want to be hired for.
           </h2>
           <p className="max-w-2xl text-base leading-7 text-slate-600">
-            Explore the creator plans, then use this frontend preview to shape the listing you want to publish later.
+            Explore the creator plans, then shape the listing you want to publish when accounts go live.
           </p>
           <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
             <ButtonLink href="/pricing" size="lg">View creator pricing</ButtonLink>

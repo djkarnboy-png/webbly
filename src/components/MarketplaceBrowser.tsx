@@ -146,7 +146,7 @@ export function MarketplaceBrowser({
               Clear filters
             </button>
           ) : (
-            <span>Curated frontend preview catalog</span>
+            <span>Curated marketplace catalog</span>
           )}
         </div>
       </div>

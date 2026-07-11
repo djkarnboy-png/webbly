@@ -55,11 +55,11 @@ const faqs = [
   ],
   [
     "Are subscriptions or payments active?",
-    "No. This is a frontend preview, so billing, checkout, commissions, and paid creator plans are not active yet.",
+    "Not yet. Billing, checkout, commissions, and paid creator plans are coming soon.",
   ],
   [
     "Can buyers request a custom version?",
-    "Yes. Buyers can send a demo request with their business type, budget, preferred style, and project details.",
+    "Yes. Buyers can share their business type, budget, preferred style, and project details in one request.",
   ],
   [
     "What happens after a request?",
@@ -110,7 +110,7 @@ export default function PricingPage() {
           <SectionHeading
             eyebrow="Compare plans"
             title="The same marketplace, with different levels of visibility."
-            description="The comparison below shows the intended product model. Every paid capability remains inactive in this frontend preview."
+            description="This comparison shows the planned product model. Paid capabilities are coming soon."
           />
           <div className="mt-9 overflow-x-auto rounded-lg border border-slate-200">
             <table className="min-w-[760px] w-full border-collapse text-left text-sm">

@@ -92,7 +92,7 @@ export function BusinessPreview({
           ? "min-h-[430px] sm:min-h-[500px]"
           : isCategory
             ? "h-[200px] sm:h-[220px]"
-            : "h-[260px] sm:h-[280px]"
+            : "h-[300px] sm:h-[315px]"
       }`}
       style={{ background: gradient ?? theme.background }}
       aria-label={name ? `${name} preview` : `${category} preview`}
@@ -128,7 +128,12 @@ function PreviewShell({
   isDark: boolean;
   variant: PreviewVariant;
 }) {
-  const inset = variant === "hero" ? "inset-6 sm:inset-8" : "inset-3";
+  const inset =
+    variant === "hero"
+      ? "inset-6 sm:inset-8"
+      : variant === "template"
+        ? "inset-2"
+        : "inset-3";
 
   return (
     <div

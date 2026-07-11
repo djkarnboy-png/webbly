@@ -68,8 +68,8 @@ export function RequestForm({
 
   const helperText =
     context?.requestType === "contact"
-      ? "Tell the creator what you run, what you like about this direction, and what you may need changed."
-      : "Tell the creator what kind of website you want and which visual direction feels closest.";
+      ? "Tell the creator what you run, what you like about this direction, and what you want customized."
+      : "Share the website direction you like and what a creator should adapt for your business.";
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -109,16 +109,22 @@ export function RequestForm({
           <div>
             <p className="font-semibold text-slate-950">Share your project brief</p>
             <p className="mt-1 max-w-xl text-sm leading-6 text-slate-600">{helperText}</p>
+            <p className="mt-2 max-w-xl text-sm font-medium leading-6 text-slate-800">
+              This starts a conversation, not a purchase.
+            </p>
           </div>
           <span className="w-fit shrink-0 rounded-md bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700">
-            Demo-only flow
+            Early preview
           </span>
         </div>
         <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs font-medium text-slate-500">
-          <span>1. Add your context</span>
+          <span>1. Share context</span>
           <span>2. Confirm the style</span>
-          <span>3. Preview the handoff</span>
+          <span>3. Creator follows up</span>
         </div>
+        <p className="mt-3 text-xs leading-5 text-slate-500">
+          In the live marketplace, the creator would reply with questions, timing, and a quote. Requests are simulated in this preview.
+        </p>
       </div>
 
       {success ? (
@@ -132,7 +138,7 @@ export function RequestForm({
               OK
             </span>
             <div>
-              <p className="font-semibold text-emerald-950">Request preview complete</p>
+              <p className="font-semibold text-emerald-950">Your request is ready</p>
               <p className="mt-1 text-sm leading-6 text-emerald-900">
                 Request sent — this is an early preview, so no real message was sent yet.
               </p>
@@ -225,7 +231,7 @@ export function RequestForm({
 
       <div className="flex flex-col gap-3 border-t border-slate-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs leading-5 text-slate-500">
-          Nothing is sent or saved in this frontend preview.
+          Requests are simulated and are not sent or saved yet.
         </p>
         <Button
           type="submit"
@@ -233,7 +239,7 @@ export function RequestForm({
           className="w-full sm:w-auto"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Preparing request..." : "Submit Request"}
+          {isSubmitting ? "Preparing request..." : "Send Request"}
         </Button>
       </div>
     </form>

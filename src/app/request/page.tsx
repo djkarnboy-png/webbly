@@ -37,7 +37,7 @@ export default function RequestPage() {
             ))}
           </div>
           <p className="mt-6 text-xs leading-5 text-slate-500">
-            Frontend preview: submitting this form does not send or save data.
+            Requests are simulated in this early preview and are not sent or saved yet.
           </p>
         </aside>
 

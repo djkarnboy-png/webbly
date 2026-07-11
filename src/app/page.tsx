@@ -6,6 +6,7 @@ import { RequestButton } from "@/components/RequestButton";
 import { SectionHeading } from "@/components/SectionHeading";
 import { TemplateCard } from "@/components/TemplateCard";
 import { TemplatePreview } from "@/components/TemplatePreview";
+import type { Template } from "@/data/templates";
 import { getAllTemplates } from "@/lib/marketplace";
 
 const featuredCategories = [
@@ -29,21 +30,21 @@ const businessBenefits = [
   {
     label: "Preview before you hire",
     title: "Start with something concrete.",
-    copy: "Show a creator the exact layout, mood, and customer journey you like instead of explaining everything from a blank page.",
-    metric: "12",
-    metricLabel: "visual directions",
+    copy: "Choose the layout and mood before the first conversation.",
+    metric: "4.9/5",
+    metricLabel: "average creator rating",
   },
   {
     label: "Built for small businesses",
-    title: "Browse by the job your site needs to do.",
-    copy: "Menus, booking, listings, products, courses, and lead generation are visible in each preview before you open the details.",
+    title: "See what the website needs to do.",
+    copy: "Menus, bookings, products, courses, and listings are visible at a glance.",
     metric: "8",
     metricLabel: "business categories",
   },
   {
-    label: "A clearer first conversation",
-    title: "Send context creators can use.",
-    copy: "Every request captures business type, budget, preferred style, and project needs so the next step starts with less guesswork.",
+    label: "No blank briefs",
+    title: "Send useful context from the start.",
+    copy: "Share your business, budget, preferred style, and project needs in one brief.",
     metric: "5 min",
     metricLabel: "to share a brief",
   },
@@ -53,7 +54,7 @@ const audiencePanels = [
   {
     eyebrow: "For business owners",
     title: "Find the look before committing to the build.",
-    copy: "Compare realistic website directions, understand what each one includes, and contact a creator whose work already fits your business.",
+    copy: "Compare clear website directions and contact a creator whose work already fits.",
     points: ["Industry-specific previews", "Clear starting prices", "Creator response details"],
     href: "/templates",
     action: "Browse the marketplace",
@@ -62,7 +63,7 @@ const audiencePanels = [
   {
     eyebrow: "For creators",
     title: "Turn portfolio work into warmer leads.",
-    copy: "List polished concepts once, then let buyers discover your style through the business category and project direction they already need.",
+    copy: "Let buyers discover your style through the kind of website they already need.",
     points: ["Productize unused concepts", "Receive clearer briefs", "Keep control of pricing"],
     href: "/creators",
     action: "See how listing works",
@@ -96,6 +97,8 @@ export default function Home() {
           name={heroTemplate.name}
           category={heroTemplate.category}
           gradient={heroTemplate.gradient}
+          popularity={heroTemplate.popularity}
+          creator={heroTemplate.creator}
         />
         <div className="relative mx-auto flex min-h-[450px] max-w-[1280px] items-center px-5 py-12 sm:min-h-[520px] sm:px-6 sm:py-16 lg:min-h-[570px] lg:px-8">
           <div className="max-w-[760px]">
@@ -107,8 +110,8 @@ export default function Home() {
               Find a website style you love. Hire the creator behind it.
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
-              Browse ready-made website templates for small businesses, compare
-              styles, and request custom websites from real creators.
+              Browse real website directions, then contact the creator to adapt
+              one for your business.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="/templates" size="lg">
@@ -125,11 +128,11 @@ export default function Home() {
               </span>
               <span className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-violet-600" />
-                Built for small businesses
+                Verified creators
               </span>
               <span className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                Contact the creator directly
+                No blank briefs
               </span>
             </div>
           </div>
@@ -156,7 +159,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Featured categories"
               title="Start with the kind of business you are building."
-              description="Every category preview reflects a different customer journey, so a restaurant, salon, store, and agency never feel interchangeable."
+              description="Each preview reflects a different business and customer journey."
             />
             <ButtonLink href="/templates" variant="outline">
               View all templates
@@ -180,7 +183,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Featured templates"
               title="Website directions you can judge at a glance."
-              description="Open a preview to compare layout, tools, price, creator details, and the pages included before you send a request."
+              description="Compare the preview, price, and creator before you send a request."
             />
             <div className="flex items-center gap-3 text-sm text-slate-600">
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
@@ -200,7 +203,7 @@ export default function Home() {
           <SectionHeading
             eyebrow="How it works"
             title="From browsing to a useful creator brief."
-            description="Webbly makes the visual decision first, then helps buyers add the context a creator needs to respond clearly."
+            description="Choose a direction first, then share the context a creator needs."
             inverse
           />
           <ol className="border-t border-white/15">
@@ -222,8 +225,8 @@ export default function Home() {
         <div className="mx-auto max-w-[1280px]">
           <SectionHeading
             eyebrow="Why businesses use Webbly"
-            title="A faster way to get aligned before a project begins."
-            description="The marketplace is designed to reduce the hardest early-stage questions: what should the site look like, what does it include, and who can build it?"
+            title="Choose with more confidence."
+            description="See the direction, creator track record, and next step before reaching out."
           />
           <div className="mt-10 grid border-y border-blue-200 lg:grid-cols-3 lg:divide-x lg:divide-blue-200">
             {businessBenefits.map((benefit) => (
@@ -291,20 +294,19 @@ export default function Home() {
             <SectionHeading
               eyebrow="Featured creators"
               title="Meet creators through the work they want to make more of."
-              description="Profiles surface specialty, response time, and marketplace experience alongside the templates that brought you there."
+              description="Compare ratings, delivery windows, reviews, and response times."
             />
             <ButtonLink href="/creators" variant="outline">
               For creators
             </ButtonLink>
           </div>
           <div className="mt-9 grid gap-5 md:grid-cols-3">
-            {featuredCreators.map((template, index) => (
+            {featuredCreators.map((template) => (
               <CreatorCard
                 key={template.creator.name}
                 creator={template.creator}
-                rating={["4.9", "4.8", "5.0"][index]}
-                projects={["18 projects", "14 projects", "11 projects"][index]}
                 specialty={template.category + " websites"}
+                showReview
               />
             ))}
           </div>
@@ -313,7 +315,7 @@ export default function Home() {
 
       <CTASection
         title="Find the style first. Make the next conversation count."
-        description="Browse business-ready templates, compare real website directions, and send a focused request when a creator's work feels right."
+        description="Browse real website directions and contact the creator when one feels right."
       />
     </>
   );
@@ -323,10 +325,14 @@ function HeroMarketplaceScene({
   name,
   category,
   gradient,
+  popularity,
+  creator,
 }: {
   name: string;
   category: string;
   gradient: string;
+  popularity: number;
+  creator: Template["creator"];
 }) {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
@@ -343,19 +349,22 @@ function HeroMarketplaceScene({
           <p className="text-xs font-semibold uppercase text-blue-700">Style match</p>
           <div className="mt-3 flex items-center justify-between">
             <span className="text-sm font-semibold text-slate-950">Online store</span>
-            <span className="text-sm font-bold text-emerald-600">97%</span>
+            <span className="text-sm font-bold text-emerald-600">{popularity}%</span>
           </div>
           <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100">
-            <span className="block h-full w-[97%] rounded-full bg-blue-600" />
+            <span
+              className="block h-full rounded-full bg-blue-600"
+              style={{ width: `${popularity}%` }}
+            />
           </div>
         </div>
         <div className="absolute -left-16 bottom-24 hidden w-64 rounded-lg border border-slate-200 bg-slate-950 p-4 text-white shadow-[0_18px_50px_rgba(16,24,40,0.2)] xl:block">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-semibold">Creator response</p>
+            <p className="text-sm font-semibold">Verified creator</p>
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
           </div>
           <p className="mt-3 text-xs leading-5 text-slate-400">
-            Usually replies in 1 hour. Shopify and Figma specialist.
+            {creator.responseTime}. {creator.rating.toFixed(1)} rating across {creator.completedProjects} completed projects.
           </p>
         </div>
       </div>

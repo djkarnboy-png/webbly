@@ -41,7 +41,7 @@ export default function RootLayout({
                 Early preview
               </span>
               <span className="hidden text-blue-900/75 sm:inline">
-                Explore the marketplace and send demo requests. Payments and
+                Browse templates and try the request flow. Payments and
                 creator accounts are coming soon.
               </span>
             </div>

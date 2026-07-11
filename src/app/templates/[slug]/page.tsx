@@ -112,20 +112,27 @@ export default async function TemplateDetailsPage({ params }: PageProps) {
                     <p className="text-sm font-medium text-slate-500">Template price</p>
                     <p className="mt-1 text-4xl font-bold text-slate-950">${template.price}</p>
                   </div>
-                  <span className="pb-1 text-sm text-slate-500">one-time demo price</span>
+                  <span className="pb-1 text-sm text-slate-500">starting template price</span>
                 </div>
 
-                <div className="mt-6 grid grid-cols-2 divide-x divide-slate-200 border-y border-slate-200 py-4">
-                  <div className="pr-4">
-                    <p className="text-lg font-bold text-slate-950">{template.popularity}%</p>
-                    <p className="mt-1 text-xs text-slate-500">buyer fit score</p>
+                <div className="mt-6 grid grid-cols-3 divide-x divide-slate-200 border-y border-slate-200 py-4">
+                  <div className="pr-3">
+                    <p className="text-lg font-bold text-slate-950">{template.creator.rating.toFixed(1)}</p>
+                    <p className="mt-1 text-xs text-slate-500">creator rating</p>
                   </div>
-                  <div className="pl-4">
-                    <p className="text-sm font-semibold text-slate-950">Fast response</p>
-                    <p className="mt-1 text-xs leading-5 text-slate-500">{template.creator.responseTime}</p>
+                  <div className="px-3">
+                    <p className="text-lg font-bold text-slate-950">{template.creator.completedProjects}</p>
+                    <p className="mt-1 text-xs text-slate-500">projects</p>
+                  </div>
+                  <div className="pl-3">
+                    <p className="text-sm font-bold text-slate-950">{template.creator.deliveryTime}</p>
+                    <p className="mt-1 text-xs text-slate-500">typical delivery</p>
                   </div>
                 </div>
 
+                <p className="mt-5 text-sm leading-6 text-slate-600">
+                  Start a conversation with the creator. You are not buying or committing to a project yet.
+                </p>
                 <div className="mt-6 grid gap-3">
                   <RequestButton
                     size="lg"
@@ -137,26 +144,25 @@ export default async function TemplateDetailsPage({ params }: PageProps) {
                   </RequestButton>
                   <RequestButton
                     size="lg"
-                    variant="outline"
+                    variant="secondary"
                     templateName={template.name}
                     creatorName={template.creator.name}
                     requestType="contact"
                   >
                     Contact Creator
                   </RequestButton>
-                  <Button size="lg" variant="secondary" disabled>
-                    Buy Template Demo
+                  <Button size="lg" variant="outline" disabled>
+                    Template purchase coming soon
                   </Button>
                 </div>
                 <div className="mt-5">
-                  <MvpNotice tone="slate" title="Payments coming soon">
-                    Checkout and downloadable purchases are not active in this
-                    frontend preview.
+                  <MvpNotice tone="slate" title="Payments and accounts coming soon">
+                    Preview templates and contact creators now. Checkout and downloads will be added later.
                   </MvpNotice>
                 </div>
               </div>
 
-              <CreatorCard creator={template.creator} />
+              <CreatorCard creator={template.creator} showReview />
             </aside>
           </div>
         </div>
@@ -179,7 +185,7 @@ export default async function TemplateDetailsPage({ params }: PageProps) {
             <SectionHeading
               eyebrow="Similar templates"
               title={`More ${template.category.toLowerCase()} directions.`}
-              description="Compare another visual approach before deciding which creator and structure feels right."
+              description="Compare another style before choosing a creator."
             />
             <ButtonLink href="/templates" variant="outline">
               Browse all templates
