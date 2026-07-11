@@ -16,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Webbly | Business Website Template Marketplace",
+  title: "Webbly | Find a Website Style and Hire Its Creator",
   description:
-    "Browse ready-made business website templates from real creators, then buy one or hire the creator to customize it for your brand.",
+    "Browse ready-made website templates for small businesses, compare styles, and request custom websites from real creators.",
 };
 
 export default function RootLayout({
@@ -31,13 +31,19 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-white text-slate-950">
+      <body className="flex min-h-full flex-col bg-[#f6f7fb] text-slate-950">
         <RequestModalProvider>
           <Navbar />
-          <main className="flex-1 pt-[72px]">
-            <div className="border-b border-blue-100 bg-blue-50 px-4 py-3 text-center text-sm font-semibold text-blue-950">
-              Early preview: browse templates, filter the marketplace, and send
-              demo requests. Payments and creator accounts are coming soon.
+          <main className="flex-1 pt-[68px]">
+            <div className="border-b border-blue-100 bg-[#edf3ff] px-4 py-2.5 text-center text-xs font-medium text-blue-950 sm:text-sm">
+              <span className="mr-2 inline-flex items-center gap-2 font-semibold">
+                <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
+                Early preview
+              </span>
+              <span className="hidden text-blue-900/75 sm:inline">
+                Explore the marketplace and send demo requests. Payments and
+                creator accounts are coming soon.
+              </span>
             </div>
             {children}
           </main>

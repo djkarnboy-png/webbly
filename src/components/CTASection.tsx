@@ -1,4 +1,5 @@
 import { ButtonLink } from "./Button";
+import { RequestButton } from "./RequestButton";
 
 type CTASectionProps = {
   title?: string;
@@ -10,24 +11,35 @@ export function CTASection({
   description = "Browse polished business templates or connect with a creator who can shape one around your brand, services, and goals.",
 }: CTASectionProps) {
   return (
-    <section className="bg-slate-950 px-6 py-20 text-white">
-      <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 md:flex-row md:items-center">
-        <div className="max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-300">
-            Build faster with Webbly
+    <section className="relative overflow-hidden bg-slate-950 px-6 py-20 text-white">
+      <div className="site-grid absolute inset-0 opacity-20" />
+      <div className="relative mx-auto grid max-w-[1180px] gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
+        <div className="max-w-3xl">
+          <p className="text-sm font-semibold uppercase text-blue-300">
+            Your next website starts with a style
           </p>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
+          <h2 className="mt-4 text-balance text-3xl font-bold leading-[1.08] sm:text-4xl lg:text-5xl">
             {title}
           </h2>
-          <p className="mt-5 text-lg leading-8 text-slate-300">{description}</p>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
+            {description}
+          </p>
         </div>
         <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-          <ButtonLink href="/templates" size="lg" className="bg-white text-slate-950 hover:bg-blue-50">
-            Browse Templates
+          <ButtonLink
+            href="/templates"
+            size="lg"
+            variant="inverse"
+          >
+            Browse templates
           </ButtonLink>
-          <ButtonLink href="/creators" size="lg" variant="outline" className="border-white/20 bg-transparent text-white hover:bg-white/10">
-            List Your Template
-          </ButtonLink>
+          <RequestButton
+            size="lg"
+            variant="inverseOutline"
+            requestType="general"
+          >
+            Request a website
+          </RequestButton>
         </div>
       </div>
     </section>

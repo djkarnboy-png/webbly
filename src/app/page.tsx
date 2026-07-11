@@ -1,17 +1,12 @@
 import { ButtonLink } from "@/components/Button";
 import { CategoryCard } from "@/components/CategoryCard";
+import { CreatorCard } from "@/components/CreatorCard";
 import { CTASection } from "@/components/CTASection";
 import { RequestButton } from "@/components/RequestButton";
+import { SectionHeading } from "@/components/SectionHeading";
 import { TemplateCard } from "@/components/TemplateCard";
 import { TemplatePreview } from "@/components/TemplatePreview";
 import { getAllTemplates } from "@/lib/marketplace";
-
-const stats = [
-  ["120+", "template directions explored"],
-  ["8", "business categories"],
-  ["4.8/5", "mock buyer confidence"],
-  ["48h", "typical creator reply goal"],
-];
 
 const featuredCategories = [
   "Restaurants",
@@ -24,79 +19,98 @@ const featuredCategories = [
   "Real Estate",
 ];
 
-const steps = [
-  ["Browse", "Compare business-ready website directions by industry, price, creator, and platform."],
-  ["Shortlist", "Open details, review included pages, and decide which style feels closest to your brand."],
-  ["Request", "Contact the creator or request a similar custom website from the same visual direction."],
+const browseSteps = [
+  ["01", "Browse templates", "Filter by business type, budget, or creator."],
+  ["02", "Choose a style", "Compare previews, pages, tools, and fit."],
+  ["03", "Request a website", "Send the creator a useful project brief."],
 ];
 
-const benefits = [
+const businessBenefits = [
   {
-    title: "For business owners",
-    copy: "Stop guessing from a blank canvas. Start from proven structures for menus, booking, listings, products, courses, and lead generation.",
+    label: "Preview before you hire",
+    title: "Start with something concrete.",
+    copy: "Show a creator the exact layout, mood, and customer journey you like instead of explaining everything from a blank page.",
+    metric: "12",
+    metricLabel: "visual directions",
   },
   {
-    title: "For creators",
-    copy: "Turn unused concepts, sample sites, and portfolio work into template listings that can create sales and custom project leads.",
+    label: "Built for small businesses",
+    title: "Browse by the job your site needs to do.",
+    copy: "Menus, booking, listings, products, courses, and lead generation are visible in each preview before you open the details.",
+    metric: "8",
+    metricLabel: "business categories",
   },
-];
-
-const trustCards = [
   {
-    title: "Request with context",
-    copy: "Send the style you like, budget range, business type, and must-have pages so creators can reply with useful next steps.",
+    label: "A clearer first conversation",
+    title: "Send context creators can use.",
+    copy: "Every request captures business type, budget, preferred style, and project needs so the next step starts with less guesswork.",
     metric: "5 min",
-  },
-  {
-    title: "Compare real directions",
-    copy: "Every listing is framed around the actual buying journey: preview, price, tools, pages, features, and creator response time.",
-    metric: "12 listings",
-  },
-  {
-    title: "Preview the workflow",
-    copy: "Payments, accounts, and delivery are clearly marked as coming soon while buyers can still understand the request journey.",
-    metric: "early preview",
+    metricLabel: "to share a brief",
   },
 ];
 
-const processCards = [
-  ["Pick a style", "Start from a template that already feels close to the business."],
-  ["Send a brief", "Share budget, pages, timeline, and the visual direction you prefer."],
-  ["Creator replies", "The future workflow is built around creators responding with a practical next step."],
+const audiencePanels = [
+  {
+    eyebrow: "For business owners",
+    title: "Find the look before committing to the build.",
+    copy: "Compare realistic website directions, understand what each one includes, and contact a creator whose work already fits your business.",
+    points: ["Industry-specific previews", "Clear starting prices", "Creator response details"],
+    href: "/templates",
+    action: "Browse the marketplace",
+    tone: "light" as const,
+  },
+  {
+    eyebrow: "For creators",
+    title: "Turn portfolio work into warmer leads.",
+    copy: "List polished concepts once, then let buyers discover your style through the business category and project direction they already need.",
+    points: ["Productize unused concepts", "Receive clearer briefs", "Keep control of pricing"],
+    href: "/creators",
+    action: "See how listing works",
+    tone: "dark" as const,
+  },
 ];
 
 export default function Home() {
   const templates = getAllTemplates();
   const featured = [
-    templates.find((template) => template.slug === "restaurant-menu-website"),
-    templates.find((template) => template.slug === "premium-salon-booking-site"),
-    templates.find((template) => template.slug === "fitness-gym-landing-page"),
-    templates.find((template) => template.slug === "online-clothing-store"),
-    templates.find((template) => template.slug === "tutor-course-website"),
-    templates.find((template) => template.slug === "creative-agency-portfolio"),
-  ].filter(Boolean);
-
-  const heroTemplate = templates[4] ?? templates[0];
+    "restaurant-menu-website",
+    "premium-salon-booking-site",
+    "fitness-gym-landing-page",
+    "online-clothing-store",
+    "tutor-course-website",
+    "creative-agency-portfolio",
+  ]
+    .map((slug) => templates.find((template) => template.slug === slug))
+    .filter((template) => template !== undefined);
+  const heroTemplate =
+    templates.find((template) => template.slug === "online-clothing-store") ??
+    templates[0];
+  const featuredCreators = [templates[0], templates[1], templates[7]].filter(
+    (template) => template !== undefined,
+  );
 
   return (
     <>
-      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,#dbeafe,transparent_32%),linear-gradient(180deg,#fff,#f8fafc)] px-6 py-16 sm:py-20 lg:py-24">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-300 to-transparent" />
-        <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/75 px-4 py-2 text-sm font-bold text-blue-700 shadow-sm backdrop-blur">
-              <span className="h-2 w-2 rounded-full bg-emerald-400" />
-              Early preview of the Webbly marketplace
+      <section className="relative isolate overflow-hidden border-b border-slate-200 bg-white">
+        <HeroMarketplaceScene
+          name={heroTemplate.name}
+          category={heroTemplate.category}
+          gradient={heroTemplate.gradient}
+        />
+        <div className="relative mx-auto flex min-h-[450px] max-w-[1280px] items-center px-5 py-12 sm:min-h-[520px] sm:px-6 sm:py-16 lg:min-h-[570px] lg:px-8">
+          <div className="max-w-[760px]">
+            <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/90 px-3 py-2 text-sm font-semibold text-blue-800 shadow-sm backdrop-blur">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              Website inspiration with a creator attached
             </div>
-            <h1 className="mt-6 max-w-5xl text-5xl font-black tracking-tight text-slate-950 sm:text-6xl lg:text-7xl">
-              Find a business website you love. Hire the creator behind it.
+            <h1 className="mt-5 max-w-[740px] text-balance text-[44px] font-bold leading-[1.02] text-slate-950 sm:text-[56px] lg:text-[64px]">
+              Find a website style you love. Hire the creator behind it.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
-              Webbly helps small businesses discover ready-made website
-              templates, compare styles, and request custom websites from real
-              creators.
+            <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+              Browse ready-made website templates for small businesses, compare
+              styles, and request custom websites from real creators.
             </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="/templates" size="lg">
                 Browse Templates
               </ButtonLink>
@@ -104,41 +118,51 @@ export default function Home() {
                 Request a Website
               </RequestButton>
             </div>
-            <div className="mt-6 flex flex-wrap gap-2 text-sm font-semibold text-slate-600">
-              {["Browse styles first", "Contact the creator", "Request a similar build"].map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-slate-200 bg-white/75 px-3 py-1.5 shadow-sm backdrop-blur"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-            <div className="mt-10 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
-              {stats.map(([value, label]) => (
-                <div
-                  key={label}
-                  className="rounded-2xl border border-white/80 bg-white/75 p-4 shadow-sm backdrop-blur"
-                >
-                  <p className="text-2xl font-black text-slate-950">{value}</p>
-                  <p className="mt-1 text-sm leading-5 text-slate-500">{label}</p>
-                </div>
-              ))}
+            <div className="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium text-slate-600">
+              <span className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
+                Preview before you hire
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-violet-600" />
+                Built for small businesses
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                Contact the creator directly
+              </span>
             </div>
           </div>
-
-          <MarketplaceMockup templateName={heroTemplate.name} />
         </div>
       </section>
 
-      <section id="categories" className="bg-slate-50 px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <SectionIntro
-            eyebrow="Featured categories"
-            title="Start with the kind of business you are building."
-            copy="Each category is shaped around a real small-business workflow, not a generic website layout."
-          />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="overflow-x-auto border-b border-slate-800 bg-slate-950 text-white">
+        <div className="mx-auto grid min-w-[720px] max-w-[1280px] grid-cols-3 divide-x divide-white/10 px-4 sm:px-6 lg:px-8">
+          {browseSteps.map(([number, title, copy]) => (
+            <div key={title} className="flex items-center gap-4 px-5 py-5 first:pl-0 last:pr-0">
+              <span className="text-sm font-semibold text-blue-300">{number}</span>
+              <div>
+                <p className="font-semibold text-white">{title}</p>
+                <p className="mt-1 text-xs text-slate-400">{copy}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="categories" className="bg-[#f6f7fb] px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-[1280px]">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <SectionHeading
+              eyebrow="Featured categories"
+              title="Start with the kind of business you are building."
+              description="Every category preview reflects a different customer journey, so a restaurant, salon, store, and agency never feel interchangeable."
+            />
+            <ButtonLink href="/templates" variant="outline">
+              View all templates
+            </ButtonLink>
+          </div>
+          <div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {featuredCategories.map((category) => (
               <CategoryCard
                 key={category}
@@ -150,96 +174,68 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
-            <SectionIntro
+      <section className="border-y border-slate-200 bg-white px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-[1280px]">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <SectionHeading
               eyebrow="Featured templates"
-              title="Different businesses need different visual systems."
-              copy="Restaurant menus, salon booking, gym conversion pages, ecommerce product grids, course pages, and agency portfolios all get distinct preview language."
+              title="Website directions you can judge at a glance."
+              description="Open a preview to compare layout, tools, price, creator details, and the pages included before you send a request."
             />
-            <ButtonLink href="/templates" variant="outline">
-              View marketplace
-            </ButtonLink>
-          </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {featured.map((template) =>
-              template ? <TemplateCard key={template.slug} template={template} /> : null,
-            )}
-          </div>
-        </div>
-      </section>
-
-      <section id="how-it-works" className="bg-slate-950 px-6 py-20 text-white">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-            <div>
-              <p className="text-sm font-black uppercase tracking-[0.18em] text-blue-300">
-                How it works
-              </p>
-              <h2 className="mt-4 text-4xl font-black tracking-tight md:text-5xl">
-                A marketplace flow for buyers and creators.
-              </h2>
-            </div>
-            <div className="grid gap-4 md:grid-cols-3">
-              {steps.map(([title, copy], index) => (
-                <article
-                  key={title}
-                  className="rounded-3xl border border-white/10 bg-white/6 p-6 backdrop-blur"
-                >
-                  <p className="text-sm font-black text-blue-300">0{index + 1}</p>
-                  <h3 className="mt-8 text-2xl font-black">{title}</h3>
-                  <p className="mt-4 text-sm leading-6 text-slate-300">{copy}</p>
-                </article>
-              ))}
+            <div className="flex items-center gap-3 text-sm text-slate-600">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              12 curated concepts in this preview
             </div>
           </div>
+          <div className="mt-9 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {featured.map((template) => (
+              <TemplateCard key={template.slug} template={template} />
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="bg-white px-6 py-20">
-        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2">
-          {benefits.map((benefit) => (
-            <article
-              key={benefit.title}
-              className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-8 shadow-sm"
-            >
-              <div className="absolute -right-12 -top-12 h-36 w-36 rounded-full bg-blue-100/70 blur-2xl" />
-              <p className="text-sm font-black uppercase tracking-[0.18em] text-blue-600">
-                {benefit.title}
-              </p>
-              <p className="relative mt-5 text-2xl font-black leading-tight text-slate-950 md:text-3xl">
-                {benefit.copy}
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-slate-50 px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <SectionIntro
-            eyebrow="Built for confidence"
-            title="A marketplace preview that explains the next step."
-            copy="Webbly now shows more of the real buying flow: what a buyer requests, what a creator sees, and which features are clearly marked as coming soon."
+      <section id="how-it-works" className="bg-slate-950 px-5 py-16 text-white sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+          <SectionHeading
+            eyebrow="How it works"
+            title="From browsing to a useful creator brief."
+            description="Webbly makes the visual decision first, then helps buyers add the context a creator needs to respond clearly."
+            inverse
           />
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {trustCards.map((card) => (
-              <article
-                key={card.title}
-                className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm shadow-slate-950/5"
+          <ol className="border-t border-white/15">
+            {browseSteps.map(([number, title, copy]) => (
+              <li
+                key={title}
+                className="grid gap-3 border-b border-white/15 py-6 sm:grid-cols-[72px_220px_1fr] sm:items-start"
               >
-                <div className="flex items-start justify-between gap-4">
-                  <h3 className="text-2xl font-black text-slate-950">{card.title}</h3>
-                  <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-black uppercase text-blue-700">
-                    {card.metric}
-                  </span>
-                </div>
-                <p className="mt-5 text-sm leading-6 text-slate-600">{card.copy}</p>
-                <div className="mt-6 grid grid-cols-3 gap-2">
-                  <span className="h-12 rounded-2xl bg-slate-100" />
-                  <span className="h-12 rounded-2xl bg-blue-100" />
-                  <span className="h-12 rounded-2xl bg-violet-100" />
+                <span className="text-sm font-semibold text-blue-300">{number}</span>
+                <h3 className="text-xl font-semibold text-white">{title}</h3>
+                <p className="text-sm leading-6 text-slate-400">{copy}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="bg-[#eef3ff] px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-[1280px]">
+          <SectionHeading
+            eyebrow="Why businesses use Webbly"
+            title="A faster way to get aligned before a project begins."
+            description="The marketplace is designed to reduce the hardest early-stage questions: what should the site look like, what does it include, and who can build it?"
+          />
+          <div className="mt-10 grid border-y border-blue-200 lg:grid-cols-3 lg:divide-x lg:divide-blue-200">
+            {businessBenefits.map((benefit) => (
+              <article key={benefit.title} className="border-b border-blue-200 py-7 last:border-b-0 lg:border-b-0 lg:px-7 lg:first:pl-0 lg:last:pr-0">
+                <p className="text-sm font-semibold text-blue-700">{benefit.label}</p>
+                <h3 className="mt-3 text-2xl font-bold leading-tight text-slate-950">
+                  {benefit.title}
+                </h3>
+                <p className="mt-4 text-sm leading-6 text-slate-600">{benefit.copy}</p>
+                <div className="mt-7 flex items-end gap-3">
+                  <span className="text-3xl font-bold text-slate-950">{benefit.metric}</span>
+                  <span className="pb-1 text-sm text-slate-500">{benefit.metricLabel}</span>
                 </div>
               </article>
             ))}
@@ -247,124 +243,120 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white px-6 py-20">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-          <SectionIntro
-            eyebrow="After you find a style"
-            title="The request flow is built around real project context."
-            copy="Business owners are not just browsing pictures. Webbly nudges them toward the details a creator needs to price and scope a useful next step."
-          />
-          <div className="grid gap-4 md:grid-cols-3">
-            {processCards.map(([title, copy], index) => (
-              <article
-                key={title}
-                className="rounded-[2rem] border border-slate-200 bg-slate-50 p-5 shadow-sm"
+      <section className="bg-white px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto grid max-w-[1280px] overflow-hidden rounded-lg border border-slate-200 lg:grid-cols-2">
+          {audiencePanels.map((panel) => (
+            <article
+              key={panel.eyebrow}
+              className={`p-7 sm:p-10 ${
+                panel.tone === "dark"
+                  ? "bg-slate-950 text-white"
+                  : "bg-white text-slate-950"
+              }`}
+            >
+              <p className={`text-sm font-semibold uppercase ${panel.tone === "dark" ? "text-blue-300" : "text-blue-700"}`}>
+                {panel.eyebrow}
+              </p>
+              <h2 className="mt-4 text-balance text-3xl font-bold leading-tight">
+                {panel.title}
+              </h2>
+              <p className={`mt-4 text-base leading-7 ${panel.tone === "dark" ? "text-slate-300" : "text-slate-600"}`}>
+                {panel.copy}
+              </p>
+              <ul className={`mt-7 divide-y ${panel.tone === "dark" ? "divide-white/10" : "divide-slate-200"}`}>
+                {panel.points.map((point) => (
+                  <li key={point} className="flex items-center gap-3 py-3 text-sm font-medium">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-[11px] font-bold text-white">
+                      +
+                    </span>
+                    {point}
+                  </li>
+                ))}
+              </ul>
+              <ButtonLink
+                href={panel.href}
+                variant={panel.tone === "dark" ? "outline" : "secondary"}
+                className={`mt-7 ${panel.tone === "dark" ? "border-white/25 bg-white text-slate-950 hover:bg-blue-50" : ""}`}
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-950 text-sm font-black text-white">
-                  {index + 1}
-                </span>
-                <h3 className="mt-5 text-xl font-black text-slate-950">{title}</h3>
-                <p className="mt-3 text-sm leading-6 text-slate-600">{copy}</p>
-              </article>
+                {panel.action}
+              </ButtonLink>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="border-t border-slate-200 bg-[#f6f7fb] px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-[1280px]">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <SectionHeading
+              eyebrow="Featured creators"
+              title="Meet creators through the work they want to make more of."
+              description="Profiles surface specialty, response time, and marketplace experience alongside the templates that brought you there."
+            />
+            <ButtonLink href="/creators" variant="outline">
+              For creators
+            </ButtonLink>
+          </div>
+          <div className="mt-9 grid gap-5 md:grid-cols-3">
+            {featuredCreators.map((template, index) => (
+              <CreatorCard
+                key={template.creator.name}
+                creator={template.creator}
+                rating={["4.9", "4.8", "5.0"][index]}
+                projects={["18 projects", "14 projects", "11 projects"][index]}
+                specialty={template.category + " websites"}
+              />
             ))}
           </div>
         </div>
       </section>
 
       <CTASection
-        title="Browse a direction. Then request the website your business actually needs."
-        description="Webbly is an early frontend preview, but the browsing and request journey is shaped around the premium marketplace it is meant to become."
+        title="Find the style first. Make the next conversation count."
+        description="Browse business-ready templates, compare real website directions, and send a focused request when a creator's work feels right."
       />
     </>
   );
 }
 
-function SectionIntro({
-  eyebrow,
-  title,
-  copy,
+function HeroMarketplaceScene({
+  name,
+  category,
+  gradient,
 }: {
-  eyebrow: string;
-  title: string;
-  copy: string;
+  name: string;
+  category: string;
+  gradient: string;
 }) {
   return (
-    <div className="max-w-3xl">
-      <p className="text-sm font-black uppercase tracking-[0.18em] text-blue-600">
-        {eyebrow}
-      </p>
-      <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 md:text-5xl">
-        {title}
-      </h2>
-      <p className="mt-4 text-lg leading-8 text-slate-600">{copy}</p>
-    </div>
-  );
-}
-
-function MarketplaceMockup({ templateName }: { templateName: string }) {
-  return (
-    <div className="relative">
-      <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-blue-200 via-violet-200 to-cyan-100 blur-3xl opacity-80" />
-      <div className="relative rounded-[2rem] border border-white/80 bg-white/80 p-3 shadow-2xl shadow-blue-950/15 backdrop-blur-md">
-        <div className="rounded-[1.5rem] border border-slate-200/50 bg-slate-950 p-5 sm:p-6 text-white shadow-inner relative overflow-hidden">
-          <div className="absolute top-0 right-0 h-64 w-64 bg-blue-500/10 blur-3xl rounded-full" />
-          <div className="absolute bottom-0 left-0 h-64 w-64 bg-violet-500/10 blur-3xl rounded-full" />
-          
-          <div className="relative flex items-center justify-between gap-4">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
-                Marketplace preview
-              </p>
-              <h3 className="mt-2 text-2xl font-black">Style match board</h3>
-            </div>
-            <span className="rounded-full bg-blue-500/20 px-3 py-1.5 text-xs font-black text-blue-200 ring-1 ring-blue-400/50 shadow-[inset_0_0_12px_rgba(59,130,246,0.3)]">
-              97% fit
-            </span>
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      <div className="site-grid absolute inset-0 opacity-50" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_48%,rgba(255,255,255,0.92)_62%,rgba(255,255,255,0.25)_100%)]" />
+      <div className="absolute -bottom-24 -right-40 w-[430px] opacity-25 sm:-right-28 sm:w-[560px] lg:-bottom-28 lg:right-[-5%] lg:w-[56%] lg:opacity-100">
+        <TemplatePreview
+          name={name}
+          category={category}
+          gradient={gradient}
+          size="hero"
+        />
+        <div className="absolute -left-10 top-20 hidden w-56 rounded-lg border border-slate-200 bg-white p-4 shadow-[0_18px_50px_rgba(16,24,40,0.14)] xl:block">
+          <p className="text-xs font-semibold uppercase text-blue-700">Style match</p>
+          <div className="mt-3 flex items-center justify-between">
+            <span className="text-sm font-semibold text-slate-950">Online store</span>
+            <span className="text-sm font-bold text-emerald-600">97%</span>
           </div>
-          <div className="relative mt-6 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
-            <TemplatePreview
-              name={templateName}
-              category="Online Stores"
-              gradient="linear-gradient(135deg,#dbeafe,#ede9fe 45%,#fce7f3)"
-              size="hero"
-            />
-            <div className="grid gap-3">
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm transition hover:bg-white/10">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold text-slate-200">Request snapshot</span>
-                  <span className="rounded-full bg-emerald-400/20 px-2.5 py-1 text-[10px] font-black text-emerald-300 ring-1 ring-emerald-400/30">
-                    Ready
-                  </span>
-                </div>
-                <div className="mt-4 space-y-2">
-                  <span className="block h-8 rounded-xl bg-white/10" />
-                  <span className="block h-8 rounded-xl bg-white/5 w-4/5" />
-                  <span className="block h-10 rounded-xl bg-gradient-to-r from-blue-500 to-violet-500 shadow-lg shadow-blue-500/20 mt-4" />
-                </div>
-              </div>
-              {["Salon booking", "Cafe menu"].map((item, index) => (
-                <div
-                  key={item}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm transition hover:bg-white/10"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold text-slate-200">{item}</span>
-                    <span className="text-xs font-semibold text-slate-400">{96 - index * 5}%</span>
-                  </div>
-                  <div className="mt-4 grid grid-cols-3 gap-2">
-                    <span className="h-10 rounded-xl bg-white/10" />
-                    <span className="h-10 rounded-xl bg-white/5" />
-                    <span className="h-10 rounded-xl bg-blue-500/80 shadow-md shadow-blue-500/20" />
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100">
+            <span className="block h-full w-[97%] rounded-full bg-blue-600" />
           </div>
-          <div className="relative mt-4 grid gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 text-xs font-semibold text-slate-300 sm:grid-cols-3 backdrop-blur-sm text-center">
-            <span>Browse styles before hiring</span>
-            <span>See creator response time</span>
-            <span>Request similar builds</span>
+        </div>
+        <div className="absolute -left-16 bottom-24 hidden w-64 rounded-lg border border-slate-200 bg-slate-950 p-4 text-white shadow-[0_18px_50px_rgba(16,24,40,0.2)] xl:block">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-semibold">Creator response</p>
+            <span className="h-2 w-2 rounded-full bg-emerald-400" />
           </div>
+          <p className="mt-3 text-xs leading-5 text-slate-400">
+            Usually replies in 1 hour. Shopify and Figma specialist.
+          </p>
         </div>
       </div>
     </div>

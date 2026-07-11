@@ -1,35 +1,46 @@
 import { RequestForm } from "@/components/RequestForm";
 
 export const metadata = {
-  title: "Request a Similar Website | Webbly",
+  title: "Request a Website | Webbly",
   description:
-    "Send a website request to a Webbly creator and describe the business, budget, style, and project needs.",
+    "Tell a Webbly creator about your business, budget, preferred website style, and project needs.",
 };
+
+const requestTips = [
+  ["Start with the business", "Explain what you sell and who the website needs to convince."],
+  ["Name the style", "Reference a Webbly template or describe the visual direction you prefer."],
+  ["Add useful constraints", "Share the rough budget, required pages, features, and launch timing."],
+];
 
 export default function RequestPage() {
   return (
-    <section className="bg-slate-50 px-6 py-14">
-      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-        <div>
-          <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-600">
-            Request form
-          </p>
-          <h1 className="mt-4 text-4xl font-black tracking-tight text-slate-950 md:text-5xl">
-            Request a similar custom website.
+    <section className="bg-[#f6f7fb] px-5 py-10 sm:px-6 sm:py-14 lg:px-8">
+      <div className="mx-auto grid max-w-[1180px] gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+        <aside className="site-grid overflow-hidden rounded-lg bg-slate-950 p-7 text-white lg:sticky lg:top-24 sm:p-9">
+          <p className="text-sm font-semibold uppercase text-blue-300">Request a website</p>
+          <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">
+            Tell the creator what kind of website you want.
           </h1>
-          <p className="mt-5 text-lg leading-8 text-slate-600">
-            Tell the creator what kind of business you run, which style you like,
-            and what you need included. This form is demo-only in the early
-            preview, with fields shaped for a future backend.
+          <p className="mt-5 text-base leading-7 text-slate-300">
+            A clear brief helps a creator understand the business, the website
+            direction you like, and the scope you may need next.
           </p>
-          <div className="mt-8 rounded-2xl border border-blue-100 bg-blue-50 p-5">
-            <p className="font-bold text-slate-950">What to include</p>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              Mention your preferred launch timeline, required pages, booking or
-              ecommerce needs, and whether you already have branding or photos.
-            </p>
+          <div className="mt-8 hidden border-t border-white/15 lg:block">
+            {requestTips.map(([title, copy], index) => (
+              <div key={title} className="grid grid-cols-[32px_1fr] gap-3 border-b border-white/15 py-5">
+                <span className="text-sm font-semibold text-blue-300">0{index + 1}</span>
+                <div>
+                  <p className="font-semibold text-white">{title}</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-400">{copy}</p>
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
+          <p className="mt-6 text-xs leading-5 text-slate-500">
+            Frontend preview: submitting this form does not send or save data.
+          </p>
+        </aside>
+
         <RequestForm />
       </div>
     </section>

@@ -87,24 +87,27 @@ export function BusinessPreview({
 
   return (
     <div
-      className={`relative isolate overflow-hidden rounded-[1.35rem] border border-white/80 shadow-inner ring-1 ring-white/60 ${
+      className={`relative isolate overflow-hidden rounded-md border border-white/80 shadow-inner ${
         isHero
-          ? "min-h-[420px] md:min-h-[540px]"
+          ? "min-h-[430px] sm:min-h-[500px]"
           : isCategory
-            ? "h-56 sm:h-64"
-            : "aspect-[1.18] min-h-[335px]"
+            ? "h-[200px] sm:h-[220px]"
+            : "h-[260px] sm:h-[280px]"
       }`}
       style={{ background: gradient ?? theme.background }}
       aria-label={name ? `${name} preview` : `${category} preview`}
     >
-      <div className="absolute -right-12 -top-14 h-40 w-40 rounded-full bg-white/40 blur-2xl" />
-      <div className="absolute -bottom-20 -left-16 h-52 w-52 rounded-full bg-slate-950/5 blur-3xl" />
-      
-      <PreviewShell category={category} label={theme.label} isDark={category === "Gyms"}>
+      <div className="site-grid absolute inset-0 opacity-20" />
+      <PreviewShell
+        category={category}
+        label={theme.label}
+        isDark={category === "Gyms"}
+        variant={variant}
+      >
         {renderScene(category, theme, variant)}
       </PreviewShell>
       {!isCategory ? (
-        <div className="absolute left-5 top-5 rounded-full border border-white/70 bg-white/95 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.12em] text-slate-950 shadow-lg backdrop-blur">
+        <div className="absolute left-4 top-4 rounded-md border border-white/70 bg-white/95 px-2.5 py-1.5 text-[10px] font-bold uppercase text-slate-950 shadow-sm backdrop-blur">
           {category}
         </div>
       ) : null}
@@ -117,16 +120,22 @@ function PreviewShell({
   category,
   label,
   isDark,
+  variant,
 }: {
   children: React.ReactNode;
   category: string;
   label: string;
   isDark: boolean;
+  variant: PreviewVariant;
 }) {
+  const inset = variant === "hero" ? "inset-6 sm:inset-8" : "inset-3";
+
   return (
-    <div className="absolute inset-4 rounded-[1.45rem] border border-white/75 bg-white/50 p-2 shadow-2xl shadow-slate-950/10 backdrop-blur-md transition duration-500 group-hover:scale-[1.02]">
+    <div
+      className={`absolute ${inset} rounded-lg border border-white/80 bg-white/55 p-1.5 shadow-[0_18px_50px_rgba(15,23,42,0.16)] backdrop-blur transition duration-500 group-hover:-translate-y-0.5`}
+    >
       <div
-        className={`h-full overflow-hidden rounded-[1.08rem] ring-1 ring-black/5 ${
+        className={`h-full overflow-hidden rounded-md ring-1 ring-black/5 ${
           isDark ? "bg-slate-950 text-white" : "bg-white/95 text-slate-950"
         }`}
       >
@@ -137,7 +146,7 @@ function PreviewShell({
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
           </div>
           <span className="hidden h-2 max-w-24 flex-1 rounded-full bg-slate-200/70 sm:block" />
-          <span className="truncate text-[10px] font-black uppercase text-slate-500">{label}</span>
+          <span className="truncate text-[10px] font-bold uppercase text-slate-500">{label}</span>
         </div>
         <div className="h-[calc(100%-33px)] p-3">{children}</div>
       </div>
@@ -229,7 +238,11 @@ function RestaurantPreview({
             Table for 2
           </span>
           <span className="mt-1.5 block h-2 rounded-full bg-orange-200 w-3/4" />
-          <span className="mt-2 block h-6 rounded-lg bg-stone-900" />
+          <span
+            className={`mt-2 block rounded-lg bg-stone-900 ${
+              variant === "category" ? "h-2" : "h-6"
+            }`}
+          />
         </div>
       </div>
     </div>
@@ -268,6 +281,23 @@ function CafePreview({
         <span className="absolute left-1/2 top-4 h-6 w-12 -translate-x-1/2 rounded-full border-2 border-amber-800/20" />
         <span className="absolute left-1/2 top-5 h-4 w-8 -translate-x-1/2 rounded-full border-2 border-amber-800/20" />
       </div>
+
+      {variant === "hero" ? (
+        <div className="absolute left-3 right-3 top-[43%] grid grid-cols-[1.15fr_0.85fr] gap-2">
+          <div className="rounded-xl border border-amber-100 bg-white p-3 shadow-sm">
+            <span className="text-[9px] font-black uppercase text-amber-900">
+              Fresh every morning
+            </span>
+            <span className="mt-2 block h-2 w-4/5 rounded-full bg-amber-200" />
+            <span className="mt-2 block h-2 w-1/2 rounded-full bg-amber-100" />
+          </div>
+          <div className="rounded-xl bg-amber-700 p-3 text-white shadow-sm">
+            <span className="text-[9px] font-black uppercase">Visit the cafe</span>
+            <span className="mt-2 block h-2 w-3/4 rounded-full bg-white/40" />
+            <span className="mt-3 block h-6 rounded-lg bg-white/15" />
+          </div>
+        </div>
+      ) : null}
 
       {/* Pastry Grid */}
       <div className="absolute bottom-3 left-3 right-3 grid grid-cols-[1fr_1fr_1.2fr] items-end gap-2">
@@ -574,7 +604,7 @@ function AgencyPreview({
         </span>
         <span className="rounded-xl bg-white p-2 border border-slate-100 shadow-sm flex flex-col justify-end">
           <span className="text-[9px] font-black uppercase text-slate-800 mb-1">
-            Let's Talk
+            Let&apos;s Talk
           </span>
           <span className="block h-1.5 w-full rounded-full bg-slate-100 mb-2" />
           {variant !== "category" ? (
@@ -656,4 +686,3 @@ function RealEstatePreview({
     </div>
   );
 }
-

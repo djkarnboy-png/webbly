@@ -6,7 +6,13 @@ import { useRequestModal, type RequestModalContextValue } from "./RequestModalPr
 
 type RequestButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
-  variant?: "primary" | "secondary" | "outline" | "ghost";
+  variant?:
+    | "primary"
+    | "secondary"
+    | "outline"
+    | "ghost"
+    | "inverse"
+    | "inverseOutline";
   size?: "sm" | "md" | "lg";
   templateName?: string;
   creatorName?: string;

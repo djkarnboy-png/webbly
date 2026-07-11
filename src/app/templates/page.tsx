@@ -1,9 +1,10 @@
 import { MarketplaceBrowser } from "@/components/MarketplaceBrowser";
+import { getAllTemplates, getCategories } from "@/lib/marketplace";
 
 export const metadata = {
-  title: "Browse Templates | Webbly",
+  title: "Browse Website Templates | Webbly",
   description:
-    "Browse business website templates for cafes, restaurants, salons, gyms, tutors, stores, agencies, and real estate professionals.",
+    "Search business website templates by category, style, creator, and price, then request a similar custom website.",
 };
 
 type TemplatesPageProps = {
@@ -12,40 +13,45 @@ type TemplatesPageProps = {
 
 export default async function TemplatesPage({ searchParams }: TemplatesPageProps) {
   const { category } = await searchParams;
+  const templates = getAllTemplates();
+  const categories = getCategories();
 
   return (
-    <section className="bg-[radial-gradient(circle_at_top_right,#ede9fe,transparent_30%),linear-gradient(180deg,#fff,#f8fafc)] px-6 py-14 sm:py-18">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
-          <div className="max-w-3xl">
-            <p className="text-sm font-black uppercase tracking-[0.18em] text-blue-600">
+    <>
+      <section className="border-b border-slate-200 bg-white px-5 py-10 sm:px-6 sm:py-16 lg:px-8">
+        <div className="mx-auto max-w-[1280px]">
+          <div className="max-w-4xl">
+            <p className="text-sm font-semibold uppercase text-blue-700">
               Template marketplace
             </p>
-            <h1 className="mt-4 text-4xl font-black tracking-tight text-slate-950 md:text-6xl">
-              Browse real business website directions.
+            <h1 className="mt-4 text-balance text-[38px] font-bold leading-[1.04] text-slate-950 sm:text-[54px]">
+              Find a website direction that already fits your business.
             </h1>
-            <p className="mt-5 text-lg leading-8 text-slate-600">
-              Search by industry, compare prices, and contact creators when a
-              template feels close to what your business needs.
+            <p className="mt-5 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+              Search by business type, compare realistic previews, and contact a
+              creator when a layout feels close to what you want to build.
             </p>
           </div>
-          <div className="grid gap-3 rounded-[2rem] border border-white/80 bg-white/70 p-4 shadow-xl shadow-blue-950/5 backdrop-blur sm:grid-cols-3">
+          <div className="mt-8 grid grid-cols-3 divide-x divide-slate-200 border-y border-slate-200 sm:mt-10">
             {[
-              ["Best match", "Sort by fit and usefulness"],
-              ["Popular", "Prioritize high-interest concepts"],
-              ["Budget-friendly", "Find lower-cost starting points"],
-            ].map(([title, copy]) => (
-              <div key={title} className="rounded-2xl bg-slate-950 p-4 text-white">
-                <p className="font-black">{title}</p>
-                <p className="mt-2 text-xs leading-5 text-slate-300">{copy}</p>
+              [String(templates.length), "curated template concepts"],
+              [String(categories.length), "small-business categories"],
+              ["1 request", "to start a creator conversation"],
+            ].map(([value, label]) => (
+              <div key={label} className="px-3 py-4 first:pl-0 last:pr-0 sm:px-6 sm:first:pl-0">
+                <p className="text-xl font-bold text-slate-950 sm:text-2xl">{value}</p>
+                <p className="mt-1 text-[11px] leading-4 text-slate-500 sm:text-sm sm:leading-5">{label}</p>
               </div>
             ))}
           </div>
         </div>
-        <div className="mt-10">
+      </section>
+
+      <section className="bg-[#f6f7fb] px-5 py-10 sm:px-6 sm:py-12 lg:px-8">
+        <div className="mx-auto max-w-[1280px]">
           <MarketplaceBrowser initialCategory={category} />
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

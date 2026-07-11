@@ -9,27 +9,33 @@ const links = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-white px-6 py-10">
-      <div className="mx-auto flex max-w-7xl flex-col gap-8 md:flex-row md:items-center md:justify-between">
-        <div>
-          <Link href="/" className="text-xl font-black text-slate-950">
-            Webbly
-          </Link>
-          <p className="mt-2 max-w-md text-sm leading-6 text-slate-600">
-            A marketplace for business website templates and the creators who can
-            customize them.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-x-6 gap-y-3">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-semibold text-slate-600 hover:text-slate-950"
-            >
-              {link.label}
+    <footer className="border-t border-slate-800 bg-slate-950 px-6 py-12 text-white">
+      <div className="mx-auto max-w-[1280px]">
+        <div className="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[1fr_auto] md:items-end">
+          <div>
+            <Link href="/" className="text-2xl font-semibold text-white">
+              webbly
             </Link>
-          ))}
+            <p className="mt-3 max-w-lg text-sm leading-6 text-slate-400">
+              Browse website styles built for small businesses, then contact the
+              creator who can make one work for your brand.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-x-6 gap-y-3">
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-slate-300 transition hover:text-white"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-col gap-3 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+          <p>Frontend marketplace preview. No payments or accounts are active.</p>
+          <p>Built for small businesses and independent creators.</p>
         </div>
       </div>
     </footer>

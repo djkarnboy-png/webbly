@@ -1,24 +1,25 @@
-import { CTASection } from "@/components/CTASection";
+import { ButtonLink } from "@/components/Button";
 import { MvpNotice } from "@/components/MvpNotice";
 import { PricingCard } from "@/components/PricingCard";
+import { SectionHeading } from "@/components/SectionHeading";
 
 const plans = [
   {
     name: "Free Creator",
     price: "$0",
     description:
-      "A simple way to test Webbly and start receiving interest from small businesses.",
+      "A straightforward way to test your first listings and learn what small-business buyers respond to.",
     features: [
-      "List 3 templates",
+      "List up to 3 templates",
       "Receive contact requests",
-      "Basic creator profile and listing page",
+      "Basic creator profile and listing pages",
     ],
   },
   {
     name: "Pro Creator",
     price: "$19/mo",
     description:
-      "For creators who want more inventory, more visibility, and better marketplace insights.",
+      "For active creators who want more inventory, stronger discovery, and clearer marketplace insights.",
     features: [
       "List unlimited templates",
       "Featured placement opportunities",
@@ -30,143 +31,155 @@ const plans = [
     name: "Commission",
     price: "Small fee",
     description:
-      "Pay only when a template sale happens, with no extra monthly commitment required.",
+      "A sale-based option for creators who prefer to pay only when a future template purchase happens.",
     features: [
-      "Webbly takes a small fee when a sale happens",
+      "Fee applies only after a future sale",
       "Creator keeps control of pricing",
-      "Designed for future checkout and digital delivery",
+      "Designed for checkout and digital delivery later",
     ],
   },
 ];
 
+const comparisonRows = [
+  ["Template listings", "3", "Unlimited", "Sale-based"],
+  ["Custom requests", "Included", "Priority", "Included"],
+  ["Featured placement", "Not included", "Included", "Per campaign"],
+  ["Analytics", "Basic", "Enhanced", "Sale reporting"],
+  ["Payments", "Coming soon", "Coming soon", "Coming soon"],
+];
+
 const faqs = [
   [
-    "Can creators charge custom prices?",
-    "Yes. This preview shows fixed template prices, but Webbly is designed so creators can keep control of template and custom project pricing.",
+    "Can creators set their own prices?",
+    "Yes. Webbly is designed so creators keep control of template prices and custom project quotes.",
   ],
   [
-    "Are payments active yet?",
-    "Not yet. Webbly is frontend-only in this early preview, so billing, checkout, and commission tracking are marked as coming soon.",
+    "Are subscriptions or payments active?",
+    "No. This is a frontend preview, so billing, checkout, commissions, and paid creator plans are not active yet.",
   ],
   [
-    "Can buyers request a similar website?",
-    "Yes. Buyers can use the request flow to describe the business, budget, preferred style, and message for the creator.",
+    "Can buyers request a custom version?",
+    "Yes. Buyers can send a demo request with their business type, budget, preferred style, and project details.",
+  ],
+  [
+    "What happens after a request?",
+    "For now, the request flow shows a success message but sends and saves nothing. Creator messaging will come with the future account system.",
   ],
 ];
 
 export const metadata = {
-  title: "Pricing | Webbly",
+  title: "Creator Pricing | Webbly",
   description:
-    "Simple Webbly creator pricing for listing business website templates and receiving custom website requests.",
+    "Compare Webbly creator plans for listing website templates, receiving custom requests, and future marketplace sales.",
 };
 
 export default function PricingPage() {
   return (
     <>
-      <section className="bg-[radial-gradient(circle_at_top,#ede9fe,transparent_30%),linear-gradient(180deg,#fff,#f8fafc)] px-6 py-14">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-600">
-              Marketplace pricing
-            </p>
-            <h1 className="mt-4 text-4xl font-black tracking-tight text-slate-950 md:text-6xl">
-              Pricing for creators who turn design work into demand.
+      <section className="border-b border-slate-200 bg-white px-5 py-12 sm:px-6 sm:py-16 lg:px-8">
+        <div className="mx-auto max-w-[1280px]">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="text-sm font-semibold uppercase text-blue-700">Creator pricing</p>
+            <h1 className="mt-4 text-balance text-[42px] font-bold leading-[1.04] text-slate-950 sm:text-[56px]">
+              Start small. Grow when your marketplace presence does.
             </h1>
-            <p className="mt-5 text-lg leading-8 text-slate-600">
-              Webbly pricing is designed for creators who want to validate demand,
-              sell templates, and win custom work without heavy setup.
+            <p className="mx-auto mt-5 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+              Choose a simple listing plan, test demand for your website concepts,
+              and keep control of how you price templates and custom work.
             </p>
           </div>
           <div className="mx-auto mt-8 max-w-3xl">
             <MvpNotice>
-              Pricing cards are part of the early product preview. Billing,
-              paid creator plans, and commission tracking are not active yet.
+              Pricing is shown for product planning only. Payments, paid plans,
+              commissions, and creator accounts are coming later.
             </MvpNotice>
-          </div>
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {plans.map((plan) => (
-              <PricingCard key={plan.name} {...plan} />
-            ))}
-          </div>
-
-          <div className="mt-12 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
-            <div className="border-b border-slate-200 p-6">
-              <h2 className="text-2xl font-black text-slate-950">
-                Marketplace feature comparison
-              </h2>
-              <p className="mt-2 text-sm leading-6 text-slate-600">
-                Frontend preview for now, structured around the paid features
-                Webbly could activate later.
-              </p>
-            </div>
-            <div className="grid divide-y divide-slate-200 text-sm md:grid-cols-4 md:divide-x md:divide-y-0">
-              {[
-                ["Feature", "Free", "Pro", "Commission"],
-                ["Template listings", "3", "Unlimited", "Sale-based"],
-                ["Custom requests", "Included", "Priority", "Included"],
-                ["Featured placement", "No", "Yes", "Per campaign"],
-                ["Payments", "Coming soon", "Coming soon", "Coming soon"],
-              ].map((row) => (
-                <div key={row.join("-")} className="contents">
-                  {row.map((cell, index) => (
-                    <div
-                      key={`${row[0]}-${index}-${cell}`}
-                      className={`p-4 ${
-                        index === 0 ? "font-black text-slate-950" : "text-slate-600"
-                      }`}
-                    >
-                      {cell}
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-12 grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-            <div className="relative rounded-[2rem] border border-slate-200 bg-slate-950 p-8 text-white shadow-2xl shadow-blue-950/15 overflow-hidden">
-              <div className="absolute top-0 right-0 h-64 w-64 bg-blue-500/10 blur-3xl rounded-full" />
-              <div className="absolute bottom-0 left-0 h-64 w-64 bg-violet-500/10 blur-3xl rounded-full" />
-              <div className="relative">
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-300">
-                  Coming soon
-                </p>
-                <h2 className="mt-4 text-3xl font-black tracking-tight">
-                  Payments will stay clear before they go live.
-                </h2>
-                <p className="mt-4 text-sm leading-6 text-slate-300">
-                  The preview separates creator visibility, buyer requests, and
-                  future sale commissions so the business model is easy to test
-                  before adding payments or backend accounts.
-                </p>
-                <div className="mt-8 grid grid-cols-3 gap-2">
-                  <span className="h-16 rounded-2xl bg-white/10 backdrop-blur-sm" />
-                  <span className="h-16 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-500 shadow-lg shadow-blue-500/20" />
-                  <span className="h-16 rounded-2xl bg-gradient-to-br from-violet-400 to-violet-500 shadow-lg shadow-violet-500/20" />
-                </div>
-              </div>
-            </div>
-
-            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
-              <p className="text-sm font-black uppercase tracking-[0.18em] text-blue-600">
-                FAQ
-              </p>
-              <div className="mt-5 divide-y divide-slate-200">
-                {faqs.map(([question, answer]) => (
-                  <div key={question} className="py-5 first:pt-0 last:pb-0">
-                    <h3 className="text-lg font-black text-slate-950">{question}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{answer}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </section>
-      <CTASection
-        title="Creators and business owners meet around a real design."
-        description="List a template, browse the marketplace, or request a similar website when you find a style worth building from."
-      />
+
+      <section className="bg-[#f6f7fb] px-5 py-12 sm:px-6 sm:py-16 lg:px-8">
+        <div className="mx-auto grid max-w-[1180px] gap-6 lg:grid-cols-3">
+          {plans.map((plan) => (
+            <PricingCard key={plan.name} {...plan} />
+          ))}
+        </div>
+      </section>
+
+      <section className="border-y border-slate-200 bg-white px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-[1180px]">
+          <SectionHeading
+            eyebrow="Compare plans"
+            title="The same marketplace, with different levels of visibility."
+            description="The comparison below shows the intended product model. Every paid capability remains inactive in this frontend preview."
+          />
+          <div className="mt-9 overflow-x-auto rounded-lg border border-slate-200">
+            <table className="min-w-[760px] w-full border-collapse text-left text-sm">
+              <thead className="bg-slate-950 text-white">
+                <tr>
+                  <th className="px-5 py-4 font-semibold">Feature</th>
+                  <th className="px-5 py-4 font-semibold">Free Creator</th>
+                  <th className="px-5 py-4 font-semibold text-blue-300">Pro Creator</th>
+                  <th className="px-5 py-4 font-semibold">Commission</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 bg-white">
+                {comparisonRows.map((row) => (
+                  <tr key={row[0]} className="transition hover:bg-slate-50">
+                    {row.map((cell, index) => (
+                      <td
+                        key={`${row[0]}-${cell}`}
+                        className={`px-5 py-4 ${index === 0 ? "font-semibold text-slate-950" : "text-slate-600"}`}
+                      >
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#eef3ff] px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto grid max-w-[1180px] gap-10 lg:grid-cols-[0.72fr_1.28fr]">
+          <SectionHeading
+            eyebrow="Pricing FAQ"
+            title="Clear answers before billing exists."
+            description="Webbly stays honest about what is active today and what belongs to the future marketplace experience."
+          />
+          <div className="border-t border-blue-200">
+            {faqs.map(([question, answer]) => (
+              <details key={question} className="group border-b border-blue-200 py-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-slate-950">
+                  {question}
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-blue-200 bg-white text-blue-700 transition group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="max-w-2xl pt-3 text-sm leading-6 text-slate-600">{answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="site-grid border-t border-slate-200 bg-white px-5 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-sm font-semibold uppercase text-blue-700">Creator preview</p>
+          <h2 className="mt-4 text-balance text-3xl font-bold leading-tight text-slate-950 sm:text-4xl">
+            Shape your first listing before creator accounts go live.
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-600">
+            Use the creator form preview to organize a template name, category,
+            price, tools, description, and cover direction.
+          </p>
+          <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+            <ButtonLink href="/creators#upload-preview" size="lg">Preview a listing</ButtonLink>
+            <ButtonLink href="/templates" size="lg" variant="outline">Browse templates</ButtonLink>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
