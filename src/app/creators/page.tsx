@@ -236,7 +236,7 @@ function CreatorWorkflowScene() {
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
       <div className="site-grid absolute inset-0 opacity-35" />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_54%,rgba(255,255,255,0.92)_68%,rgba(255,255,255,0.2)_100%)]" />
-      <div className="absolute right-[-220px] top-1/2 hidden h-[500px] w-[560px] -translate-y-1/2 opacity-30 md:block lg:right-[-140px] lg:opacity-70 xl:right-[calc((100vw-1280px)/2)] xl:opacity-100">
+      <div className="absolute right-4 top-1/2 hidden h-[500px] w-[560px] -translate-y-1/2 lg:block lg:opacity-50 xl:right-[calc((100vw-1280px)/2+96px)] xl:opacity-100">
         <div className="absolute left-32 top-16 z-10 w-[340px] overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_24px_60px_rgba(16,24,40,0.16)]">
           <div className="flex items-center justify-end gap-3 border-b border-slate-200 px-4 py-3">
             <p className="text-xs font-bold uppercase text-blue-700">Template upload</p>

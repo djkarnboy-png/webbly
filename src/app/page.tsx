@@ -333,7 +333,7 @@ function HeroTemplateStack({ templates }: { templates: Template[] }) {
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
       <div className="site-grid absolute inset-0 opacity-35" />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_54%,rgba(255,255,255,0.92)_68%,rgba(255,255,255,0.25)_100%)]" />
-      <div className="absolute right-[-220px] top-1/2 hidden h-[520px] w-[560px] -translate-y-1/2 opacity-30 md:block lg:right-[-140px] lg:opacity-70 xl:right-[calc((100vw-1280px)/2)] xl:opacity-100">
+      <div className="absolute right-4 top-1/2 hidden h-[520px] w-[560px] -translate-y-1/2 lg:block lg:opacity-50 xl:right-[calc((100vw-1280px)/2+96px)] xl:opacity-100">
         {templates.map((template, index) => (
           <HeroStackCard
             key={template.slug}
