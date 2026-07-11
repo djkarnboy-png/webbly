@@ -16,6 +16,8 @@ type RequestType = "similar" | "contact" | "general";
 export type RequestModalContextValue = {
   templateName?: string;
   creatorName?: string;
+  templateId?: string;
+  creatorId?: string;
   requestType: RequestType;
 };
 
@@ -39,6 +41,8 @@ export function RequestModalProvider({ children }: { children: ReactNode }) {
         requestType: value.requestType ?? "general",
         templateName: value.templateName,
         creatorName: value.creatorName,
+        templateId: value.templateId,
+        creatorId: value.creatorId,
       });
       setIsOpen(true);
     },
@@ -75,7 +79,9 @@ export function RequestModalProvider({ children }: { children: ReactNode }) {
   const title =
     context.requestType === "contact"
       ? "Contact this creator"
-      : "Request a similar website";
+      : context.requestType === "similar"
+        ? "Request a similar website"
+        : "Request a website";
 
   return (
     <RequestModalContext.Provider value={api}>

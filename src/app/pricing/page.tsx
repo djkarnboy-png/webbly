@@ -60,7 +60,7 @@ const faqs = [
   ],
   [
     "What happens after a request?",
-    "The current form demonstrates the flow; live messaging is not active yet.",
+    "The request is saved to Webbly and appears in the selected creator's dashboard.",
   ],
 ];
 

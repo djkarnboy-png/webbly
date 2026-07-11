@@ -7,7 +7,8 @@ import { RequestButton } from "@/components/RequestButton";
 import { SectionHeading } from "@/components/SectionHeading";
 import { TemplateCard } from "@/components/TemplateCard";
 import type { Template } from "@/data/templates";
-import { getAllTemplates } from "@/lib/marketplace";
+import { getViewer } from "@/lib/auth";
+import { getPublishedTemplates, getSavedTemplateIds } from "@/lib/marketplace-server";
 
 const featuredCategories = [
   "Restaurants",
@@ -65,8 +66,11 @@ const audiencePanels = [
   },
 ];
 
-export default function Home() {
-  const templates = getAllTemplates();
+export default async function Home() {
+  const { data: templates, error: marketplaceError } =
+    await getPublishedTemplates();
+  const viewer = await getViewer();
+  const savedTemplateIds = await getSavedTemplateIds(viewer?.id);
   const featured = [
     "restaurant-menu-website",
     "premium-salon-booking-site",
@@ -144,6 +148,11 @@ export default function Home() {
 
       <section id="categories" className="bg-[#f6f7fb] px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-[1280px]">
+          {marketplaceError ? (
+            <div className="mb-7 rounded-lg border border-rose-200 bg-white p-4 text-sm text-rose-800" role="alert">
+              Live templates are temporarily unavailable. Please try again shortly.
+            </div>
+          ) : null}
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
               eyebrow="Featured categories"
@@ -181,7 +190,12 @@ export default function Home() {
           </div>
           <div className="mt-9 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {featured.map((template) => (
-              <TemplateCard key={template.slug} template={template} />
+              <TemplateCard
+                key={template.slug}
+                template={template}
+                canSave={Boolean(viewer)}
+                isSaved={Boolean(template.id && savedTemplateIds.includes(template.id))}
+              />
             ))}
           </div>
         </div>

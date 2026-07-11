@@ -37,7 +37,7 @@ export default function RequestPage() {
             ))}
           </div>
           <p className="mt-6 text-xs leading-5 text-slate-500">
-            Requests are simulated in this early preview and are not sent or saved yet.
+            Requests are saved securely and shared only with the relevant creator.
           </p>
         </aside>
 

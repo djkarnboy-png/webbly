@@ -21,6 +21,8 @@ export type WebsiteRequestInput = {
   message: string;
   templateName?: string;
   creatorName?: string;
+  templateId?: string;
+  creatorId?: string;
   requestType?: "similar" | "contact" | "general";
 };
 
@@ -48,15 +50,18 @@ export function getSimilarTemplates(template: Template, limit = 3) {
   return (similar.length ? similar : templates).slice(0, limit);
 }
 
-export function filterTemplates({
-  search = "",
-  category = "all",
-  price = "all",
-  sort = "best-match",
-}: TemplateFilters) {
+export function filterTemplates(
+  catalog: Template[],
+  {
+    search = "",
+    category = "all",
+    price = "all",
+    sort = "best-match",
+  }: TemplateFilters,
+) {
   const searchValue = search.trim().toLowerCase();
 
-  return templates
+  return catalog
     .filter((template) => {
       const searchableText = [
         template.name,
@@ -98,14 +103,4 @@ export function filterTemplates({
 
       return b.popularity - a.popularity;
     });
-}
-
-export async function createWebsiteRequest(input: WebsiteRequestInput) {
-  // Backend-ready adapter: replace this mock with a real request insert later.
-  return {
-    id: `mock_${Date.now()}`,
-    status: "received" as const,
-    createdAt: new Date().toISOString(),
-    input,
-  };
 }

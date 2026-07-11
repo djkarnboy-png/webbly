@@ -34,7 +34,7 @@ export function Footer() {
           </div>
         </div>
         <div className="flex flex-col gap-3 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>Frontend marketplace preview. No payments or accounts are active.</p>
+          <p>Marketplace preview with live accounts and requests. Payments are coming soon.</p>
           <p>Built for small businesses and independent creators.</p>
         </div>
       </div>

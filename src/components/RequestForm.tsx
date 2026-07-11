@@ -1,10 +1,8 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import {
-  createWebsiteRequest,
-  type WebsiteRequestInput,
-} from "@/lib/marketplace";
+import { submitWebsiteRequest } from "@/app/actions/request";
+import type { WebsiteRequestInput } from "@/lib/marketplace";
 import { Button } from "./Button";
 import type { RequestModalContextValue } from "./RequestModalProvider";
 
@@ -26,6 +24,8 @@ const initialState: FormState = {
   message: "",
   templateName: "",
   creatorName: "",
+  templateId: "",
+  creatorId: "",
   requestType: "general",
 };
 
@@ -59,11 +59,16 @@ export function RequestForm({
     ...initialState,
     templateName: context?.templateName ?? "",
     creatorName: context?.creatorName ?? "",
+    templateId: context?.templateId ?? "",
+    creatorId: context?.creatorId ?? "",
     requestType: context?.requestType ?? "general",
     style: context?.templateName ?? "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
-  const [success, setSuccess] = useState(false);
+  const [status, setStatus] = useState<{
+    success: boolean;
+    message: string;
+  } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const helperText =
@@ -75,23 +80,31 @@ export function RequestForm({
     event.preventDefault();
     const nextErrors = validate(values);
     setErrors(nextErrors);
-    setSuccess(false);
+    setStatus(null);
 
     if (Object.keys(nextErrors).length > 0) {
       return;
     }
 
     setIsSubmitting(true);
-    await createWebsiteRequest(values);
+    const result = await submitWebsiteRequest(values);
     setIsSubmitting(false);
-    setSuccess(true);
-    onSubmitted?.();
+    setStatus({ success: result.success, message: result.message });
+
+    if (result.fieldErrors) {
+      setErrors(result.fieldErrors);
+    }
+
+    if (result.success) {
+      setValues((current) => ({ ...current, message: "" }));
+      onSubmitted?.();
+    }
   }
 
   function updateField(name: keyof FormState, value: string) {
     setValues((current) => ({ ...current, [name]: value }));
     setErrors((current) => ({ ...current, [name]: undefined }));
-    setSuccess(false);
+    setStatus(null);
   }
 
   return (
@@ -110,8 +123,8 @@ export function RequestForm({
             <p className="font-semibold text-slate-950">Share your project brief</p>
             <p className="mt-1 max-w-xl text-sm leading-6 text-slate-600">{helperText}</p>
           </div>
-          <span className="w-fit shrink-0 rounded-md bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700">
-            Early preview
+          <span className="w-fit shrink-0 rounded-md bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
+            Secure request
           </span>
         </div>
         <div className="mt-4 flex flex-wrap gap-3 text-xs font-semibold text-slate-600">
@@ -125,24 +138,34 @@ export function RequestForm({
           ))}
         </div>
         <p className="mt-4 rounded-md bg-slate-50 px-3 py-2 text-xs leading-5 text-slate-600">
-          No purchase is made now. A creator would reply with timing and a quote.
+          No purchase is made now. A creator can reply with timing and a quote.
         </p>
       </div>
 
-      {success ? (
+      {status ? (
         <div
-          className="rounded-md border border-emerald-200 bg-emerald-50 p-4"
+          className={`rounded-md border p-4 ${
+            status.success
+              ? "border-emerald-200 bg-emerald-50"
+              : "border-rose-200 bg-rose-50"
+          }`}
           role="status"
           aria-live="polite"
         >
           <div className="flex gap-3">
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-[9px] font-bold text-white">
-              OK
+            <span
+              className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[9px] font-bold text-white ${
+                status.success ? "bg-emerald-600" : "bg-rose-600"
+              }`}
+            >
+              {status.success ? "OK" : "!"}
             </span>
             <div>
-              <p className="font-semibold text-emerald-950">Your request is ready</p>
-              <p className="mt-1 text-sm leading-6 text-emerald-900">
-                Request sent — this is an early preview, so no real message was sent yet.
+              <p className={`font-semibold ${status.success ? "text-emerald-950" : "text-rose-900"}`}>
+                {status.success ? "Request sent" : "Request not sent"}
+              </p>
+              <p className={`mt-1 text-sm leading-6 ${status.success ? "text-emerald-900" : "text-rose-800"}`}>
+                {status.message}
               </p>
             </div>
           </div>
@@ -233,7 +256,7 @@ export function RequestForm({
 
       <div className="flex flex-col gap-3 border-t border-slate-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs leading-5 text-slate-500">
-          Requests are simulated and are not sent or saved yet.
+          Your details are saved securely so the right creator can follow up.
         </p>
         <Button
           type="submit"
@@ -241,7 +264,7 @@ export function RequestForm({
           className="w-full sm:w-auto"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Preparing request..." : "Send Request"}
+          {isSubmitting ? "Sending request..." : "Send Request"}
         </Button>
       </div>
     </form>
@@ -354,21 +377,17 @@ function validate(values: FormState) {
   if (!values.name.trim()) {
     errors.name = "Enter your name.";
   }
-
   if (!values.email.trim()) {
     errors.email = "Enter your email.";
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
     errors.email = "Enter a valid email address.";
   }
-
   if (!values.businessType.trim()) {
     errors.businessType = "Select your business type.";
   }
-
   if (!values.budget.trim()) {
     errors.budget = "Select a rough budget range.";
   }
-
   if (!values.message.trim()) {
     errors.message = "Add a short message about what you need.";
   } else if (values.message.trim().length < 20) {

@@ -30,9 +30,9 @@ const creatorBenefits = [
 ];
 
 const roadmap = [
-  ["Now", "Frontend listing and request preview"],
-  ["Next", "Creator accounts and saved listings"],
-  ["Later", "Payments, delivery, and marketplace analytics"],
+  ["Now", "Creator accounts, uploads, and request inbox"],
+  ["Next", "Payments and template delivery"],
+  ["Later", "Deeper marketplace analytics"],
 ];
 
 export const metadata = {
@@ -68,7 +68,7 @@ export default function CreatorsPage() {
             </div>
             <div className="mt-7 max-w-xl">
               <MvpNotice>
-                Creator accounts and live uploads are coming soon.
+                Creator accounts and uploads are live. Payments are coming soon.
               </MvpNotice>
             </div>
           </div>
@@ -155,11 +155,11 @@ export default function CreatorsPage() {
             </div>
           </div>
 
-          <form className="rounded-lg border border-slate-200 bg-white p-5 shadow-[0_18px_45px_rgba(16,24,40,0.08)] sm:p-7">
+          <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-[0_18px_45px_rgba(16,24,40,0.08)] sm:p-7">
             <div className="flex flex-col gap-3 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="font-semibold text-slate-950">New template listing</p>
-                <p className="mt-1 text-sm text-slate-500">Early preview</p>
+                <p className="mt-1 text-sm text-slate-500">Creator listing preview</p>
               </div>
               <span className="w-fit rounded-md bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
                 Draft
@@ -199,16 +199,13 @@ export default function CreatorsPage() {
                   </span>
                 </div>
                 <p className="mt-4 font-semibold text-slate-950">Upload a template cover</p>
-                <p className="mt-1 text-sm text-slate-600">PNG or JPG preview. Uploads are coming soon.</p>
+                <p className="mt-1 text-sm text-slate-600">PNG, JPEG, or WebP preview up to 5 MB.</p>
               </div>
-              <button
-                type="button"
-                className="h-12 rounded-lg bg-blue-600 px-6 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(36,87,245,0.18)] transition hover:bg-blue-700"
-              >
-                Preview Template Listing
-              </button>
+              <ButtonLink href="/dashboard/templates/new" size="lg" className="w-full">
+                Open Template Uploader
+              </ButtonLink>
             </div>
-          </form>
+          </div>
         </div>
       </section>
 
@@ -219,10 +216,10 @@ export default function CreatorsPage() {
             Show buyers the work you want to be hired for.
           </h2>
           <p className="max-w-2xl text-base leading-7 text-slate-600">
-            Shape your listing now and publish it when creator accounts go live.
+            Create a creator account, submit your work, and start receiving qualified website requests.
           </p>
           <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
-            <ButtonLink href="/pricing" size="lg">View creator pricing</ButtonLink>
+            <ButtonLink href="/signup" size="lg">Create a creator account</ButtonLink>
             <ButtonLink href="/templates" size="lg" variant="outline">Browse the marketplace</ButtonLink>
           </div>
         </div>

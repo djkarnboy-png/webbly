@@ -1,52 +1,139 @@
 # Webbly
 
-Webbly is a clean Next.js MVP for a SaaS marketplace where small business owners browse business website templates and contact the creators behind them.
+Webbly is a working marketplace MVP where small businesses browse website templates, save ideas, and contact the creators behind them. Creators can publish template submissions, upload preview images, and manage incoming project requests from a private dashboard.
 
-## What is included
+## Features
 
-- Responsive homepage with marketplace positioning, featured templates, categories, benefits, and calls to action
-- Browse templates page with mock data, search, category filter, price filter, and sorting
-- Template detail pages with preview, creator card, price, features, pages, tools, and similar templates
-- Working request modal from template cards and detail pages, with client-side validation and a success state
-- Creator page with benefits and a polished template upload form UI
-- Pricing page with Free, Pro, and Commission plans
-- Request form page for customers who want a similar custom website
-- Reusable components for navigation, footer, buttons, cards, pricing, marketplace browsing, and forms
+- Supabase-backed public template catalog, creator profiles, and reviews
+- Search, category, price, and sort filters
+- Template detail pages and category-specific CSS previews
+- Email/password authentication for buyers and creators
+- Account profiles and role-aware navigation
+- Website request forms that persist for signed-in and guest visitors
+- Saved templates with user-scoped access
+- Creator dashboard with template CRUD, request statuses, and basic stats
+- Preview uploads through Supabase Storage
+- Admin moderation for approving, rejecting, and featuring templates
+- Responsive desktop, tablet, and mobile layouts
 
-## Tech stack
+Payments and automatic template delivery are intentionally marked as coming soon. No Stripe integration is active.
 
-- Next.js App Router
+## Tech Stack
+
+- Next.js 16 App Router
+- React 19
 - TypeScript
-- Tailwind CSS
-- Mock data only, no backend required yet
+- Tailwind CSS 4
+- Supabase Auth, Postgres, Row Level Security, and Storage
+- Vercel deployment
 
-## Run locally
+## Environment Variables
+
+Create `.env.local` from `.env.example`:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
+```
+
+Webbly uses Supabase's current publishable-key naming. If your project only provides a legacy anon key, place that value in `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` so the app stays consistent.
+
+Never expose a Supabase `service_role` or secret key in this application. `.env.local` and other local environment files are ignored by Git.
+
+## Supabase Setup
+
+1. Create a Supabase project.
+2. Add the environment variables above.
+3. Apply the migration in `supabase/migrations/20260711144421_webbly_marketplace_backend.sql`.
+4. Run `supabase/seed.sql` to add the 12 sample creators, templates, and reviews.
+5. Add the same public environment variables to the Vercel project.
+
+With the Supabase CLI linked to your project, the migration can be applied with:
+
+```bash
+supabase db push
+```
+
+Seed data can be run from the Supabase SQL Editor or your preferred Postgres client. The migration creates the public `template-previews` storage bucket and its owner-scoped policies.
+
+## Database and RLS
+
+The schema contains:
+
+- `profiles`
+- `creators`
+- `templates`
+- `website_requests`
+- `saved_templates`
+- `template_reviews`
+
+RLS is enabled on every public table. Public visitors can only read published templates, verified creators, public profiles, and reviews. Authenticated users can only manage their own profile and saved templates. Creators can only manage templates tied to their creator profile and requests assigned to them. Admin moderation checks `profiles.role = 'admin'` in the database.
+
+To promote an existing account in the Supabase SQL Editor:
+
+```sql
+update public.profiles
+set role = 'admin'
+where id = (
+  select id from auth.users where email = 'admin@example.com'
+);
+```
+
+Do not add admin role controls to the public client.
+
+## Run Locally
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Useful scripts
+Useful checks:
 
 ```bash
-pnpm dev
 pnpm lint
 pnpm build
 pnpm start
 ```
 
-## Project structure
+## Main Routes
+
+- `/` marketplace homepage
+- `/templates` searchable template catalog
+- `/templates/[slug]` template details
+- `/request` general website request
+- `/login`, `/signup`, `/account` authentication and profile
+- `/saved` saved templates
+- `/dashboard` creator workspace and request inbox
+- `/dashboard/templates/new` template submission
+- `/dashboard/templates/[id]/edit` creator-owned template editing
+- `/admin` role-protected moderation
+- `/creators` creator information
+- `/pricing` current marketplace plan preview
+
+## Project Structure
 
 ```text
-src/app                 Route pages and global layout
-src/components          Reusable UI components
-src/data/templates.ts   Mock marketplace data
-public                  Static assets from the Next.js scaffold
+src/app                         App Router pages and server actions
+src/components                  Reusable marketplace and form components
+src/data/templates.ts           Visual fallback data for CSS previews
+src/lib/supabase                Typed browser/server Supabase clients
+src/lib/marketplace-server.ts   Public and saved catalog queries
+src/lib/dashboard.ts            Creator-owned dashboard queries
+supabase/migrations             Versioned schema, policies, and storage setup
+supabase/seed.sql               Sample marketplace catalog
+proxy.ts                        Supabase session refresh for Next.js
 ```
 
-## Notes
+The public catalog uses Supabase as its source of truth. Local template data remains only as a visual fallback when environment variables are missing and to preserve the seeded CSS preview themes.
 
-The marketplace uses mock data through `src/lib/marketplace.ts`, which is structured so a future Supabase connection can replace the in-memory catalog and mock request creation. Buying templates, login, creator accounts, billing, and live uploads are marked as MVP/coming-soon features.
+## Deploy to Vercel
+
+1. Import the GitHub repository into Vercel.
+2. Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` for Production, Preview, and Development.
+3. Deploy with the standard Next.js build command.
+4. Add the production Vercel URL to the Supabase Auth URL configuration and allowed redirect URLs, including `/auth/callback`.
+
+The repository does not require a server secret for its current feature set. Authorization is enforced by Supabase RLS and authenticated user sessions.

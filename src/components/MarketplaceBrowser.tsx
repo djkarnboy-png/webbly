@@ -7,17 +7,26 @@ import {
   getPriceRanges,
   type TemplateFilters,
 } from "@/lib/marketplace";
+import type { Template } from "@/data/templates";
 import { TemplateCard } from "./TemplateCard";
 
 type MarketplaceBrowserProps = {
+  templates: Template[];
   initialCategory?: string;
+  loadError?: string | null;
+  savedTemplateIds?: string[];
+  canSave?: boolean;
 };
 
 const categories = getCategories();
 const priceRanges = getPriceRanges();
 
 export function MarketplaceBrowser({
+  templates,
   initialCategory = "all",
+  loadError,
+  savedTemplateIds = [],
+  canSave = false,
 }: MarketplaceBrowserProps) {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState(
@@ -29,8 +38,8 @@ export function MarketplaceBrowser({
   );
 
   const filteredTemplates = useMemo(
-    () => filterTemplates({ search, category, price, sort }),
-    [category, price, search, sort],
+    () => filterTemplates(templates, { search, category, price, sort }),
+    [category, price, search, sort, templates],
   );
 
   const hasActiveFilters =
@@ -45,6 +54,11 @@ export function MarketplaceBrowser({
 
   return (
     <div>
+      {loadError ? (
+        <div className="mb-5 rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-900" role="alert">
+          The marketplace could not load right now. Refresh the page or try again shortly.
+        </div>
+      ) : null}
       <div className="rounded-lg border border-slate-200 bg-white shadow-[0_12px_30px_rgba(16,24,40,0.06)] lg:sticky lg:top-[84px] lg:z-20">
         <div className="grid gap-3 p-4 lg:grid-cols-[minmax(300px,1fr)_190px_180px_190px]">
           <label className="block">
@@ -154,7 +168,12 @@ export function MarketplaceBrowser({
       {filteredTemplates.length > 0 ? (
         <div className="mt-7 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {filteredTemplates.map((template) => (
-            <TemplateCard key={template.slug} template={template} />
+            <TemplateCard
+              key={template.slug}
+              template={template}
+              canSave={canSave}
+              isSaved={Boolean(template.id && savedTemplateIds.includes(template.id))}
+            />
           ))}
         </div>
       ) : (

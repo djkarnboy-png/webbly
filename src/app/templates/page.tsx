@@ -1,5 +1,7 @@
 import { MarketplaceBrowser } from "@/components/MarketplaceBrowser";
-import { getAllTemplates, getCategories } from "@/lib/marketplace";
+import { getViewer } from "@/lib/auth";
+import { getCategories } from "@/lib/marketplace";
+import { getPublishedTemplates, getSavedTemplateIds } from "@/lib/marketplace-server";
 
 export const metadata = {
   title: "Browse Website Templates | Webbly",
@@ -13,7 +15,9 @@ type TemplatesPageProps = {
 
 export default async function TemplatesPage({ searchParams }: TemplatesPageProps) {
   const { category } = await searchParams;
-  const templates = getAllTemplates();
+  const { data: templates, error } = await getPublishedTemplates();
+  const viewer = await getViewer();
+  const savedTemplateIds = await getSavedTemplateIds(viewer?.id);
   const categories = getCategories();
 
   return (
@@ -49,7 +53,13 @@ export default async function TemplatesPage({ searchParams }: TemplatesPageProps
 
       <section className="bg-[#f6f7fb] px-5 py-10 sm:px-6 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-[1280px]">
-          <MarketplaceBrowser initialCategory={category} />
+          <MarketplaceBrowser
+            templates={templates}
+            initialCategory={category}
+            loadError={error}
+            savedTemplateIds={savedTemplateIds}
+            canSave={Boolean(viewer)}
+          />
         </div>
       </section>
     </>

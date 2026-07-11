@@ -4,26 +4,24 @@ import { Button, ButtonLink } from "@/components/Button";
 import { CreatorCard } from "@/components/CreatorCard";
 import { MvpNotice } from "@/components/MvpNotice";
 import { RequestButton } from "@/components/RequestButton";
+import { SaveTemplateButton } from "@/components/SaveTemplateButton";
 import { SectionHeading } from "@/components/SectionHeading";
 import { TemplateCard } from "@/components/TemplateCard";
 import { TemplatePreview } from "@/components/TemplatePreview";
+import { getViewer } from "@/lib/auth";
 import {
-  getAllTemplates,
-  getSimilarTemplates,
-  getTemplateBySlug,
-} from "@/lib/marketplace";
+  getPublishedTemplateBySlug,
+  getPublishedTemplates,
+  getSavedTemplateIds,
+} from "@/lib/marketplace-server";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return getAllTemplates().map((template) => ({ slug: template.slug }));
-}
-
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
-  const template = getTemplateBySlug(slug);
+  const { data: template } = await getPublishedTemplateBySlug(slug);
 
   if (!template) {
     return { title: "Template Not Found | Webbly" };
@@ -37,14 +35,33 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function TemplateDetailsPage({ params }: PageProps) {
   const { slug } = await params;
-  const template = getTemplateBySlug(slug);
+  const { data: template, error } = await getPublishedTemplateBySlug(slug);
+  const viewer = await getViewer();
+  const savedTemplateIds = await getSavedTemplateIds(viewer?.id);
 
   if (!template) {
+    if (error) {
+      return (
+        <section className="bg-white px-5 py-24 text-center sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold text-slate-950">Template unavailable</h1>
+          <p className="mx-auto mt-4 max-w-lg text-slate-600">
+            We could not load this template right now. Please try again shortly.
+          </p>
+          <ButtonLink href="/templates" className="mt-7">Back to templates</ButtonLink>
+        </section>
+      );
+    }
     notFound();
   }
 
-  const similar = getSimilarTemplates(template);
-  const bestFor = [
+  const { data: catalog } = await getPublishedTemplates();
+  const categoryMatches = catalog.filter(
+    (item) => item.category === template.category && item.slug !== template.slug,
+  );
+  const similar = (categoryMatches.length ? categoryMatches : catalog)
+    .filter((item) => item.slug !== template.slug)
+    .slice(0, 3);
+  const bestFor = template.bestFor?.length ? template.bestFor : [
     `${template.category} owners who want a credible launch direction`,
     `Teams that prefer ${template.tools.slice(0, 2).join(" or ")}`,
     "Businesses that want a creator to customize the starting point",
@@ -92,6 +109,7 @@ export default async function TemplateDetailsPage({ params }: PageProps) {
                   name={template.name}
                   category={template.category}
                   gradient={template.gradient}
+                  previewImageUrl={template.previewImageUrl}
                   size="hero"
                 />
               </div>
@@ -134,8 +152,17 @@ export default async function TemplateDetailsPage({ params }: PageProps) {
                   Start a conversation with the creator. You are not buying or committing to a project yet.
                 </p>
                 <div className="mt-6 grid gap-3">
+                  {template.id ? (
+                    <SaveTemplateButton
+                      templateId={template.id}
+                      initialSaved={savedTemplateIds.includes(template.id)}
+                      canSave={Boolean(viewer)}
+                    />
+                  ) : null}
                   <RequestButton
                     size="lg"
+                    templateId={template.id}
+                    creatorId={template.creator.id}
                     templateName={template.name}
                     creatorName={template.creator.name}
                     requestType="similar"
@@ -145,6 +172,8 @@ export default async function TemplateDetailsPage({ params }: PageProps) {
                   <RequestButton
                     size="lg"
                     variant="secondary"
+                    templateId={template.id}
+                    creatorId={template.creator.id}
                     templateName={template.name}
                     creatorName={template.creator.name}
                     requestType="contact"
@@ -156,8 +185,8 @@ export default async function TemplateDetailsPage({ params }: PageProps) {
                   </Button>
                 </div>
                 <div className="mt-5">
-                  <MvpNotice tone="slate" title="Payments and accounts coming soon">
-                    Preview templates and contact creators now. Checkout and downloads will be added later.
+                  <MvpNotice tone="slate" title="Payments coming soon">
+                    Contact creators now. Checkout and instant template downloads will be added later.
                   </MvpNotice>
                 </div>
               </div>
@@ -193,7 +222,13 @@ export default async function TemplateDetailsPage({ params }: PageProps) {
           </div>
           <div className="mt-9 grid gap-6 md:grid-cols-3">
             {similar.map((item) => (
-              <TemplateCard key={item.slug} template={item} compact />
+              <TemplateCard
+                key={item.slug}
+                template={item}
+                compact
+                canSave={Boolean(viewer)}
+                isSaved={Boolean(item.id && savedTemplateIds.includes(item.id))}
+              />
             ))}
           </div>
         </div>

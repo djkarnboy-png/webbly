@@ -2,20 +2,38 @@ import Link from "next/link";
 import type { Template } from "@/data/templates";
 import { ButtonLink } from "./Button";
 import { RequestButton } from "./RequestButton";
+import { SaveTemplateButton } from "./SaveTemplateButton";
 import { TemplatePreview } from "./TemplatePreview";
 
 type TemplateCardProps = {
   template: Template;
   compact?: boolean;
+  isSaved?: boolean;
+  canSave?: boolean;
 };
 
-export function TemplateCard({ template, compact = false }: TemplateCardProps) {
+export function TemplateCard({
+  template,
+  compact = false,
+  isSaved = false,
+  canSave = false,
+}: TemplateCardProps) {
   return (
     <article
       data-template-card={template.slug}
       className="group flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_8px_24px_rgba(16,24,40,0.07)] transition duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-[0_24px_50px_rgba(16,24,40,0.14)]"
     >
       <div className="relative border-b border-slate-200 bg-slate-100 p-2">
+        {template.id ? (
+          <div className="absolute right-4 top-4 z-10">
+            <SaveTemplateButton
+              templateId={template.id}
+              initialSaved={isSaved}
+              canSave={canSave}
+              compact
+            />
+          </div>
+        ) : null}
         <Link
           href={`/templates/${template.slug}`}
           className="block w-full rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
@@ -25,6 +43,7 @@ export function TemplateCard({ template, compact = false }: TemplateCardProps) {
             name={template.name}
             category={template.category}
             gradient={template.gradient}
+            previewImageUrl={template.previewImageUrl}
           />
         </Link>
         <div className="pointer-events-none absolute inset-x-4 bottom-4 flex items-center justify-between gap-3">
@@ -94,6 +113,8 @@ export function TemplateCard({ template, compact = false }: TemplateCardProps) {
 
         <div className="mt-auto grid gap-2 pt-5 sm:grid-cols-2">
           <RequestButton
+            templateId={template.id}
+            creatorId={template.creator.id}
             templateName={template.name}
             creatorName={template.creator.name}
             requestType="contact"

@@ -1,8 +1,11 @@
 export type Template = {
+  id?: string;
   slug: string;
   name: string;
   category: string;
   creator: {
+    id?: string;
+    profileId?: string | null;
     name: string;
     role: string;
     location: string;
@@ -24,6 +27,12 @@ export type Template = {
   features: string[];
   pages: string[];
   gradient: string;
+  bestFor?: string[];
+  previewImageUrl?: string | null;
+  livePreviewUrl?: string | null;
+  status?: string;
+  isFeatured?: boolean;
+  createdAt?: string;
 };
 
 export const categories = [

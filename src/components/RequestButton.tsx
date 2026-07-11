@@ -16,6 +16,8 @@ type RequestButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: "sm" | "md" | "lg";
   templateName?: string;
   creatorName?: string;
+  templateId?: string;
+  creatorId?: string;
   requestType?: RequestModalContextValue["requestType"];
 };
 
@@ -23,6 +25,8 @@ export function RequestButton({
   children,
   templateName,
   creatorName,
+  templateId,
+  creatorId,
   requestType = "general",
   onClick,
   ...props
@@ -35,7 +39,13 @@ export function RequestButton({
       onClick={(event) => {
         onClick?.(event);
         if (!event.defaultPrevented) {
-          openRequestModal({ templateName, creatorName, requestType });
+          openRequestModal({
+            templateName,
+            creatorName,
+            templateId,
+            creatorId,
+            requestType,
+          });
         }
       }}
       {...props}
