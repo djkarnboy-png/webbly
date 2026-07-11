@@ -16,23 +16,23 @@ const previewMeta: Record<
     label: "Reservations",
     domain: "ember-table.com",
   },
-  Cafes: {
+  "Cafes & Bakeries": {
     background: "linear-gradient(135deg,#fef3c7 0%,#fde68a 42%,#e7d8c9 100%)",
     label: "Cafe menu",
     domain: "morning-cafe.com",
   },
-  Salons: {
+  "Beauty & Care": {
     background: "linear-gradient(135deg,#fdf2f8 0%,#f5d0fe 48%,#ede9fe 100%)",
     label: "Bookings",
     domain: "atelier-studio.com",
   },
-  Gyms: {
+  Fitness: {
     background: "linear-gradient(135deg,#020617 0%,#064e3b 54%,#22c55e 100%)",
     label: "Class schedule",
     domain: "forge-training.com",
     dark: true,
   },
-  Tutors: {
+  Education: {
     background: "linear-gradient(135deg,#eef2ff 0%,#dbeafe 46%,#fef9c3 100%)",
     label: "Courses",
     domain: "bright-learning.com",
@@ -42,7 +42,7 @@ const previewMeta: Record<
     label: "Storefront",
     domain: "mode-store.com",
   },
-  Agencies: {
+  "Agencies & Services": {
     background: "linear-gradient(135deg,#eff6ff 0%,#dbeafe 45%,#cffafe 100%)",
     label: "Portfolio",
     domain: "north-studio.com",
@@ -60,7 +60,7 @@ export function BusinessPreview({
   gradient,
   variant = "template",
 }: BusinessPreviewProps) {
-  const meta = previewMeta[category] ?? previewMeta.Agencies;
+  const meta = previewMeta[category] ?? previewMeta["Agencies & Services"];
 
   return (
     <div
@@ -185,13 +185,13 @@ function PreviewScene({
   switch (category) {
     case "Restaurants":
       return <RestaurantPreview compact={compact} />;
-    case "Cafes":
+    case "Cafes & Bakeries":
       return <CafePreview compact={compact} />;
-    case "Salons":
+    case "Beauty & Care":
       return <SalonPreview compact={compact} />;
-    case "Gyms":
+    case "Fitness":
       return <GymPreview compact={compact} />;
-    case "Tutors":
+    case "Education":
       return <TutorPreview compact={compact} />;
     case "Online Stores":
       return <StorePreview compact={compact} />;

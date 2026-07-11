@@ -30,7 +30,7 @@ export function MarketplaceBrowser({
 }: MarketplaceBrowserProps) {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState(
-    categories.includes(initialCategory) ? initialCategory : "all",
+    categories.some((item) => item === initialCategory) ? initialCategory : "all",
   );
   const [price, setPrice] = useState("all");
   const [sort, setSort] = useState<NonNullable<TemplateFilters["sort"]>>(

@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { submitWebsiteRequest } from "@/app/actions/request";
+import { categories } from "@/data/categories";
 import type { WebsiteRequestInput } from "@/lib/marketplace";
 import { Button } from "./Button";
 import type { RequestModalContextValue } from "./RequestModalProvider";
@@ -29,17 +30,7 @@ const initialState: FormState = {
   requestType: "general",
 };
 
-const businessTypes = [
-  "Restaurants",
-  "Cafes",
-  "Salons",
-  "Gyms",
-  "Tutors",
-  "Online Stores",
-  "Agencies",
-  "Real Estate",
-  "Other small business",
-];
+const businessTypes = [...categories, "Other small business"];
 
 const budgets = [
   "Under $1,000",

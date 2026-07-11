@@ -18,6 +18,8 @@ export function TemplateCard({
   isSaved = false,
   canSave = false,
 }: TemplateCardProps) {
+  const responseTime = template.creator.responseTime.replace(/^Usually\s+/i, "");
+
   return (
     <article
       data-template-card={template.slug}
@@ -108,6 +110,18 @@ export function TemplateCard({
           </div>
           <span className="shrink-0 rounded-md bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800">
             {template.creator.rating.toFixed(1)} / 5
+          </span>
+        </div>
+
+        <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-md bg-slate-50 px-3 py-2 text-[11px] font-semibold text-slate-600">
+          <span className="truncate" title={template.creator.responseTime}>
+            {responseTime}
+          </span>
+          <span
+            className="shrink-0"
+            title={`${template.creator.completedProjects} completed projects`}
+          >
+            {template.creator.completedProjects} projects
           </span>
         </div>
 

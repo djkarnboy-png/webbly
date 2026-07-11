@@ -7,19 +7,9 @@ import { RequestButton } from "@/components/RequestButton";
 import { SectionHeading } from "@/components/SectionHeading";
 import { TemplateCard } from "@/components/TemplateCard";
 import type { Template } from "@/data/templates";
+import { categories as featuredCategories } from "@/data/categories";
 import { getViewer } from "@/lib/auth";
 import { getPublishedTemplates, getSavedTemplateIds } from "@/lib/marketplace-server";
-
-const featuredCategories = [
-  "Restaurants",
-  "Cafes",
-  "Salons",
-  "Gyms",
-  "Tutors",
-  "Online Stores",
-  "Agencies",
-  "Real Estate",
-];
 
 const browseSteps = [
   ["01", "Browse styles", "Pick a business category."],

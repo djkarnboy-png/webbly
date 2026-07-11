@@ -242,7 +242,7 @@ function CreatorWorkflowScene() {
             </span>
           </div>
           <div className="bg-slate-50 p-1.5">
-            <BusinessPreview category="Cafes" variant="category" />
+            <BusinessPreview category="Cafes & Bakeries" variant="category" />
           </div>
         </div>
 

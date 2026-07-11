@@ -36,7 +36,7 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 ```
 
-Webbly uses Supabase's current publishable-key naming. If your project only provides a legacy anon key, place that value in `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` so the app stays consistent.
+Webbly prefers Supabase's current publishable-key naming. Legacy projects can instead set `NEXT_PUBLIC_SUPABASE_ANON_KEY`; the client supports either name, but only one key is required.
 
 Never expose a Supabase `service_role` or secret key in this application. `.env.local` and other local environment files are ignored by Git.
 

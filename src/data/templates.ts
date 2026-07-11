@@ -35,16 +35,7 @@ export type Template = {
   createdAt?: string;
 };
 
-export const categories = [
-  "Restaurants",
-  "Cafes",
-  "Salons",
-  "Gyms",
-  "Tutors",
-  "Online Stores",
-  "Agencies",
-  "Real Estate",
-];
+export { categories } from "./categories";
 
 export const priceRanges = [
   { label: "Any price", value: "all" },
@@ -57,7 +48,7 @@ export const templates: Template[] = [
   {
     slug: "modern-cafe-website",
     name: "Modern Cafe Website",
-    category: "Cafes",
+    category: "Cafes & Bakeries",
     creator: {
       name: "Maya Studio",
       role: "Brand and web designer",
@@ -90,7 +81,7 @@ export const templates: Template[] = [
   {
     slug: "premium-salon-booking-site",
     name: "Premium Salon Booking Site",
-    category: "Salons",
+    category: "Beauty & Care",
     creator: {
       name: "Northline Creative",
       role: "Webflow partner agency",
@@ -123,7 +114,7 @@ export const templates: Template[] = [
   {
     slug: "fitness-gym-landing-page",
     name: "Fitness Gym Landing Page",
-    category: "Gyms",
+    category: "Fitness",
     creator: {
       name: "Lift Lab Design",
       role: "Fitness website specialist",
@@ -222,7 +213,7 @@ export const templates: Template[] = [
   {
     slug: "tutor-course-website",
     name: "Tutor Course Website",
-    category: "Tutors",
+    category: "Education",
     creator: {
       name: "Brightline Web",
       role: "Education website creator",
@@ -288,7 +279,7 @@ export const templates: Template[] = [
   {
     slug: "creative-agency-portfolio",
     name: "Creative Agency Portfolio",
-    category: "Agencies",
+    category: "Agencies & Services",
     creator: {
       name: "Orbit Works",
       role: "Independent creative studio",
@@ -321,7 +312,7 @@ export const templates: Template[] = [
   {
     slug: "boutique-bakery-site",
     name: "Boutique Bakery Site",
-    category: "Cafes",
+    category: "Cafes & Bakeries",
     creator: {
       name: "Sweet Spot Studio",
       role: "Food brand designer",
@@ -354,7 +345,7 @@ export const templates: Template[] = [
   {
     slug: "dental-clinic-website",
     name: "Dental Clinic Website",
-    category: "Salons",
+    category: "Beauty & Care",
     creator: {
       name: "Careframe Sites",
       role: "Service business specialist",
@@ -387,7 +378,7 @@ export const templates: Template[] = [
   {
     slug: "local-cleaning-service",
     name: "Local Cleaning Service",
-    category: "Agencies",
+    category: "Agencies & Services",
     creator: {
       name: "Service Grid",
       role: "Small business template maker",
@@ -420,7 +411,7 @@ export const templates: Template[] = [
   {
     slug: "pet-grooming-studio",
     name: "Pet Grooming Studio",
-    category: "Salons",
+    category: "Beauty & Care",
     creator: {
       name: "Neighborhood Web Co.",
       role: "Local service designer",

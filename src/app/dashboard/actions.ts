@@ -4,19 +4,9 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getCreatorByProfileId } from "@/lib/dashboard";
 import { requireViewer } from "@/lib/auth";
+import { categories } from "@/data/categories";
 import type { TemplateRow } from "@/lib/supabase/database.types";
 import { createClient } from "@/lib/supabase/server";
-
-const categories = [
-  "Restaurants",
-  "Cafes",
-  "Salons",
-  "Gyms",
-  "Tutors",
-  "Online Stores",
-  "Agencies",
-  "Real Estate",
-] as const;
 
 const requestStatuses = [
   "new",
@@ -300,12 +290,12 @@ async function resolvePreviewImage(
 function previewTypeForCategory(category: string) {
   return {
     Restaurants: "restaurant",
-    Cafes: "cafe",
-    Salons: "salon",
-    Gyms: "gym",
-    Tutors: "tutor",
+    "Cafes & Bakeries": "cafe",
+    "Beauty & Care": "salon",
+    Fitness: "gym",
+    Education: "tutor",
     "Online Stores": "store",
-    Agencies: "agency",
+    "Agencies & Services": "agency",
     "Real Estate": "real-estate",
   }[category] ?? "business";
 }

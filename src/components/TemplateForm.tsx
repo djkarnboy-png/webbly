@@ -8,18 +8,8 @@ import {
 } from "@/app/dashboard/actions";
 import type { TemplateRow } from "@/lib/supabase/database.types";
 import { createClient } from "@/lib/supabase/client";
+import { categories } from "@/data/categories";
 import { Button } from "./Button";
-
-const categories = [
-  "Restaurants",
-  "Cafes",
-  "Salons",
-  "Gyms",
-  "Tutors",
-  "Online Stores",
-  "Agencies",
-  "Real Estate",
-];
 
 export function TemplateForm({ template }: { template?: TemplateRow | null }) {
   const action = template

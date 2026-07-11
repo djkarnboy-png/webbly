@@ -6,19 +6,19 @@ const categoryMeta: Record<string, { accent: string; copy: string }> = {
     accent: "bg-orange-500",
     copy: "Menus, reservations, chef stories",
   },
-  Cafes: {
+  "Cafes & Bakeries": {
     accent: "bg-amber-600",
     copy: "Coffee menus, bakes, local promos",
   },
-  Salons: {
+  "Beauty & Care": {
     accent: "bg-fuchsia-500",
     copy: "Booking, services, elegant galleries",
   },
-  Gyms: {
+  Fitness: {
     accent: "bg-emerald-500",
     copy: "Memberships, classes, trial leads",
   },
-  Tutors: {
+  Education: {
     accent: "bg-indigo-500",
     copy: "Courses, outcomes, student progress",
   },
@@ -26,7 +26,7 @@ const categoryMeta: Record<string, { accent: string; copy: string }> = {
     accent: "bg-violet-500",
     copy: "Product grids, lookbooks, checkout",
   },
-  Agencies: {
+  "Agencies & Services": {
     accent: "bg-blue-600",
     copy: "Case studies, services, qualified leads",
   },
@@ -43,7 +43,7 @@ type CategoryCardProps = {
 };
 
 export function CategoryCard({ name, count, label = name }: CategoryCardProps) {
-  const meta = categoryMeta[name] ?? categoryMeta.Agencies;
+  const meta = categoryMeta[name] ?? categoryMeta["Agencies & Services"];
 
   return (
     <Link
