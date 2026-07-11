@@ -7,35 +7,32 @@ const plans = [
   {
     name: "Free Creator",
     price: "$0",
-    description:
-      "A straightforward way to test your first listings and learn what small-business buyers respond to.",
+    description: "Test your first listings and learn what buyers respond to.",
     features: [
       "List up to 3 templates",
       "Receive contact requests",
-      "Basic creator profile and listing pages",
+      "Creator profile",
     ],
   },
   {
     name: "Pro Creator",
     price: "$19/mo",
-    description:
-      "For active creators who want more inventory, stronger discovery, and clearer marketplace insights.",
+    description: "For active creators who want more reach and insight.",
     features: [
       "List unlimited templates",
-      "Featured placement opportunities",
-      "Better analytics for views and requests",
+      "Featured placement",
+      "Better request analytics",
     ],
     highlighted: true,
   },
   {
     name: "Commission",
     price: "Small fee",
-    description:
-      "A sale-based option for creators who prefer to pay only when a future template purchase happens.",
+    description: "Pay a small fee only when a future sale happens.",
     features: [
-      "Fee applies only after a future sale",
-      "Creator keeps control of pricing",
-      "Designed for checkout and digital delivery later",
+      "No upfront plan cost",
+      "Control your pricing",
+      "Digital delivery when live",
     ],
   },
 ];
@@ -43,27 +40,27 @@ const plans = [
 const comparisonRows = [
   ["Template listings", "3", "Unlimited", "Sale-based"],
   ["Custom requests", "Included", "Priority", "Included"],
-  ["Featured placement", "Not included", "Included", "Per campaign"],
-  ["Analytics", "Basic", "Enhanced", "Sale reporting"],
+  ["Featured placement", "-", "Included", "Per campaign"],
+  ["Insights", "Basic", "Enhanced", "Sales"],
   ["Payments", "Coming soon", "Coming soon", "Coming soon"],
 ];
 
 const faqs = [
   [
     "Can creators set their own prices?",
-    "Yes. Webbly is designed so creators keep control of template prices and custom project quotes.",
+    "Yes. Creators control template prices and custom project quotes.",
   ],
   [
     "Are subscriptions or payments active?",
-    "Not yet. Billing, checkout, commissions, and paid creator plans are coming soon.",
+    "Not yet. Billing, checkout, and paid plans are planned for a later release.",
   ],
   [
     "Can buyers request a custom version?",
-    "Yes. Buyers can share their business type, budget, preferred style, and project details in one request.",
+    "Yes. Buyers can share their business, budget, style, and project details.",
   ],
   [
     "What happens after a request?",
-    "For now, the request flow shows a success message but sends and saves nothing. Creator messaging will come with the future account system.",
+    "The current form demonstrates the flow; live messaging is not active yet.",
   ],
 ];
 
@@ -81,17 +78,15 @@ export default function PricingPage() {
           <div className="mx-auto max-w-4xl text-center">
             <p className="text-sm font-semibold uppercase text-blue-700">Creator pricing</p>
             <h1 className="mt-4 text-balance text-[42px] font-bold leading-[1.04] text-slate-950 sm:text-[56px]">
-              Start small. Grow when your marketplace presence does.
+              Simple plans for every stage.
             </h1>
             <p className="mx-auto mt-5 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
-              Choose a simple listing plan, test demand for your website concepts,
-              and keep control of how you price templates and custom work.
+              Start free, test demand, and keep control of your pricing.
             </p>
           </div>
           <div className="mx-auto mt-8 max-w-3xl">
             <MvpNotice>
-              Pricing is shown for product planning only. Payments, paid plans,
-              commissions, and creator accounts are coming later.
+              These plans are a preview. Billing is not active yet.
             </MvpNotice>
           </div>
         </div>
@@ -109,8 +104,8 @@ export default function PricingPage() {
         <div className="mx-auto max-w-[1180px]">
           <SectionHeading
             eyebrow="Compare plans"
-            title="The same marketplace, with different levels of visibility."
-            description="This comparison shows the planned product model. Paid capabilities are coming soon."
+            title="Pick the reach you need."
+            description="A quick look at the planned creator options."
           />
           <div className="mt-9 overflow-x-auto rounded-lg border border-slate-200">
             <table className="min-w-[760px] w-full border-collapse text-left text-sm">
@@ -145,8 +140,8 @@ export default function PricingPage() {
         <div className="mx-auto grid max-w-[1180px] gap-10 lg:grid-cols-[0.72fr_1.28fr]">
           <SectionHeading
             eyebrow="Pricing FAQ"
-            title="Clear answers before billing exists."
-            description="Webbly stays honest about what is active today and what belongs to the future marketplace experience."
+            title="Quick answers."
+            description="What creators can expect from the current preview."
           />
           <div className="border-t border-blue-200">
             {faqs.map(([question, answer]) => (
@@ -168,11 +163,10 @@ export default function PricingPage() {
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase text-blue-700">Creator preview</p>
           <h2 className="mt-4 text-balance text-3xl font-bold leading-tight text-slate-950 sm:text-4xl">
-            Shape your first listing before creator accounts go live.
+            Shape your first listing.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-600">
-            Use the creator form preview to organize a template name, category,
-            price, tools, description, and cover direction.
+            Organize your template, tools, price, and preview in one place.
           </p>
           <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
             <ButtonLink href="/creators#upload-preview" size="lg">Preview a listing</ButtonLink>

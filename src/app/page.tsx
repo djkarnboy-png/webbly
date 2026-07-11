@@ -28,43 +28,37 @@ const browseSteps = [
 
 const businessBenefits = [
   {
-    label: "Preview before you hire",
-    title: "Start with something concrete.",
-    copy: "Choose the layout and mood before the first conversation.",
-    metric: "4.9/5",
-    metricLabel: "average creator rating",
+    title: "Preview before you hire",
+    copy: "Compare real page directions before you contact anyone.",
+    visual: "preview" as const,
   },
   {
-    label: "Built for small businesses",
-    title: "See what the website needs to do.",
-    copy: "Menus, bookings, products, courses, and listings are visible at a glance.",
-    metric: "8",
-    metricLabel: "business categories",
+    title: "No blank briefs",
+    copy: "Start from a style and share only the details that matter.",
+    visual: "brief" as const,
   },
   {
-    label: "No blank briefs",
-    title: "Send useful context from the start.",
-    copy: "Share your business, budget, preferred style, and project needs in one brief.",
-    metric: "5 min",
-    metricLabel: "to share a brief",
+    title: "Contact the right creator",
+    copy: "See the maker, rating, and fit beside every template.",
+    visual: "creator" as const,
   },
 ];
 
 const audiencePanels = [
   {
     eyebrow: "For business owners",
-    title: "Find the look before committing to the build.",
-    copy: "Compare clear website directions and contact a creator whose work already fits.",
-    points: ["Industry-specific previews", "Clear starting prices", "Creator response details"],
+    title: "Choose a direction in minutes.",
+    copy: "See the website first, then reach out with a clear starting point.",
+    points: ["Business-ready previews", "Clear starting prices", "Verified creator details"],
     href: "/templates",
     action: "Browse the marketplace",
     tone: "light" as const,
   },
   {
     eyebrow: "For creators",
-    title: "Turn portfolio work into warmer leads.",
-    copy: "Let buyers discover your style through the kind of website they already need.",
-    points: ["Productize unused concepts", "Receive clearer briefs", "Keep control of pricing"],
+    title: "Let your work start the conversation.",
+    copy: "Show buyers what you make and receive briefs with real context.",
+    points: ["List strong concepts", "Receive clearer requests", "Keep control of pricing"],
     href: "/creators",
     action: "See how listing works",
     tone: "dark" as const,
@@ -226,21 +220,20 @@ export default function Home() {
         <div className="mx-auto max-w-[1280px]">
           <SectionHeading
             eyebrow="Why businesses use Webbly"
-            title="Choose with more confidence."
-            description="See the direction, creator track record, and next step before reaching out."
+            title="Less guessing. Better conversations."
+            description="A clear path from website inspiration to the right creator."
           />
-          <div className="mt-10 grid border-y border-blue-200 lg:grid-cols-3 lg:divide-x lg:divide-blue-200">
+          <div className="mt-9 grid gap-5 md:grid-cols-3">
             {businessBenefits.map((benefit) => (
-              <article key={benefit.title} className="border-b border-blue-200 py-7 last:border-b-0 lg:border-b-0 lg:px-7 lg:first:pl-0 lg:last:pr-0">
-                <p className="text-sm font-semibold text-blue-700">{benefit.label}</p>
-                <h3 className="mt-3 text-2xl font-bold leading-tight text-slate-950">
+              <article
+                key={benefit.title}
+                className="rounded-lg border border-blue-200 bg-white p-5 shadow-[0_10px_28px_rgba(37,99,235,0.07)]"
+              >
+                <BusinessBenefitVisual kind={benefit.visual} />
+                <h3 className="mt-5 text-xl font-bold leading-tight text-slate-950">
                   {benefit.title}
                 </h3>
-                <p className="mt-4 text-sm leading-6 text-slate-600">{benefit.copy}</p>
-                <div className="mt-7 flex items-end gap-3">
-                  <span className="text-3xl font-bold text-slate-950">{benefit.metric}</span>
-                  <span className="pb-1 text-sm text-slate-500">{benefit.metricLabel}</span>
-                </div>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{benefit.copy}</p>
               </article>
             ))}
           </div>
@@ -258,6 +251,7 @@ export default function Home() {
                   : "bg-white text-slate-950"
               }`}
             >
+              <AudienceVisual tone={panel.tone} />
               <p className={`text-sm font-semibold uppercase ${panel.tone === "dark" ? "text-blue-300" : "text-blue-700"}`}>
                 {panel.eyebrow}
               </p>
@@ -454,6 +448,105 @@ function HowStepVisual({ step }: { step: number }) {
       <div className="mt-3 flex items-center justify-between gap-3">
         <span className="h-2 flex-1 rounded-full bg-white/15" />
         <span className="h-8 w-24 rounded-md bg-blue-500" />
+      </div>
+    </div>
+  );
+}
+
+function BusinessBenefitVisual({
+  kind,
+}: {
+  kind: (typeof businessBenefits)[number]["visual"];
+}) {
+  if (kind === "preview") {
+    return (
+      <div className="relative h-28 overflow-hidden rounded-md bg-[#f6f7fb] p-3">
+        <div className="absolute left-4 top-5 h-20 w-[62%] -rotate-2 rounded-md border border-slate-200 bg-white p-2 shadow-sm">
+          <span className="block h-7 rounded bg-amber-100" />
+          <span className="mt-2 block h-1.5 w-3/4 rounded-full bg-slate-200" />
+        </div>
+        <div className="absolute bottom-3 right-4 h-20 w-[62%] rotate-2 rounded-md border-2 border-blue-500 bg-white p-2 shadow-md">
+          <span className="block h-7 rounded bg-violet-100" />
+          <div className="mt-2 flex items-center justify-between">
+            <span className="h-1.5 w-1/2 rounded-full bg-slate-200" />
+            <span className="h-4 w-4 rounded-full bg-blue-600" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (kind === "brief") {
+    return (
+      <div className="h-28 rounded-md bg-slate-950 p-4">
+        <div className="grid grid-cols-2 gap-2">
+          <span className="h-7 rounded bg-white/10" />
+          <span className="h-7 rounded bg-white/10" />
+        </div>
+        <span className="mt-2 block h-7 rounded bg-white/10" />
+        <div className="mt-3 flex items-center gap-3">
+          <span className="h-1.5 flex-1 rounded-full bg-white/15" />
+          <span className="h-6 w-20 rounded bg-blue-500" />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex h-28 items-center justify-center rounded-md bg-blue-50 p-4">
+      <div className="flex w-full items-center gap-3 rounded-md border border-blue-200 bg-white p-3 shadow-sm">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-950 text-[10px] font-bold text-white">
+          MS
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-[10px] font-bold text-slate-950">Maya Studio</p>
+          <p className="mt-1 text-[8px] text-slate-500">Verified cafe specialist</p>
+          <span className="mt-2 block h-1.5 w-3/4 rounded-full bg-blue-100" />
+        </div>
+        <span className="rounded bg-amber-50 px-2 py-1 text-[9px] font-bold text-amber-800">4.9</span>
+      </div>
+    </div>
+  );
+}
+
+function AudienceVisual({ tone }: { tone: "light" | "dark" }) {
+  if (tone === "light") {
+    return (
+      <div className="relative mb-8 h-40 overflow-hidden rounded-md bg-[#eef3ff]">
+        <div className="absolute left-5 top-5 h-24 w-[48%] -rotate-3 rounded-md border border-slate-200 bg-white p-2 shadow-sm">
+          <span className="block h-12 rounded bg-amber-100" />
+          <span className="mt-2 block h-1.5 w-3/4 rounded bg-slate-200" />
+        </div>
+        <div className="absolute right-5 top-8 h-24 w-[48%] rotate-3 rounded-md border border-slate-200 bg-white p-2 shadow-md">
+          <span className="block h-12 rounded bg-pink-100" />
+          <div className="mt-2 flex items-center justify-between">
+            <span className="h-1.5 w-1/2 rounded bg-slate-200" />
+            <span className="h-4 w-4 rounded-full bg-blue-600" />
+          </div>
+        </div>
+        <span className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-md bg-slate-950 px-3 py-1.5 text-[9px] font-bold text-white shadow">
+          Style selected
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative mb-8 h-40 overflow-hidden rounded-md border border-white/10 bg-white/[0.04] p-4">
+      <div className="w-[58%] rounded-md border border-white/10 bg-slate-900 p-3">
+        <div className="flex items-center gap-2">
+          <span className="h-7 w-7 rounded-full bg-blue-500" />
+          <div>
+            <p className="text-[9px] font-bold text-white">Orbit Works</p>
+            <p className="mt-1 text-[7px] text-slate-400">3 templates live</p>
+          </div>
+        </div>
+        <span className="mt-3 block h-8 rounded bg-blue-500/20" />
+      </div>
+      <div className="absolute bottom-4 right-4 w-[58%] rounded-md border border-blue-400/30 bg-blue-500 p-3 shadow-lg">
+        <p className="text-[8px] font-bold text-white">New website request</p>
+        <p className="mt-1 text-[7px] text-blue-100">Cafe / $1,500-$3,000</p>
+        <span className="mt-2 block h-1.5 w-2/3 rounded bg-white/30" />
       </div>
     </div>
   );

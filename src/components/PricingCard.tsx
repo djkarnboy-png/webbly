@@ -34,15 +34,12 @@ export function PricingCard({
         ) : null}
       </div>
       <p className="mt-6 text-4xl font-bold">{price}</p>
-      <p className={`mt-4 min-h-18 text-sm leading-6 ${highlighted ? "text-slate-300" : "text-slate-600"}`}>
+      <p className={`mt-4 min-h-12 text-sm leading-6 ${highlighted ? "text-slate-300" : "text-slate-600"}`}>
         {description}
       </p>
 
       <div className={`mt-6 border-y py-5 ${highlighted ? "border-white/12" : "border-slate-200"}`}>
-        <p className={`text-xs font-semibold uppercase ${highlighted ? "text-slate-400" : "text-slate-500"}`}>
-          What is included
-        </p>
-        <ul className="mt-4 space-y-3 text-sm">
+        <ul className="space-y-3 text-sm">
           {features.map((feature) => (
             <li key={feature} className="flex gap-3 leading-6">
               <span className={`mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-bold ${highlighted ? "bg-blue-500 text-white" : "bg-blue-50 text-blue-700"}`}>
@@ -63,11 +60,8 @@ export function PricingCard({
             : ""
         }`}
       >
-        Preview this plan
+        Start with this plan
       </ButtonLink>
-      <p className={`mt-3 text-center text-xs ${highlighted ? "text-slate-400" : "text-slate-500"}`}>
-        No payment is collected in this preview.
-      </p>
     </article>
   );
 }

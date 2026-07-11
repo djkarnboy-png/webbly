@@ -41,8 +41,7 @@ export default function RootLayout({
                 Early preview
               </span>
               <span className="hidden text-blue-900/75 sm:inline">
-                Browse templates and try the request flow. Payments and
-                creator accounts are coming soon.
+                Payments and creator accounts are not active yet.
               </span>
             </div>
             {children}

@@ -82,8 +82,8 @@ export function TemplateCard({ template, compact = false }: TemplateCardProps) {
                   Verified
                 </span>
               ) : null}
-              <span className="text-xs text-slate-500">
-                {template.creator.responseTime}
+              <span className="truncate text-xs text-slate-500">
+                {template.tools.slice(0, 2).join(" / ")}
               </span>
             </div>
           </div>
