@@ -5,7 +5,14 @@ import type {
   CreatorRow,
   TemplateRow,
 } from "@/lib/supabase/database.types";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
+import {
+  getSupabaseConfigStatus,
+  isSupabaseConfigured,
+} from "@/lib/supabase/config";
+import {
+  logSupabaseConfigurationError,
+  logSupabaseQueryError,
+} from "@/lib/supabase/diagnostics";
 import { createClient } from "@/lib/supabase/server";
 
 type ReviewSummary = {
@@ -34,61 +41,97 @@ const templateSelect = `
 export async function getPublishedTemplates(): Promise<
   MarketplaceQueryResult<Template[]>
 > {
-  if (!isSupabaseConfigured()) {
+  const configStatus = getSupabaseConfigStatus();
+
+  if (!configStatus.hasUrl || !configStatus.hasPublishableKey) {
+    logSupabaseConfigurationError("getPublishedTemplates", configStatus);
     return {
       data: mockTemplates,
-      error: "Supabase environment variables are missing.",
+      error: "Marketplace data is not configured.",
       usingFallback: true,
     };
   }
 
   const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("templates")
-    .select(templateSelect)
-    .eq("status", "published")
-    .order("is_featured", { ascending: false })
-    .order("fit_score", { ascending: false });
 
-  if (error) {
-    return { data: [], error: error.message, usingFallback: false };
+  try {
+    const { data, error } = await supabase
+      .from("templates")
+      .select(templateSelect)
+      .eq("status", "published")
+      .order("is_featured", { ascending: false })
+      .order("fit_score", { ascending: false });
+
+    if (error) {
+      logSupabaseQueryError("getPublishedTemplates", error);
+      return {
+        data: [],
+        error: "The marketplace data request failed.",
+        usingFallback: false,
+      };
+    }
+
+    return {
+      data: (data as TemplateRecord[]).map(mapTemplateRecord),
+      error: null,
+      usingFallback: false,
+    };
+  } catch (error) {
+    logSupabaseQueryError("getPublishedTemplates", error);
+    return {
+      data: [],
+      error: "The marketplace data request failed.",
+      usingFallback: false,
+    };
   }
-
-  return {
-    data: (data as TemplateRecord[]).map(mapTemplateRecord),
-    error: null,
-    usingFallback: false,
-  };
 }
 
 export async function getPublishedTemplateBySlug(
   slug: string,
 ): Promise<MarketplaceQueryResult<Template | null>> {
-  if (!isSupabaseConfigured()) {
+  const configStatus = getSupabaseConfigStatus();
+
+  if (!configStatus.hasUrl || !configStatus.hasPublishableKey) {
+    logSupabaseConfigurationError("getPublishedTemplateBySlug", configStatus);
     return {
       data: mockTemplates.find((template) => template.slug === slug) ?? null,
-      error: "Supabase environment variables are missing.",
+      error: "Marketplace data is not configured.",
       usingFallback: true,
     };
   }
 
   const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("templates")
-    .select(templateSelect)
-    .eq("slug", slug)
-    .eq("status", "published")
-    .maybeSingle();
 
-  if (error) {
-    return { data: null, error: error.message, usingFallback: false };
+  try {
+    const { data, error } = await supabase
+      .from("templates")
+      .select(templateSelect)
+      .eq("slug", slug)
+      .eq("status", "published")
+      .maybeSingle();
+
+    if (error) {
+      logSupabaseQueryError("getPublishedTemplateBySlug", error);
+      return {
+        data: null,
+        error: "The template data request failed.",
+        usingFallback: false,
+      };
+    }
+
+    return {
+      data: data ? mapTemplateRecord(data as TemplateRecord) : null,
+      error: null,
+      usingFallback: false,
+    };
+  } catch (error) {
+    logSupabaseQueryError("getPublishedTemplateBySlug", error);
+    return {
+      data: null,
+      error: "The template data request failed.",
+      usingFallback: false,
+    };
   }
-
-  return {
-    data: data ? mapTemplateRecord(data as TemplateRecord) : null,
-    error: null,
-    usingFallback: false,
-  };
 }
 
 export async function getSavedTemplateIds(userId?: string) {
@@ -97,10 +140,15 @@ export async function getSavedTemplateIds(userId?: string) {
   }
 
   const supabase = await createClient();
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("saved_templates")
     .select("template_id")
     .eq("user_id", userId);
+
+  if (error) {
+    logSupabaseQueryError("getSavedTemplateIds", error);
+    return [];
+  }
 
   return data?.map((item) => item.template_id) ?? [];
 }
@@ -114,7 +162,11 @@ export async function getSavedTemplates(userId: string) {
     .order("created_at", { ascending: false });
 
   if (error) {
-    return { data: [] as Template[], error: error.message };
+    logSupabaseQueryError("getSavedTemplates", error);
+    return {
+      data: [] as Template[],
+      error: "The saved template request failed.",
+    };
   }
 
   const rows = (data ?? []) as unknown as Array<{
