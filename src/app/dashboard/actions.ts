@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { getCreatorByProfileId } from "@/lib/dashboard";
-import { requireViewer } from "@/lib/auth";
+import { ensureCreatorByProfile, getCreatorByProfileId } from "@/lib/dashboard";
+import { requireVerifiedViewer } from "@/lib/auth";
 import { categories } from "@/data/categories";
 import type { TemplateRow } from "@/lib/supabase/database.types";
 import { createClient } from "@/lib/supabase/server";
@@ -25,8 +25,16 @@ export async function createTemplateAction(
   _previousState: TemplateFormState,
   formData: FormData,
 ): Promise<TemplateFormState> {
-  const viewer = await requireCreator("/dashboard/templates/new");
-  const creator = await requireCreatorProfile(viewer.id);
+  const viewer = await requireVerifiedViewer("/templates/new");
+  const { data: creator } = await ensureCreatorByProfile(viewer);
+
+  if (!creator) {
+    return {
+      status: "error",
+      message: "We could not prepare your listing profile. Please try again.",
+    };
+  }
+
   const parsed = parseTemplateForm(formData);
 
   if (!parsed.ok) {
@@ -55,8 +63,9 @@ export async function createTemplateAction(
     return { status: "error", message: "We could not save this template. Please try again." };
   }
 
+  revalidatePath("/account");
   revalidatePath("/dashboard");
-  redirect("/dashboard?submitted=1");
+  redirect("/account?listing=submitted");
 }
 
 export async function updateTemplateAction(
@@ -64,7 +73,7 @@ export async function updateTemplateAction(
   _previousState: TemplateFormState,
   formData: FormData,
 ): Promise<TemplateFormState> {
-  const viewer = await requireCreator(`/dashboard/templates/${templateId}/edit`);
+  const viewer = await requireVerifiedViewer(`/dashboard/templates/${templateId}/edit`);
   const creator = await requireCreatorProfile(viewer.id);
   const parsed = parseTemplateForm(formData);
 
@@ -116,7 +125,7 @@ export async function updateTemplateAction(
 }
 
 export async function archiveTemplateAction(templateId: string) {
-  const viewer = await requireCreator("/dashboard");
+  const viewer = await requireVerifiedViewer("/dashboard");
   const creator = await requireCreatorProfile(viewer.id);
   const supabase = await createClient();
   const { error } = await supabase
@@ -130,7 +139,7 @@ export async function archiveTemplateAction(templateId: string) {
 }
 
 export async function deleteTemplateAction(templateId: string) {
-  const viewer = await requireCreator("/dashboard");
+  const viewer = await requireVerifiedViewer("/dashboard");
   const creator = await requireCreatorProfile(viewer.id);
   const supabase = await createClient();
   const { error } = await supabase
@@ -144,7 +153,7 @@ export async function deleteTemplateAction(templateId: string) {
 }
 
 export async function updateRequestStatusAction(formData: FormData) {
-  const viewer = await requireCreator("/dashboard");
+  const viewer = await requireVerifiedViewer("/dashboard");
   const creator = await requireCreatorProfile(viewer.id);
   const requestId = getText(formData, "requestId");
   const requestedStatus = getText(formData, "status");
@@ -163,18 +172,10 @@ export async function updateRequestStatusAction(formData: FormData) {
   revalidatePath("/dashboard");
 }
 
-async function requireCreator(path: string) {
-  const viewer = await requireViewer(path);
-  if (viewer.role !== "creator" && viewer.role !== "admin") {
-    redirect("/account");
-  }
-  return viewer;
-}
-
 async function requireCreatorProfile(profileId: string) {
   const { data: creator } = await getCreatorByProfileId(profileId);
   if (!creator) {
-    redirect("/account");
+    redirect("/templates/new");
   }
   return creator;
 }

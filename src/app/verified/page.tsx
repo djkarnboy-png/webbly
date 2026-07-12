@@ -17,11 +17,9 @@ export default async function VerifiedPage({
   const viewer = success === "true" ? await getViewer() : null;
   const verified = success === "true" && viewer !== null;
   const continueHref = viewer
-    ? viewer.role === "creator"
-      ? "/dashboard"
-      : viewer.role === "admin"
-        ? "/admin"
-        : "/account"
+    ? viewer.role === "admin"
+      ? "/admin"
+      : "/account"
     : "/login";
 
   return (

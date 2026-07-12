@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { SignupRole } from "@/app/auth/actions";
 import { createClient } from "@/lib/supabase/client";
 import { Button, ButtonLink } from "./Button";
 import { CheckEmailResend } from "./CheckEmailResend";
@@ -23,7 +22,6 @@ type VerificationStatus =
 type SignupVerificationWaitProps = {
   email: string;
   password: string;
-  role: SignupRole;
   initialResendSeconds: number;
   onClearCredentials: () => void;
 };
@@ -31,7 +29,6 @@ type SignupVerificationWaitProps = {
 export function SignupVerificationWait({
   email,
   password,
-  role,
   initialResendSeconds,
   onClearCredentials,
 }: SignupVerificationWaitProps) {
@@ -104,7 +101,7 @@ export function SignupVerificationWait({
           clearInMemoryCredentials();
 
           redirectRef.current = window.setTimeout(() => {
-            router.replace(role === "creator" ? "/dashboard" : "/account");
+            router.replace("/account");
             router.refresh();
           }, REDIRECT_DELAY_MS);
           return;
@@ -158,7 +155,7 @@ export function SignupVerificationWait({
         inFlightRef.current = false;
       }
     },
-    [clearInMemoryCredentials, role, router, stopAutomaticChecks],
+    [clearInMemoryCredentials, router, stopAutomaticChecks],
   );
 
   useEffect(() => {

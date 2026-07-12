@@ -5,7 +5,7 @@ import { SectionHeading } from "@/components/SectionHeading";
 
 const plans = [
   {
-    name: "Free Creator",
+    name: "Free",
     price: "$0",
     description: "Test your first listings and learn what buyers respond to.",
     features: [
@@ -15,7 +15,7 @@ const plans = [
     ],
   },
   {
-    name: "Pro Creator",
+    name: "Pro",
     price: "$19/mo",
     description: "For active creators who want more reach and insight.",
     features: [
@@ -112,8 +112,8 @@ export default function PricingPage() {
               <thead className="bg-slate-950 text-white">
                 <tr>
                   <th className="px-5 py-4 font-semibold">Feature</th>
-                  <th className="px-5 py-4 font-semibold">Free Creator</th>
-                  <th className="px-5 py-4 font-semibold text-blue-300">Pro Creator</th>
+                  <th className="px-5 py-4 font-semibold">Free</th>
+                  <th className="px-5 py-4 font-semibold text-blue-300">Pro</th>
                   <th className="px-5 py-4 font-semibold">Commission</th>
                 </tr>
               </thead>

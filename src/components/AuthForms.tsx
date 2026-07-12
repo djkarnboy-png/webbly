@@ -57,7 +57,6 @@ export function SignupForm() {
       <SignupVerificationWait
         email={state.verification.email}
         password={password}
-        role={state.verification.role}
         initialResendSeconds={state.verification.resendCooldownSeconds}
         onClearCredentials={clearCredentials}
       />
@@ -141,21 +140,6 @@ export function SignupForm() {
           </p>
         </div>
       </div>
-      <fieldset>
-        <legend className="text-sm font-semibold text-slate-700">I want to</legend>
-        <div className="mt-2 grid gap-2 sm:grid-cols-2">
-          <label className="cursor-pointer rounded-lg border border-slate-200 bg-white p-4 has-checked:border-blue-500 has-checked:bg-blue-50">
-            <input className="mr-2 accent-blue-600" type="radio" name="role" value="buyer" defaultChecked />
-            <span className="font-semibold text-slate-950">Find a website</span>
-            <span className="mt-1 block pl-5 text-xs leading-5 text-slate-500">Browse, save, and contact creators.</span>
-          </label>
-          <label className="cursor-pointer rounded-lg border border-slate-200 bg-white p-4 has-checked:border-blue-500 has-checked:bg-blue-50">
-            <input className="mr-2 accent-blue-600" type="radio" name="role" value="creator" />
-            <span className="font-semibold text-slate-950">List my work</span>
-            <span className="mt-1 block pl-5 text-xs leading-5 text-slate-500">Publish templates and receive requests.</span>
-          </label>
-        </div>
-      </fieldset>
       <Button
         type="submit"
         size="lg"

@@ -90,11 +90,9 @@ export function Navbar({ viewer }: { viewer: Viewer | null }) {
                   Admin
                 </ButtonLink>
               ) : null}
-              {viewer.role === "creator" || viewer.role === "admin" ? (
-                <ButtonLink href="/dashboard" size="sm" variant="ghost">
-                  Dashboard
-                </ButtonLink>
-              ) : null}
+              <ButtonLink href="/templates/new" size="sm" variant="outline">
+                List your work
+              </ButtonLink>
               <ButtonLink href="/account" size="sm">
                 Account
               </ButtonLink>
@@ -169,9 +167,14 @@ export function Navbar({ viewer }: { viewer: Viewer | null }) {
                 Request website
               </RequestButton>
               {viewer ? (
-                <ButtonLink href="/account" className="w-full" onClick={() => setIsOpen(false)}>
-                  Account
-                </ButtonLink>
+                <div className="grid gap-2 sm:col-span-2 sm:grid-cols-2">
+                  <ButtonLink href="/templates/new" className="w-full" onClick={() => setIsOpen(false)}>
+                    List your work
+                  </ButtonLink>
+                  <ButtonLink href="/account" variant="outline" className="w-full" onClick={() => setIsOpen(false)}>
+                    Account
+                  </ButtonLink>
+                </div>
               ) : (
                 <ButtonLink href="/signup" className="w-full" onClick={() => setIsOpen(false)}>
                   Sign up
@@ -180,25 +183,22 @@ export function Navbar({ viewer }: { viewer: Viewer | null }) {
             </div>
             {viewer ? (
               <div className="grid gap-2 sm:grid-cols-2">
-                {viewer.role === "creator" || viewer.role === "admin" ? (
-                  <ButtonLink
-                    href="/dashboard"
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Creator dashboard
-                  </ButtonLink>
-                ) : (
-                  <ButtonLink
-                    href="/saved"
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Saved templates
-                  </ButtonLink>
-                )}
+                <ButtonLink
+                  href="/dashboard"
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Listings &amp; requests
+                </ButtonLink>
+                <ButtonLink
+                  href="/saved"
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Saved templates
+                </ButtonLink>
                 {viewer.role === "admin" ? (
                   <ButtonLink
                     href="/admin"

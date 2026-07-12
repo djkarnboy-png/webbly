@@ -26,7 +26,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <h1 className="mt-4 text-4xl font-bold leading-tight">Continue your Webbly work.</h1>
           <p className="mt-4 text-sm leading-7 text-slate-300">Save website directions, manage listings, and keep creator requests in one place.</p>
           <div className="mt-8 grid gap-3 text-sm text-slate-200">
-            {["Saved template library", "Creator request inbox", "Secure role-based access"].map((item) => (
+            {["Saved template library", "Listing request inbox", "One account for everything"].map((item) => (
               <p key={item} className="border-t border-white/10 pt-3">{item}</p>
             ))}
           </div>

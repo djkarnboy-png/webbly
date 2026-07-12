@@ -1,13 +1,13 @@
 import { Button } from "@/components/Button";
 import { ButtonLink } from "@/components/Button";
 import { DashboardTemplateActions } from "@/components/DashboardTemplateActions";
-import { requireRole } from "@/lib/auth";
+import { requireViewer } from "@/lib/auth";
 import { getCreatorDashboardData } from "@/lib/dashboard";
 import { updateRequestStatusAction } from "./actions";
 
 export const metadata = {
-  title: "Creator Dashboard | Webbly",
-  description: "Manage Webbly templates and respond to customer website requests.",
+  title: "Your Work | Webbly",
+  description: "Manage your Webbly templates and website requests.",
 };
 
 type DashboardPageProps = {
@@ -15,25 +15,20 @@ type DashboardPageProps = {
 };
 
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
-  const access = await requireRole(["creator", "admin"], "/dashboard");
+  const viewer = await requireViewer("/dashboard");
   const { submitted } = await searchParams;
-
-  if (!access.allowed) {
-    return <AccessDenied />;
-  }
-
-  const data = await getCreatorDashboardData(access.viewer.id);
+  const data = await getCreatorDashboardData(viewer.id);
 
   if (!data.creator) {
     return (
       <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
         <div className="rounded-lg border border-amber-200 bg-amber-50 p-7">
-          <p className="text-xs font-bold uppercase text-amber-700">Creator setup</p>
-          <h1 className="mt-3 text-2xl font-bold text-amber-950">Complete your creator profile</h1>
+          <p className="text-xs font-bold uppercase text-amber-700">Your work</p>
+          <h1 className="mt-3 text-2xl font-bold text-amber-950">Start your first listing</h1>
           <p className="mt-3 text-sm leading-6 text-amber-900">
-            This account does not have a creator profile yet. Sign up with the creator option or contact an admin to update the account role.
+            Add a template to create your public listing profile and submit the work for review.
           </p>
-          <ButtonLink href="/account" className="mt-5">Open account</ButtonLink>
+          <ButtonLink href="/templates/new" className="mt-5">List your work</ButtonLink>
         </div>
       </section>
     );
@@ -50,7 +45,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
     <section className="mx-auto w-full max-w-[1360px] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
       <div className="flex flex-col gap-5 border-b border-slate-200 pb-7 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-xs font-bold uppercase text-blue-700">Creator workspace</p>
+          <p className="text-xs font-bold uppercase text-blue-700">Your work</p>
           <h1 className="mt-3 text-3xl font-bold text-slate-950 sm:text-4xl">
             Welcome, {data.creator.display_name}
           </h1>
@@ -58,8 +53,8 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
             Publish your work, review new briefs, and keep every lead moving.
           </p>
         </div>
-        <ButtonLink href="/dashboard/templates/new" size="lg">
-          Add new template
+        <ButtonLink href="/templates/new" size="lg">
+          List your work
         </ButtonLink>
       </div>
 
@@ -91,7 +86,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
                 <h2 className="text-lg font-bold text-slate-950">My templates</h2>
                 <p className="mt-1 text-sm text-slate-500">Published, pending, and archived work.</p>
               </div>
-              <ButtonLink href="/dashboard/templates/new" size="sm" variant="outline">
+              <ButtonLink href="/templates/new" size="sm" variant="outline">
                 Add template
               </ButtonLink>
             </div>
@@ -119,7 +114,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
               <EmptyState
                 title="No templates yet"
                 copy="Add your first template to start the review process."
-                href="/dashboard/templates/new"
+                href="/templates/new"
                 action="Add a template"
               />
             )}
@@ -186,9 +181,9 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
             </span>
             <div className="min-w-0">
               <h2 className="truncate font-bold text-slate-950">{data.creator.display_name}</h2>
-              <p className="mt-1 text-sm text-slate-500">{data.creator.role_title || "Website creator"}</p>
+              <p className="mt-1 text-sm text-slate-500">{data.creator.role_title || "Website designer"}</p>
               {data.creator.is_verified ? (
-                <span className="mt-2 inline-flex rounded-md bg-blue-50 px-2 py-1 text-[10px] font-bold uppercase text-blue-700">Verified creator</span>
+                <span className="mt-2 inline-flex rounded-md bg-blue-50 px-2 py-1 text-[10px] font-bold uppercase text-blue-700">Verified profile</span>
               ) : (
                 <span className="mt-2 inline-flex rounded-md bg-amber-50 px-2 py-1 text-[10px] font-bold uppercase text-amber-700">Verification pending</span>
               )}
@@ -246,19 +241,6 @@ function EmptyState({
       <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-500">{copy}</p>
       {href && action ? <ButtonLink href={href} className="mt-5">{action}</ButtonLink> : null}
     </div>
-  );
-}
-
-function AccessDenied() {
-  return (
-    <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-      <div className="rounded-lg border border-slate-200 bg-white p-7 shadow-sm">
-        <p className="text-xs font-bold uppercase text-rose-700">Creator access required</p>
-        <h1 className="mt-3 text-2xl font-bold text-slate-950">This dashboard is for creator accounts.</h1>
-        <p className="mt-3 text-sm leading-6 text-slate-600">Your buyer account can browse, save templates, and send website requests.</p>
-        <ButtonLink href="/account" className="mt-5">Return to account</ButtonLink>
-      </div>
-    </section>
   );
 }
 

@@ -5,6 +5,7 @@ import type {
   TemplateRow,
   WebsiteRequestRow,
 } from "@/lib/supabase/database.types";
+import type { Viewer } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 
 export type DashboardRequest = WebsiteRequestRow & {
@@ -27,6 +28,38 @@ export async function getCreatorByProfileId(profileId: string) {
     .maybeSingle();
 
   return { data, error: error?.message ?? null };
+}
+
+export async function ensureCreatorByProfile(viewer: Viewer) {
+  const existing = await getCreatorByProfileId(viewer.id);
+
+  if (existing.data) {
+    return existing;
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("creators")
+    .insert({
+      profile_id: viewer.id,
+      display_name: viewer.fullName,
+      email: viewer.email || null,
+      role_title: "Website designer",
+      bio: null,
+    })
+    .select("*")
+    .single();
+
+  if (!error) {
+    return { data, error: null };
+  }
+
+  if (error.code === "23505") {
+    return getCreatorByProfileId(viewer.id);
+  }
+
+  console.error("[Webbly Listing Setup]", { code: error.code });
+  return { data: null, error: "Could not prepare your listing profile." };
 }
 
 export async function getCreatorDashboardData(

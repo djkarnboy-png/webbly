@@ -55,6 +55,22 @@ export async function requireViewer(nextPath = "/account") {
   return viewer;
 }
 
+export async function requireVerifiedViewer(nextPath = "/account") {
+  const viewer = await requireViewer(nextPath);
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error || !data.user) {
+    redirect(`/login?next=${encodeURIComponent(nextPath)}`);
+  }
+
+  if (!data.user.email_confirmed_at) {
+    redirect("/check-email");
+  }
+
+  return viewer;
+}
+
 export async function requireRole(
   roles: Viewer["role"][],
   nextPath: string,

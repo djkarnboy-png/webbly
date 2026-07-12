@@ -17,7 +17,6 @@ export async function updateAccountAction(
   const fullName = getText(formData, "fullName");
   const username = getText(formData, "username").toLowerCase();
   const location = getText(formData, "location");
-  const website = getText(formData, "website");
   const bio = getText(formData, "bio");
 
   if (fullName.length < 2) {
@@ -31,10 +30,6 @@ export async function updateAccountAction(
     };
   }
 
-  if (website && !isHttpUrl(website)) {
-    return { status: "error", message: "Enter a full website URL starting with http:// or https://." };
-  }
-
   if (bio.length > 320) {
     return { status: "error", message: "Keep your bio under 320 characters." };
   }
@@ -46,7 +41,6 @@ export async function updateAccountAction(
       full_name: fullName,
       username: username || null,
       location: location || null,
-      website: website || null,
       bio: bio || null,
     })
     .eq("id", viewer.id);
@@ -58,12 +52,10 @@ export async function updateAccountAction(
     return { status: "error", message: "We could not save your profile. Please try again." };
   }
 
-  if (viewer.role === "creator" || viewer.role === "admin") {
-    await supabase
-      .from("creators")
-      .update({ display_name: fullName, bio: bio || null })
-      .eq("profile_id", viewer.id);
-  }
+  await supabase
+    .from("creators")
+    .update({ display_name: fullName, bio: bio || null })
+    .eq("profile_id", viewer.id);
 
   revalidatePath("/", "layout");
   revalidatePath("/account");
@@ -73,13 +65,4 @@ export async function updateAccountAction(
 function getText(formData: FormData, key: string) {
   const value = formData.get(key);
   return typeof value === "string" ? value.trim() : "";
-}
-
-function isHttpUrl(value: string) {
-  try {
-    const url = new URL(value);
-    return url.protocol === "http:" || url.protocol === "https:";
-  } catch {
-    return false;
-  }
 }

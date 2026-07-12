@@ -30,7 +30,7 @@ const creatorBenefits = [
 ];
 
 const roadmap = [
-  ["Now", "Creator accounts, uploads, and request inbox"],
+  ["Now", "Template uploads and request inbox"],
   ["Next", "Payments and template delivery"],
   ["Later", "Deeper marketplace analytics"],
 ];
@@ -59,8 +59,8 @@ export default function CreatorsPage() {
               clearer project requests.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="#upload-preview" size="lg">
-                Preview a listing
+              <ButtonLink href="/templates/new" size="lg">
+                List your work
               </ButtonLink>
               <ButtonLink href="/pricing" size="lg" variant="outline">
                 View creator pricing
@@ -68,7 +68,7 @@ export default function CreatorsPage() {
             </div>
             <div className="mt-7 max-w-xl">
               <MvpNotice>
-                Creator accounts and uploads are live. Payments are coming soon.
+                Listings and request tools are live. Payments are coming soon.
               </MvpNotice>
             </div>
           </div>
@@ -201,8 +201,8 @@ export default function CreatorsPage() {
                 <p className="mt-4 font-semibold text-slate-950">Upload a template cover</p>
                 <p className="mt-1 text-sm text-slate-600">PNG, JPEG, or WebP preview up to 5 MB.</p>
               </div>
-              <ButtonLink href="/dashboard/templates/new" size="lg" className="w-full">
-                Open Template Uploader
+              <ButtonLink href="/templates/new" size="lg" className="w-full">
+                List your work
               </ButtonLink>
             </div>
           </div>
@@ -216,10 +216,10 @@ export default function CreatorsPage() {
             Show buyers the work you want to be hired for.
           </h2>
           <p className="max-w-2xl text-base leading-7 text-slate-600">
-            Create a creator account, submit your work, and start receiving qualified website requests.
+            Use your Webbly account to submit work and receive qualified website requests.
           </p>
           <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
-            <ButtonLink href="/signup" size="lg">Create a creator account</ButtonLink>
+            <ButtonLink href="/templates/new" size="lg">List your work</ButtonLink>
             <ButtonLink href="/templates" size="lg" variant="outline">Browse the marketplace</ButtonLink>
           </div>
         </div>

@@ -48,13 +48,7 @@ export async function GET(request: Request) {
     await clearEmailVerificationState();
 
     const destination =
-      profile?.role === "creator"
-        ? "/dashboard"
-        : profile?.role === "admin"
-          ? "/admin"
-          : next === "/templates"
-            ? "/templates"
-            : "/account";
+      profile?.role === "admin" ? "/admin" : next || "/account";
 
     return NextResponse.redirect(new URL(destination, url.origin));
   }

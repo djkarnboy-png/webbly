@@ -51,14 +51,6 @@ export function AccountForm({ profile }: { profile: ProfileRow }) {
           autoComplete="address-level2"
           placeholder="Austin, TX"
         />
-        <AccountField
-          label="Website"
-          name="website"
-          defaultValue={profile.website ?? ""}
-          type="url"
-          autoComplete="url"
-          placeholder="https://yourwebsite.com"
-        />
       </div>
 
       <label className="grid gap-2">
@@ -68,7 +60,7 @@ export function AccountForm({ profile }: { profile: ProfileRow }) {
           defaultValue={profile.bio ?? ""}
           rows={5}
           maxLength={320}
-          placeholder="Tell creators or customers a little about your work."
+          placeholder="Share a little about your business, interests, or work."
           className="w-full resize-none rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
         />
         <span className="text-xs text-slate-500">Up to 320 characters.</span>

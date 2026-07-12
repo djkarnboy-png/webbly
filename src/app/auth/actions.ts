@@ -12,14 +12,11 @@ import {
 } from "@/lib/auth-verification";
 import { createClient } from "@/lib/supabase/server";
 
-export type SignupRole = "buyer" | "creator";
-
 export type AuthActionState = {
   status: "idle" | "error" | "success";
   message: string;
   verification?: {
     email: string;
-    role: SignupRole;
     resendCooldownSeconds: number;
   };
 };
@@ -57,8 +54,6 @@ export async function signupAction(
   const email = getText(formData, "email").toLowerCase();
   const password = getRawText(formData, "password");
   const confirmPassword = getRawText(formData, "confirmPassword");
-  const role: SignupRole =
-    getText(formData, "role") === "creator" ? "creator" : "buyer";
 
   if (fullName.length < 2) {
     return { status: "error", message: "Enter your full name." };
@@ -84,7 +79,7 @@ export async function signupAction(
     password,
     options: {
       emailRedirectTo,
-      data: { full_name: fullName, role },
+      data: { full_name: fullName },
     },
   });
 
@@ -96,7 +91,7 @@ export async function signupAction(
   if (data.session) {
     await clearEmailVerificationState();
     revalidatePath("/", "layout");
-    redirect(role === "creator" ? "/dashboard" : "/account");
+    redirect("/account");
   }
 
   await startEmailVerificationCooldown();
@@ -106,7 +101,6 @@ export async function signupAction(
     message: "Check your email to activate your account.",
     verification: {
       email,
-      role,
       resendCooldownSeconds: RESEND_COOLDOWN_SECONDS,
     },
   };

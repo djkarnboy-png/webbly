@@ -8,7 +8,7 @@ export const metadata = { title: "Check Your Email | Webbly" };
 export default async function CheckEmailPage() {
   const viewer = await getViewer();
   if (viewer) {
-    redirect(viewer.role === "creator" ? "/dashboard" : "/account");
+    redirect(viewer.role === "admin" ? "/admin" : "/account");
   }
 
   return (
