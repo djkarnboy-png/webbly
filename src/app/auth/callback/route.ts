@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+import { logAuthError } from "@/lib/auth-errors";
+import { clearEmailVerificationState } from "@/lib/auth-verification";
+import { logSupabaseQueryError } from "@/lib/supabase/diagnostics";
 import { createClient } from "@/lib/supabase/server";
 
 export async function GET(request: Request) {
@@ -8,18 +11,63 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createClient();
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
 
-    if (!error) {
-      return NextResponse.redirect(new URL(next || "/account", url.origin));
+    if (error) {
+      logAuthError("authCallback.exchangeCodeForSession", error);
+      return verificationFailure(url.origin);
     }
+
+    if (!data.session || !data.user) {
+      console.error("[Webbly Auth]", {
+        operation: "authCallback.exchangeCodeForSession",
+        code: "SESSION_NOT_CREATED",
+      });
+      return verificationFailure(url.origin);
+    }
+
+    const { data: userData, error: userError } = await supabase.auth.getUser();
+
+    if (userError || !userData.user) {
+      if (userError) {
+        logAuthError("authCallback.getUser", userError);
+      }
+      return verificationFailure(url.origin);
+    }
+
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", userData.user.id)
+      .maybeSingle();
+
+    if (profileError) {
+      logSupabaseQueryError("authCallback.getProfileRole", profileError);
+    }
+
+    await clearEmailVerificationState();
+
+    const destination =
+      profile?.role === "creator"
+        ? "/dashboard"
+        : profile?.role === "admin"
+          ? "/admin"
+          : next === "/templates"
+            ? "/templates"
+            : "/account";
+
+    return NextResponse.redirect(new URL(destination, url.origin));
   }
 
-  return NextResponse.redirect(
-    new URL("/login?error=Could%20not%20confirm%20your%20account.", url.origin),
-  );
+  return verificationFailure(url.origin);
 }
 
 function safeNextPath(value: string | null) {
   return value?.startsWith("/") && !value.startsWith("//") ? value : "";
+}
+
+function verificationFailure(origin: string) {
+  const loginUrl = new URL("/login", origin);
+  loginUrl.searchParams.set("error", "verification_failed");
+  return NextResponse.redirect(loginUrl);
 }

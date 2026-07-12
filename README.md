@@ -134,6 +134,7 @@ The public catalog uses Supabase as its source of truth. Local template data rem
 1. Import the GitHub repository into Vercel.
 2. Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` for Production, Preview, and Development.
 3. Deploy with the standard Next.js build command.
-4. Add the production Vercel URL to the Supabase Auth URL configuration and allowed redirect URLs, including `/auth/callback`.
+4. Add `https://webbly-chi.vercel.app/auth/callback` to the Supabase Auth allowed redirect URLs. Keep email confirmations enabled.
+5. Keep the Auth password policy at 8 or more characters with lowercase, uppercase, numbers, and symbols so it matches the Webbly client and server validation.
 
 The repository does not require a server secret for its current feature set. Authorization is enforced by Supabase RLS and authenticated user sessions.

@@ -13,6 +13,10 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const viewer = await getViewer();
   if (viewer) redirect("/account");
   const { next, error } = await searchParams;
+  const initialMessage =
+    error === "verification_failed"
+      ? "We could not verify that email link. Request a new link or try again."
+      : "";
 
   return (
     <section className="site-grid bg-[#f6f7fb] px-5 py-14 sm:px-6 sm:py-20 lg:px-8">
@@ -31,7 +35,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <h2 className="text-2xl font-bold text-slate-950">Log in to Webbly</h2>
           <p className="mt-2 text-sm text-slate-600">Use the email and password connected to your account.</p>
           <div className="mt-7">
-            <LoginForm next={next} initialMessage={error} />
+            <LoginForm next={next} initialMessage={initialMessage} />
           </div>
           <p className="mt-6 text-sm text-slate-600">New to Webbly? <Link href="/signup" className="font-semibold text-blue-700 hover:text-blue-800">Create an account</Link></p>
         </div>

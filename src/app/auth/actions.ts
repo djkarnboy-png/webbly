@@ -1,8 +1,14 @@
 "use server";
 
-import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { friendlyAuthError, logAuthError } from "@/lib/auth-errors";
+import { isStrongPassword } from "@/lib/auth-password";
+import {
+  clearEmailVerificationState,
+  getEmailVerificationRedirectTo,
+  setEmailVerificationState,
+} from "@/lib/auth-verification";
 import { createClient } from "@/lib/supabase/server";
 
 export type AuthActionState = {
@@ -15,7 +21,7 @@ export async function loginAction(
   formData: FormData,
 ): Promise<AuthActionState> {
   const email = getText(formData, "email").toLowerCase();
-  const password = getText(formData, "password");
+  const password = getRawText(formData, "password");
   const next = safeNextPath(getText(formData, "next"));
 
   if (!isEmail(email) || !password) {
@@ -26,9 +32,11 @@ export async function loginAction(
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    return { status: "error", message: friendlyAuthError(error.message) };
+    logAuthError("loginAction", error);
+    return { status: "error", message: friendlyAuthError(error) };
   }
 
+  await clearEmailVerificationState();
   revalidatePath("/", "layout");
   redirect(next || "/account");
 }
@@ -39,8 +47,8 @@ export async function signupAction(
 ): Promise<AuthActionState> {
   const fullName = getText(formData, "fullName");
   const email = getText(formData, "email").toLowerCase();
-  const password = getText(formData, "password");
-  const confirmPassword = getText(formData, "confirmPassword");
+  const password = getRawText(formData, "password");
+  const confirmPassword = getRawText(formData, "confirmPassword");
   const role = getText(formData, "role") === "creator" ? "creator" : "buyer";
 
   if (fullName.length < 2) {
@@ -49,40 +57,41 @@ export async function signupAction(
   if (!isEmail(email)) {
     return { status: "error", message: "Enter a valid email address." };
   }
-  if (password.length < 8) {
-    return { status: "error", message: "Use at least 8 characters for your password." };
+  if (!isStrongPassword(password)) {
+    return {
+      status: "error",
+      message:
+        "Use 8 or more characters with uppercase, lowercase, number, and special characters.",
+    };
   }
   if (password !== confirmPassword) {
     return { status: "error", message: "Passwords do not match." };
   }
 
-  const headerStore = await headers();
-  const origin =
-    headerStore.get("origin") ??
-    `${headerStore.get("x-forwarded-proto") ?? "https"}://${headerStore.get("host")}`;
+  const emailRedirectTo = await getEmailVerificationRedirectTo();
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      emailRedirectTo: `${origin}/auth/callback`,
+      emailRedirectTo,
       data: { full_name: fullName, role },
     },
   });
 
   if (error) {
-    return { status: "error", message: friendlyAuthError(error.message) };
+    logAuthError("signupAction", error);
+    return { status: "error", message: friendlyAuthError(error) };
   }
 
   if (data.session) {
+    await clearEmailVerificationState();
     revalidatePath("/", "layout");
     redirect(role === "creator" ? "/dashboard" : "/account");
   }
 
-  return {
-    status: "success",
-    message: "Account created. Check your email to confirm your address, then log in.",
-  };
+  await setEmailVerificationState(email);
+  redirect("/check-email");
 }
 
 export async function logoutAction() {
@@ -97,20 +106,15 @@ function getText(formData: FormData, key: string) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function getRawText(formData: FormData, key: string) {
+  const value = formData.get(key);
+  return typeof value === "string" ? value : "";
+}
+
 function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
 function safeNextPath(value: string) {
   return value.startsWith("/") && !value.startsWith("//") ? value : "";
-}
-
-function friendlyAuthError(message: string) {
-  if (message.toLowerCase().includes("invalid login")) {
-    return "Email or password is incorrect.";
-  }
-  if (message.toLowerCase().includes("already registered")) {
-    return "An account already exists for this email.";
-  }
-  return message;
 }
