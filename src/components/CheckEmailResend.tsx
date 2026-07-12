@@ -8,6 +8,7 @@ import {
 import { Button } from "./Button";
 
 type CheckEmailResendProps = {
+  email: string;
   initialSecondsRemaining: number;
 };
 
@@ -19,6 +20,7 @@ const initialState: ResendVerificationState = {
 };
 
 export function CheckEmailResend({
+  email,
   initialSecondsRemaining,
 }: CheckEmailResendProps) {
   const [state, action, pending] = useActionState(
@@ -36,6 +38,7 @@ export function CheckEmailResend({
 
   return (
     <form action={action} className="grid gap-3">
+      <input type="hidden" name="email" value={email} />
       {state.message ? (
         <p
           className={`rounded-md border p-3 text-sm leading-6 ${

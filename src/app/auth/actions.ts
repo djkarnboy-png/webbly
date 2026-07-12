@@ -7,13 +7,21 @@ import { isStrongPassword } from "@/lib/auth-password";
 import {
   clearEmailVerificationState,
   getEmailVerificationRedirectTo,
-  setEmailVerificationState,
+  RESEND_COOLDOWN_SECONDS,
+  startEmailVerificationCooldown,
 } from "@/lib/auth-verification";
 import { createClient } from "@/lib/supabase/server";
+
+export type SignupRole = "buyer" | "creator";
 
 export type AuthActionState = {
   status: "idle" | "error" | "success";
   message: string;
+  verification?: {
+    email: string;
+    role: SignupRole;
+    resendCooldownSeconds: number;
+  };
 };
 
 export async function loginAction(
@@ -49,7 +57,8 @@ export async function signupAction(
   const email = getText(formData, "email").toLowerCase();
   const password = getRawText(formData, "password");
   const confirmPassword = getRawText(formData, "confirmPassword");
-  const role = getText(formData, "role") === "creator" ? "creator" : "buyer";
+  const role: SignupRole =
+    getText(formData, "role") === "creator" ? "creator" : "buyer";
 
   if (fullName.length < 2) {
     return { status: "error", message: "Enter your full name." };
@@ -90,8 +99,17 @@ export async function signupAction(
     redirect(role === "creator" ? "/dashboard" : "/account");
   }
 
-  await setEmailVerificationState(email);
-  redirect("/check-email");
+  await startEmailVerificationCooldown();
+
+  return {
+    status: "success",
+    message: "Check your email to activate your account.",
+    verification: {
+      email,
+      role,
+      resendCooldownSeconds: RESEND_COOLDOWN_SECONDS,
+    },
+  };
 }
 
 export async function logoutAction() {

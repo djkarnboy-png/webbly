@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useCallback, useState } from "react";
 import { loginAction, signupAction, type AuthActionState } from "@/app/auth/actions";
 import {
   isStrongPassword,
@@ -8,6 +8,7 @@ import {
   PASSWORD_REQUIREMENTS,
 } from "@/lib/auth-password";
 import { Button } from "./Button";
+import { SignupVerificationWait } from "./SignupVerificationWait";
 
 export function LoginForm({
   next = "",
@@ -46,6 +47,22 @@ export function SignupForm() {
   const passwordIsStrong = isStrongPassword(password);
   const passwordsMatch =
     confirmPassword.length > 0 && password === confirmPassword;
+  const clearCredentials = useCallback(() => {
+    setPassword("");
+    setConfirmPassword("");
+  }, []);
+
+  if (state.status === "success" && state.verification) {
+    return (
+      <SignupVerificationWait
+        email={state.verification.email}
+        password={password}
+        role={state.verification.role}
+        initialResendSeconds={state.verification.resendCooldownSeconds}
+        onClearCredentials={clearCredentials}
+      />
+    );
+  }
 
   return (
     <form action={action} className="grid gap-5">

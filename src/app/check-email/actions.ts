@@ -18,12 +18,12 @@ export type ResendVerificationState = {
 
 export async function resendVerificationAction(
   _previousState: ResendVerificationState,
-  _formData: FormData,
+  formData: FormData,
 ): Promise<ResendVerificationState> {
   void _previousState;
-  void _formData;
 
-  const { email, resendAvailableAt } = await getEmailVerificationState();
+  const email = getText(formData, "email").toLowerCase();
+  const { resendAvailableAt } = await getEmailVerificationState();
   const now = Date.now();
 
   if (!isEmail(email)) {
@@ -75,6 +75,11 @@ export async function resendVerificationAction(
 
 function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function getText(formData: FormData, key: string) {
+  const value = formData.get(key);
+  return typeof value === "string" ? value.trim() : "";
 }
 
 function secondsUntil(timestamp: number) {

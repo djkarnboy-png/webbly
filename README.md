@@ -134,7 +134,10 @@ The public catalog uses Supabase as its source of truth. Local template data rem
 1. Import the GitHub repository into Vercel.
 2. Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` for Production, Preview, and Development.
 3. Deploy with the standard Next.js build command.
-4. Add `https://webbly-chi.vercel.app/auth/callback` to the Supabase Auth allowed redirect URLs. Keep email confirmations enabled.
+4. Set the hosted Supabase Site URL and an allowed redirect URL to `https://webbly-chi.vercel.app`. Keep email confirmations enabled.
 5. Keep the Auth password policy at 8 or more characters with lowercase, uppercase, numbers, and symbols so it matches the Webbly client and server validation.
+6. Set the hosted Confirm signup email template to the contents of `supabase/templates/confirmation.html`. Its link sends the token hash to `/auth/confirm` without exposing the token after verification.
+
+New Free projects using Supabase's default email provider cannot customize Auth email templates. Configure custom SMTP or upgrade the project before applying the hosted confirmation template.
 
 The repository does not require a server secret for its current feature set. Authorization is enforced by Supabase RLS and authenticated user sessions.

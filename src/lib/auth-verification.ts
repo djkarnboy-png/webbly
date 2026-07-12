@@ -3,22 +3,24 @@ import "server-only";
 import { cookies, headers } from "next/headers";
 
 const PRODUCTION_ORIGIN = "https://webbly-chi.vercel.app";
-const VERIFICATION_EMAIL_COOKIE = "webbly-verification-email";
 const RESEND_AVAILABLE_COOKIE = "webbly-verification-resend-at";
 const VERIFICATION_COOKIE_MAX_AGE = 60 * 60;
 
 export const RESEND_COOLDOWN_SECONDS = 60;
 
 export async function getEmailVerificationRedirectTo(requestedOrigin = "") {
+  if (process.env.NODE_ENV === "production") {
+    return PRODUCTION_ORIGIN;
+  }
+
   const origin = await resolveAuthOrigin(requestedOrigin);
-  return `${origin}/auth/callback?next=/account`;
+  return origin;
 }
 
-export async function setEmailVerificationState(email: string) {
+export async function startEmailVerificationCooldown() {
   const cookieStore = await cookies();
   const resendAvailableAt = Date.now() + RESEND_COOLDOWN_SECONDS * 1000;
 
-  cookieStore.set(VERIFICATION_EMAIL_COOKIE, email, verificationCookieOptions());
   cookieStore.set(
     RESEND_AVAILABLE_COOKIE,
     String(resendAvailableAt),
@@ -28,7 +30,6 @@ export async function setEmailVerificationState(email: string) {
 
 export async function getEmailVerificationState() {
   const cookieStore = await cookies();
-  const email = cookieStore.get(VERIFICATION_EMAIL_COOKIE)?.value ?? "";
   const resendAvailableAt = Number(
     cookieStore.get(RESEND_AVAILABLE_COOKIE)?.value ?? 0,
   );
@@ -37,7 +38,6 @@ export async function getEmailVerificationState() {
     : 0;
 
   return {
-    email,
     resendAvailableAt: normalizedResendAvailableAt,
     secondsRemaining: Math.max(
       0,
@@ -57,7 +57,6 @@ export async function setResendAvailableAt(timestamp: number) {
 
 export async function clearEmailVerificationState() {
   const cookieStore = await cookies();
-  cookieStore.delete(VERIFICATION_EMAIL_COOKIE);
   cookieStore.delete(RESEND_AVAILABLE_COOKIE);
 }
 
