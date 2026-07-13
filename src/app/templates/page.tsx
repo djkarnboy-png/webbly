@@ -2,6 +2,7 @@ import { MarketplaceBrowser } from "@/components/MarketplaceBrowser";
 import { getViewer } from "@/lib/auth";
 import { getCategories } from "@/lib/marketplace";
 import { getPublishedTemplates, getSavedTemplateIds } from "@/lib/marketplace-server";
+import { getListedWebsites } from "@/lib/websites-server";
 
 export const metadata = {
   title: "Browse Website Templates | Webbly",
@@ -16,6 +17,7 @@ type TemplatesPageProps = {
 export default async function TemplatesPage({ searchParams }: TemplatesPageProps) {
   const { category } = await searchParams;
   const { data: templates, error } = await getPublishedTemplates();
+  const { data: websites, error: websitesError } = await getListedWebsites();
   const viewer = await getViewer();
   const savedTemplateIds = await getSavedTemplateIds(viewer?.id);
   const categories = getCategories();
@@ -59,6 +61,8 @@ export default async function TemplatesPage({ searchParams }: TemplatesPageProps
             loadError={error}
             savedTemplateIds={savedTemplateIds}
             canSave={Boolean(viewer)}
+            websites={websites}
+            websitesError={websitesError}
           />
         </div>
       </section>

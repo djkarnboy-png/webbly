@@ -15,6 +15,7 @@ import {
   MAX_WEBSITE_FILE_BYTES,
   MAX_WEBSITE_TOTAL_BYTES,
   WEBSITE_ENTRY_FILE,
+  isEntryFilePath,
   validateWebsiteFileManifest,
 } from "@/lib/websites-limits";
 import { Button } from "./Button";
@@ -27,11 +28,12 @@ export function WebsiteUploadForm() {
   const [state, formAction, isPending] = useActionState(createWebsiteAction, initialState);
   const [files, setFiles] = useState<ManifestEntry[]>([]);
   const [isDragging, setIsDragging] = useState(false);
+  const [dropError, setDropError] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
 
   const manifest = files.map((entry) => ({ path: entry.path, size: entry.file.size }));
   const validation = validateWebsiteFileManifest(manifest);
-  const hasEntryFile = files.some((entry) => entry.path === WEBSITE_ENTRY_FILE);
+  const hasEntryFile = files.some((entry) => isEntryFilePath(entry.path));
   const totalBytes = files.reduce((sum, entry) => sum + entry.file.size, 0);
 
   function addFiles(newFiles: ManifestEntry[]) {
@@ -51,26 +53,42 @@ export function WebsiteUploadForm() {
   async function handleDrop(event: DragEvent<HTMLDivElement>) {
     event.preventDefault();
     setIsDragging(false);
+    setDropError("");
 
-    const items = event.dataTransfer.items;
-    const collected: ManifestEntry[] = [];
-    const entryPromises: Promise<ManifestEntry[]>[] = [];
+    try {
+      const items = event.dataTransfer.items;
+      const collected: ManifestEntry[] = [];
+      const entryPromises: Promise<ManifestEntry[]>[] = [];
 
-    for (let index = 0; index < items.length; index += 1) {
-      const item = items[index];
-      const entry = item.webkitGetAsEntry?.();
-      if (entry) {
-        entryPromises.push(traverseFileTree(entry));
-      } else {
-        const file = item.getAsFile();
-        if (file) {
-          collected.push({ path: file.name, file });
+      for (let index = 0; index < items.length; index += 1) {
+        const item = items[index];
+        const entry = item.webkitGetAsEntry?.();
+        if (entry) {
+          entryPromises.push(traverseFileTree(entry));
+        } else {
+          const file = item.getAsFile();
+          if (file) {
+            collected.push({ path: file.name, file });
+          }
         }
       }
-    }
 
-    const nested = await Promise.all(entryPromises);
-    addFiles([...collected, ...nested.flat()]);
+      const nested = await Promise.all(entryPromises);
+      const dropped = [...collected, ...nested.flat()];
+
+      if (dropped.length === 0) {
+        setDropError(
+          "Could not read any files from that drop. Try the \"Upload folder\" or \"Upload files\" buttons instead.",
+        );
+        return;
+      }
+
+      addFiles(dropped);
+    } catch {
+      setDropError(
+        "Something went wrong reading those files. Try the \"Upload folder\" or \"Upload files\" buttons instead.",
+      );
+    }
   }
 
   function handleFolderInput(event: ChangeEvent<HTMLInputElement>) {
@@ -133,7 +151,7 @@ export function WebsiteUploadForm() {
 
       <FormSection title="Website basics" description="The details buyers scan first.">
         <div className="grid gap-5 sm:grid-cols-2">
-          <FormField label="Title" name="title" placeholder="Modern florist website" required />
+          <FormField label="Title" name="title" placeholder="Modern florist website" />
           <FormField
             label="Price (USD)"
             name="price"
@@ -141,16 +159,13 @@ export function WebsiteUploadForm() {
             min="0"
             step="1"
             placeholder="299"
-            required
           />
         </div>
         <TextareaField
           label="Short description"
           name="shortDescription"
           rows={3}
-          maxLength={180}
           placeholder="A polished booking website for independent salons and beauty studios."
-          hint="Up to 180 characters."
         />
         <TextareaField
           label="Full description"
@@ -202,6 +217,12 @@ export function WebsiteUploadForm() {
           </div>
         </div>
 
+        {dropError ? (
+          <p className="text-sm font-medium text-rose-300" role="alert">
+            {dropError}
+          </p>
+        ) : null}
+
         <div className="flex flex-wrap items-center gap-3 text-xs font-semibold">
           <span
             className={`rounded-md border px-2.5 py-1.5 ${
@@ -235,7 +256,7 @@ export function WebsiteUploadForm() {
                 >
                   <span className="min-w-0 truncate font-mono text-xs text-slate-300">
                     {entry.path}
-                    {entry.path === WEBSITE_ENTRY_FILE ? (
+                    {isEntryFilePath(entry.path) ? (
                       <span className="ml-2 rounded bg-blue-500/20 px-1.5 py-0.5 text-[10px] font-bold uppercase text-blue-300">
                         Entry
                       </span>

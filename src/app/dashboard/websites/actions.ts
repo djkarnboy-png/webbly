@@ -5,7 +5,9 @@ import { redirect } from "next/navigation";
 import { requireVerifiedViewer } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import {
+  WEBSITE_ENTRY_FILE,
   contentTypeForPath,
+  isEntryFilePath,
   validateWebsiteFileManifest,
 } from "@/lib/websites-limits";
 
@@ -24,9 +26,6 @@ export async function createWebsiteAction(
   const viewer = await requireVerifiedViewer("/dashboard/websites/new");
 
   const parsed = parseWebsiteForm(formData);
-  if (!parsed.ok) {
-    return { status: "error", message: parsed.error };
-  }
 
   const fileEntries: { path: string; file: File }[] = [];
   for (const [key, value] of formData.entries()) {
@@ -73,6 +72,8 @@ export async function createWebsiteAction(
       size_bytes: entry.file.size,
     });
   }
+
+  normalizeEntryFilePath(filesToInsert);
 
   const totalBytes = filesToInsert.reduce((sum, file) => sum + file.size_bytes, 0);
   const supabase = await createClient();
@@ -188,42 +189,35 @@ export async function deleteWebsiteAction(websiteId: string) {
   };
 }
 
-function parseWebsiteForm(formData: FormData):
-  | { ok: false; error: string }
-  | {
-      ok: true;
-      values: {
-        title: string;
-        price: number;
-        shortDescription: string;
-        fullDescription: string;
-      };
-    } {
-  const title = getText(formData, "title");
-  const price = Number(getText(formData, "price"));
+function parseWebsiteForm(formData: FormData): {
+  values: {
+    title: string;
+    price: number;
+    shortDescription: string;
+    fullDescription: string;
+  };
+} {
+  const title = getText(formData, "title") || "Untitled website";
+  const rawPrice = Number(getText(formData, "price"));
+  const price = Number.isFinite(rawPrice)
+    ? Math.min(100000, Math.max(0, Math.round(rawPrice)))
+    : 0;
   const shortDescription = getText(formData, "shortDescription");
   const fullDescription = getText(formData, "fullDescription");
 
-  if (title.length < 3 || title.length > 120) {
-    return {
-      ok: false,
-      error: "Enter a website title between 3 and 120 characters.",
-    };
-  }
-  if (!Number.isInteger(price) || price < 0 || price > 100000) {
-    return { ok: false, error: "Enter a valid whole-number price." };
-  }
-  if (shortDescription.length > 180) {
-    return {
-      ok: false,
-      error: "Keep the short description under 180 characters.",
-    };
+  return { values: { title, price, shortDescription, fullDescription } };
+}
+
+function normalizeEntryFilePath(files: { path: string }[]) {
+  const alreadyExact = files.some((file) => file.path === WEBSITE_ENTRY_FILE);
+  if (alreadyExact) {
+    return;
   }
 
-  return {
-    ok: true,
-    values: { title, price, shortDescription, fullDescription },
-  };
+  const entry = files.find((file) => isEntryFilePath(file.path));
+  if (entry) {
+    entry.path = WEBSITE_ENTRY_FILE;
+  }
 }
 
 function containsNulByte(value: string) {

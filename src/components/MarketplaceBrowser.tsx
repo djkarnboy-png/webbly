@@ -8,7 +8,9 @@ import {
   type TemplateFilters,
 } from "@/lib/marketplace";
 import type { Template } from "@/data/templates";
+import type { WebsiteListItem } from "@/lib/websites-server";
 import { TemplateCard } from "./TemplateCard";
+import { WebsiteCard } from "./WebsiteCard";
 
 type MarketplaceBrowserProps = {
   templates: Template[];
@@ -16,6 +18,8 @@ type MarketplaceBrowserProps = {
   loadError?: string | null;
   savedTemplateIds?: string[];
   canSave?: boolean;
+  websites?: WebsiteListItem[];
+  websitesError?: string | null;
 };
 
 const categories = getCategories();
@@ -27,6 +31,8 @@ export function MarketplaceBrowser({
   loadError,
   savedTemplateIds = [],
   canSave = false,
+  websites = [],
+  websitesError,
 }: MarketplaceBrowserProps) {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState(
@@ -40,6 +46,11 @@ export function MarketplaceBrowser({
   const filteredTemplates = useMemo(
     () => filterTemplates(templates, { search, category, price, sort }),
     [category, price, search, sort, templates],
+  );
+
+  const filteredWebsites = useMemo(
+    () => (category === "all" ? filterWebsites(websites, { search, price, sort }) : []),
+    [category, price, search, sort, websites],
   );
 
   const hasActiveFilters =
@@ -194,8 +205,78 @@ export function MarketplaceBrowser({
           </button>
         </div>
       )}
+
+      {websites.length > 0 ? (
+        <div className="mt-12">
+          <div className="flex flex-col gap-3 border-b border-white/10 pb-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="font-semibold text-slate-100">Uploaded websites</p>
+              <p className="mt-1 text-sm text-slate-500">
+                Real source code you can preview live and download.
+              </p>
+            </div>
+          </div>
+
+          {websitesError ? (
+            <div className="mt-5 rounded-lg border border-rose-400/25 bg-rose-500/10 p-4 text-sm text-rose-100" role="alert">
+              Uploaded websites could not load right now. Refresh the page or try again shortly.
+            </div>
+          ) : null}
+
+          {filteredWebsites.length > 0 ? (
+            <div className="mt-7 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {filteredWebsites.map((website) => (
+                <WebsiteCard key={website.id} website={website} />
+              ))}
+            </div>
+          ) : (
+            <p className="mt-7 text-sm text-slate-500">
+              No uploaded websites match those filters.
+            </p>
+          )}
+        </div>
+      ) : null}
     </div>
   );
+}
+
+function filterWebsites(
+  catalog: WebsiteListItem[],
+  {
+    search = "",
+    price = "all",
+    sort = "best-match",
+  }: { search?: string; price?: string; sort?: NonNullable<TemplateFilters["sort"]> },
+) {
+  const searchValue = search.trim().toLowerCase();
+
+  return catalog
+    .filter((website) => {
+      const searchableText = [website.title, website.short_description, website.full_description]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      const matchesSearch = !searchValue || searchableText.includes(searchValue);
+      const matchesPrice =
+        price === "all" ||
+        (price === "under-150" && website.price < 150) ||
+        (price === "150-300" && website.price >= 150 && website.price <= 300) ||
+        (price === "300-plus" && website.price > 300);
+
+      return matchesSearch && matchesPrice;
+    })
+    .sort((a, b) => {
+      if (sort === "budget-friendly" || sort === "price-low") {
+        return a.price - b.price;
+      }
+      if (sort === "price-high") {
+        return b.price - a.price;
+      }
+      return (
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+    });
 }
 
 function CategoryFilterButton({

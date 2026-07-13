@@ -35,6 +35,10 @@ export function contentTypeForPath(path: string): string | null {
   return CONTENT_TYPE_BY_EXTENSION[extensionOf(path)] ?? null;
 }
 
+export function isEntryFilePath(path: string): boolean {
+  return path.toLowerCase() === WEBSITE_ENTRY_FILE;
+}
+
 export function isSafeWebsiteFilePath(path: string): boolean {
   if (!path || path.length > MAX_WEBSITE_FILE_PATH_LENGTH) {
     return false;
@@ -103,7 +107,7 @@ export function validateWebsiteFileManifest(
     }
 
     totalBytes += file.size;
-    if (file.path === WEBSITE_ENTRY_FILE) {
+    if (isEntryFilePath(file.path)) {
       hasEntryFile = true;
     }
   }
