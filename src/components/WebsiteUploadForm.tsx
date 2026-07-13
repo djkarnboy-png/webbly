@@ -16,6 +16,7 @@ import {
   MAX_WEBSITE_TOTAL_BYTES,
   WEBSITE_ENTRY_FILE,
   isEntryFilePath,
+  isJunkFilePath,
   validateWebsiteFileManifest,
 } from "@/lib/websites-limits";
 import { Button } from "./Button";
@@ -40,6 +41,9 @@ export function WebsiteUploadForm() {
     setFiles((previous) => {
       const map = new Map(previous.map((entry) => [entry.path, entry]));
       for (const entry of newFiles) {
+        if (isJunkFilePath(entry.path)) {
+          continue;
+        }
         map.set(entry.path, entry);
       }
       return Array.from(map.values());
@@ -74,7 +78,7 @@ export function WebsiteUploadForm() {
       }
 
       const nested = await Promise.all(entryPromises);
-      const dropped = [...collected, ...nested.flat()];
+      const dropped = stripCommonTopFolder([...collected, ...nested.flat()]);
 
       if (dropped.length === 0) {
         setDropError(
@@ -296,6 +300,22 @@ export function WebsiteUploadForm() {
       </div>
     </form>
   );
+}
+
+function stripCommonTopFolder(entries: ManifestEntry[]): ManifestEntry[] {
+  if (entries.length === 0 || !entries.every((entry) => entry.path.includes("/"))) {
+    return entries;
+  }
+
+  const topFolder = entries[0].path.slice(0, entries[0].path.indexOf("/"));
+  const shareTopFolder = entries.every(
+    (entry) => entry.path.slice(0, entry.path.indexOf("/")) === topFolder,
+  );
+  if (!shareTopFolder) {
+    return entries;
+  }
+
+  return entries.map((entry) => ({ ...entry, path: entry.path.slice(topFolder.length + 1) }));
 }
 
 async function traverseFileTree(entry: FileSystemEntry, path = ""): Promise<ManifestEntry[]> {

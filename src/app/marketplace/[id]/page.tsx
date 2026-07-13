@@ -44,8 +44,8 @@ export default async function WebsiteDetailsPage({ params }: PageProps) {
           <p className="mx-auto mt-4 max-w-lg text-slate-400">
             We could not load this website right now. Please try again shortly.
           </p>
-          <ButtonLink href="/marketplace" className="mt-7">
-            Back to marketplace
+          <ButtonLink href="/templates" className="mt-7">
+            Back to templates
           </ButtonLink>
         </section>
       );
@@ -64,8 +64,8 @@ export default async function WebsiteDetailsPage({ params }: PageProps) {
           aria-label="Breadcrumb"
           className="flex flex-wrap items-center gap-2 text-sm text-slate-500"
         >
-          <Link href="/marketplace" className="font-medium transition hover:text-blue-300">
-            Marketplace
+          <Link href="/templates" className="font-medium transition hover:text-blue-300">
+            Templates
           </Link>
           <span>/</span>
           <span className="text-slate-200">{website.title}</span>

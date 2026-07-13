@@ -39,6 +39,13 @@ export function isEntryFilePath(path: string): boolean {
   return path.toLowerCase() === WEBSITE_ENTRY_FILE;
 }
 
+const JUNK_FILE_BASENAMES = new Set([".ds_store", "thumbs.db", "desktop.ini"]);
+
+export function isJunkFilePath(path: string): boolean {
+  const basename = path.split("/").pop() ?? path;
+  return JUNK_FILE_BASENAMES.has(basename.toLowerCase());
+}
+
 export function isSafeWebsiteFilePath(path: string): boolean {
   if (!path || path.length > MAX_WEBSITE_FILE_PATH_LENGTH) {
     return false;
