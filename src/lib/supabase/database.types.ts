@@ -325,6 +325,97 @@ export type Database = {
           },
         ];
       };
+      websites: {
+        Row: {
+          id: string;
+          owner_id: string;
+          title: string;
+          price: number;
+          short_description: string | null;
+          full_description: string | null;
+          tags: string[];
+          file_count: number;
+          total_bytes: number;
+          status: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          owner_id: string;
+          title: string;
+          price?: number;
+          short_description?: string | null;
+          full_description?: string | null;
+          tags?: string[];
+          file_count?: number;
+          total_bytes?: number;
+          status?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          owner_id?: string;
+          title?: string;
+          price?: number;
+          short_description?: string | null;
+          full_description?: string | null;
+          tags?: string[];
+          file_count?: number;
+          total_bytes?: number;
+          status?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "websites_owner_id_fkey";
+            columns: ["owner_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      website_files: {
+        Row: {
+          id: string;
+          website_id: string;
+          path: string;
+          content: string;
+          content_type: string;
+          size_bytes: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          website_id: string;
+          path: string;
+          content: string;
+          content_type: string;
+          size_bytes: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          website_id?: string;
+          path?: string;
+          content?: string;
+          content_type?: string;
+          size_bytes?: number;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "website_files_website_id_fkey";
+            columns: ["website_id"];
+            isOneToOne: false;
+            referencedRelation: "websites";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
@@ -338,3 +429,6 @@ export type CreatorRow = Database["public"]["Tables"]["creators"]["Row"];
 export type TemplateRow = Database["public"]["Tables"]["templates"]["Row"];
 export type WebsiteRequestRow =
   Database["public"]["Tables"]["website_requests"]["Row"];
+export type WebsiteRow = Database["public"]["Tables"]["websites"]["Row"];
+export type WebsiteFileRow =
+  Database["public"]["Tables"]["website_files"]["Row"];

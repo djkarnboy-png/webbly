@@ -28,7 +28,12 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           <p className="mt-3 text-sm leading-6 text-amber-200">
             Add a template to create your public listing profile and submit the work for review.
           </p>
-          <ButtonLink href="/templates/new" className="mt-5">List your work</ButtonLink>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <ButtonLink href="/templates/new">List your work</ButtonLink>
+            <ButtonLink href="/dashboard/websites" variant="outline">
+              Manage websites
+            </ButtonLink>
+          </div>
         </div>
       </section>
     );
@@ -53,9 +58,14 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
             Publish your work, review new briefs, and keep every lead moving.
           </p>
         </div>
-        <ButtonLink href="/templates/new" size="lg">
-          List your work
-        </ButtonLink>
+        <div className="flex flex-wrap gap-3">
+          <ButtonLink href="/dashboard/websites" variant="outline" size="lg">
+            Manage websites
+          </ButtonLink>
+          <ButtonLink href="/templates/new" size="lg">
+            List your work
+          </ButtonLink>
+        </div>
       </div>
 
       {submitted === "1" ? (
