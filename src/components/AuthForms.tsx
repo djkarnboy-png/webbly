@@ -91,7 +91,7 @@ export function SignupForm() {
                 <li
                   key={requirement.id}
                   className={`flex items-center gap-2 transition-colors ${
-                    complete ? "font-semibold text-emerald-700" : "text-slate-500"
+                    complete ? "font-semibold text-emerald-300" : "text-slate-500"
                   }`}
                 >
                   <span
@@ -99,7 +99,7 @@ export function SignupForm() {
                     className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full border text-[10px] leading-none ${
                       complete
                         ? "border-emerald-600 bg-emerald-600 text-white"
-                        : "border-slate-300 bg-white text-transparent"
+                        : "border-white/20 bg-white/[0.03] text-transparent"
                     }`}
                   >
                     ✓
@@ -127,8 +127,8 @@ export function SignupForm() {
               confirmPassword.length === 0
                 ? "text-slate-500"
                 : passwordsMatch
-                  ? "text-emerald-700"
-                  : "text-rose-700"
+                  ? "text-emerald-300"
+                  : "text-rose-300"
             }`}
             aria-live="polite"
           >
@@ -174,12 +174,12 @@ function PasswordField({
   return (
     <div className="grid gap-2">
       <div className="flex items-center justify-between gap-3">
-        <label htmlFor={id} className="text-sm font-semibold text-slate-700">
+        <label htmlFor={id} className="text-sm font-semibold text-slate-300">
           {label}
         </label>
         <button
           type="button"
-          className="text-xs font-semibold text-blue-700 hover:text-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+          className="text-xs font-semibold text-blue-400 hover:text-blue-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
           aria-pressed={showPassword}
           onClick={onToggleVisibility}
         >
@@ -197,7 +197,7 @@ function PasswordField({
         pattern={PASSWORD_PATTERN.source}
         aria-describedby={describedBy}
         required
-        className="h-12 rounded-md border border-slate-300 bg-white px-4 text-sm text-slate-950 outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+        className="dark-field h-12 rounded-md px-4 text-sm outline-none"
       />
     </div>
   );
@@ -218,14 +218,14 @@ function AuthField({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-semibold text-slate-700">{label}</span>
+      <span className="text-sm font-semibold text-slate-300">{label}</span>
       <input
         name={name}
         type={type}
         autoComplete={autoComplete}
         placeholder={placeholder}
         required
-        className="h-12 rounded-md border border-slate-300 bg-white px-4 text-sm text-slate-950 outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+        className="dark-field h-12 rounded-md px-4 text-sm outline-none"
       />
     </label>
   );
@@ -241,8 +241,8 @@ function AuthMessage({ state }: { state: AuthActionState }) {
     <div
       className={`rounded-md border p-3 text-sm leading-6 ${
         success
-          ? "border-emerald-200 bg-emerald-50 text-emerald-900"
-          : "border-rose-200 bg-rose-50 text-rose-900"
+          ? "border-emerald-400/25 bg-emerald-500/10 text-emerald-100"
+          : "border-rose-400/25 bg-rose-500/10 text-rose-100"
       }`}
       role="status"
     >

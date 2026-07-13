@@ -11,8 +11,9 @@ export function CTASection({
   description = "Browse polished business templates or connect with a creator who can shape one around your brand, services, and goals.",
 }: CTASectionProps) {
   return (
-    <section className="relative overflow-hidden bg-slate-950 px-6 py-20 text-white">
-      <div className="site-grid absolute inset-0 opacity-20" />
+    <section className="relative overflow-hidden border-y border-white/10 bg-[#070b12] px-6 py-20 text-white">
+      <div className="site-grid absolute inset-0 opacity-40" />
+      <div className="absolute inset-0 bg-[radial-gradient(800px_320px_at_12%_50%,rgba(37,99,235,0.16),transparent_70%),radial-gradient(620px_300px_at_88%_40%,rgba(109,40,217,0.1),transparent_72%)]" />
       <div className="relative mx-auto grid max-w-[1180px] gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
         <div className="max-w-3xl">
           <p className="text-sm font-semibold uppercase text-blue-300">

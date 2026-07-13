@@ -33,7 +33,7 @@ export function DashboardTemplateActions({ templateId }: { templateId: string })
       <div className="flex flex-wrap gap-2">
         <Link
           href={`/dashboard/templates/${templateId}/edit`}
-          className="inline-flex h-9 items-center justify-center rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-800 transition hover:border-blue-300 hover:bg-blue-50"
+          className="inline-flex h-9 items-center justify-center rounded-md border border-white/15 bg-white/[0.04] px-3 text-xs font-semibold text-slate-200 transition hover:border-blue-400/60 hover:bg-blue-500/10"
         >
           Edit
         </Link>
@@ -41,7 +41,7 @@ export function DashboardTemplateActions({ templateId }: { templateId: string })
           type="button"
           onClick={archiveTemplate}
           disabled={isPending}
-          className="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-800 transition hover:bg-slate-100 disabled:opacity-50"
+          className="h-9 rounded-md border border-white/15 bg-white/[0.04] px-3 text-xs font-semibold text-slate-200 transition hover:bg-white/[0.08] disabled:opacity-50"
         >
           Archive
         </button>
@@ -49,7 +49,7 @@ export function DashboardTemplateActions({ templateId }: { templateId: string })
           type="button"
           onClick={deleteTemplate}
           disabled={isPending}
-          className="h-9 rounded-md border border-rose-200 bg-white px-3 text-xs font-semibold text-rose-700 transition hover:bg-rose-50 disabled:opacity-50"
+          className="h-9 rounded-md border border-rose-400/25 bg-rose-500/[0.06] px-3 text-xs font-semibold text-rose-300 transition hover:bg-rose-500/10 disabled:opacity-50"
         >
           Delete
         </button>

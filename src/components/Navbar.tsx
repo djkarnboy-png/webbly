@@ -21,7 +21,7 @@ export function Navbar({ viewer }: { viewer: Viewer | null }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#05070b]/92 backdrop-blur-xl">
       <nav className="mx-auto flex h-[68px] max-w-[1360px] items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
@@ -51,7 +51,7 @@ export function Navbar({ viewer }: { viewer: Viewer | null }) {
               strokeWidth="12"
             />
           </svg>
-          <span className="text-[26px] font-semibold leading-none text-slate-950">
+          <span className="text-[26px] font-semibold leading-none text-white">
             webbly
           </span>
         </Link>
@@ -69,8 +69,8 @@ export function Navbar({ viewer }: { viewer: Viewer | null }) {
                 href={item.href}
                 className={`shrink-0 whitespace-nowrap rounded-md px-3 py-2 text-sm font-semibold transition ${
                   isActive
-                    ? "bg-slate-100 text-slate-950"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-950"
+                    ? "bg-white/[0.08] text-white"
+                    : "text-slate-400 hover:bg-white/[0.06] hover:text-white"
                 }`}
               >
                 {item.label}
@@ -99,7 +99,7 @@ export function Navbar({ viewer }: { viewer: Viewer | null }) {
               <form action={logoutAction}>
                 <button
                   type="submit"
-                  className="h-10 rounded-lg px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-950"
+                  className="h-10 rounded-lg px-3 text-sm font-semibold text-slate-400 transition hover:bg-white/[0.06] hover:text-white"
                 >
                   Log out
                 </button>
@@ -120,7 +120,7 @@ export function Navbar({ viewer }: { viewer: Viewer | null }) {
         <button
           type="button"
           onClick={() => setIsOpen((current) => !current)}
-          className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-950 shadow-sm xl:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/15 bg-white/[0.04] text-white shadow-sm xl:hidden"
           aria-label="Toggle navigation"
           aria-expanded={isOpen}
         >
@@ -145,14 +145,14 @@ export function Navbar({ viewer }: { viewer: Viewer | null }) {
       </nav>
 
       {isOpen ? (
-        <div className="border-t border-slate-200 bg-white px-4 py-4 shadow-xl xl:hidden">
+        <div className="border-t border-white/10 bg-[#080d15] px-4 py-4 shadow-2xl xl:hidden">
           <div className="mx-auto grid max-w-7xl gap-2">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className="rounded-lg px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-slate-950"
+                className="rounded-lg px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.06] hover:text-white"
               >
                 {item.label}
               </Link>
@@ -212,7 +212,7 @@ export function Navbar({ viewer }: { viewer: Viewer | null }) {
                 <form action={logoutAction} className="w-full">
                   <button
                     type="submit"
-                    className="h-11 w-full rounded-lg border border-slate-300 bg-white px-5 text-sm font-semibold text-slate-900 shadow-sm transition hover:border-blue-300 hover:bg-blue-50"
+                    className="h-11 w-full rounded-lg border border-white/15 bg-white/[0.04] px-5 text-sm font-semibold text-slate-200 shadow-sm transition hover:border-blue-400/60 hover:bg-blue-500/10 hover:text-white"
                   >
                     Log out
                   </button>

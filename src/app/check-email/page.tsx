@@ -12,15 +12,15 @@ export default async function CheckEmailPage() {
   }
 
   return (
-    <section className="site-grid bg-[#f6f7fb] px-5 py-14 sm:px-6 sm:py-20 lg:px-8">
-      <div className="mx-auto max-w-2xl rounded-lg border border-slate-200 bg-white p-6 shadow-[0_24px_60px_rgba(16,24,40,0.1)] sm:p-10">
-        <p className="text-sm font-semibold uppercase text-blue-700">
+    <section className="app-page px-5 py-14 sm:px-6 sm:py-20 lg:px-8">
+      <div className="app-panel mx-auto max-w-2xl rounded-lg p-6 sm:p-10">
+        <p className="text-sm font-semibold uppercase text-blue-400">
           Check your inbox
         </p>
-        <h1 className="mt-3 text-4xl font-bold leading-tight text-slate-950">
+        <h1 className="mt-3 text-4xl font-bold leading-tight text-slate-50">
           Check your email to activate your account.
         </h1>
-        <p className="mt-4 text-base leading-7 text-slate-600">
+        <p className="mt-4 text-base leading-7 text-slate-400">
           Automatic sign-in works only while the original signup tab remains
           open. If that tab was refreshed or closed, verify your email and then
           log in normally.
@@ -32,11 +32,11 @@ export default async function CheckEmailPage() {
           </ButtonLink>
         </div>
 
-        <p className="mt-6 text-center text-sm text-slate-600">
+        <p className="mt-6 text-center text-sm text-slate-400">
           Used the wrong address?{" "}
           <Link
             href="/signup"
-            className="font-semibold text-blue-700 hover:text-blue-800"
+            className="font-semibold text-blue-400 hover:text-blue-300"
           >
             Change email / Back to signup
           </Link>

@@ -55,31 +55,31 @@ export function MarketplaceBrowser({
   return (
     <div>
       {loadError ? (
-        <div className="mb-5 rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-900" role="alert">
+        <div className="mb-5 rounded-lg border border-rose-400/25 bg-rose-500/10 p-4 text-sm text-rose-100" role="alert">
           The marketplace could not load right now. Refresh the page or try again shortly.
         </div>
       ) : null}
-      <div className="rounded-lg border border-slate-200 bg-white shadow-[0_12px_30px_rgba(16,24,40,0.06)] lg:sticky lg:top-[84px] lg:z-20">
+      <div className="app-panel rounded-lg lg:sticky lg:top-[84px] lg:z-20">
         <div className="grid gap-3 p-4 lg:grid-cols-[minmax(300px,1fr)_190px_180px_190px]">
           <label className="block">
-            <span className="mb-2 block text-xs font-semibold uppercase text-slate-500">
+            <span className="mb-2 block text-xs font-semibold uppercase text-slate-400">
               Search marketplace
             </span>
             <input
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Search templates or creators"
-              className="h-12 w-full rounded-md border border-slate-300 bg-white px-4 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              className="dark-field h-12 w-full rounded-md px-4 text-sm outline-none transition"
             />
           </label>
           <label className="block">
-            <span className="mb-2 block text-xs font-semibold uppercase text-slate-500">
+            <span className="mb-2 block text-xs font-semibold uppercase text-slate-400">
               Category
             </span>
             <select
               value={category}
               onChange={(event) => setCategory(event.target.value)}
-              className="h-12 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              className="dark-field h-12 w-full rounded-md px-3 text-sm font-medium outline-none transition"
             >
               <option value="all">All categories</option>
               {categories.map((item) => (
@@ -90,13 +90,13 @@ export function MarketplaceBrowser({
             </select>
           </label>
           <label className="block">
-            <span className="mb-2 block text-xs font-semibold uppercase text-slate-500">
+            <span className="mb-2 block text-xs font-semibold uppercase text-slate-400">
               Price
             </span>
             <select
               value={price}
               onChange={(event) => setPrice(event.target.value)}
-              className="h-12 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              className="dark-field h-12 w-full rounded-md px-3 text-sm font-medium outline-none transition"
             >
               {priceRanges.map((range) => (
                 <option key={range.value} value={range.value}>
@@ -106,7 +106,7 @@ export function MarketplaceBrowser({
             </select>
           </label>
           <label className="block">
-            <span className="mb-2 block text-xs font-semibold uppercase text-slate-500">
+            <span className="mb-2 block text-xs font-semibold uppercase text-slate-400">
               Sort by
             </span>
             <select
@@ -114,7 +114,7 @@ export function MarketplaceBrowser({
               onChange={(event) =>
                 setSort(event.target.value as NonNullable<TemplateFilters["sort"]>)
               }
-              className="h-12 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              className="dark-field h-12 w-full rounded-md px-3 text-sm font-medium outline-none transition"
             >
               <option value="best-match">Best match</option>
               <option value="popular">Popular</option>
@@ -124,7 +124,7 @@ export function MarketplaceBrowser({
           </label>
         </div>
 
-        <div className="border-t border-slate-200 px-4 py-3">
+        <div className="border-t border-white/10 px-4 py-3">
           <div className="flex gap-2 overflow-x-auto pb-1" aria-label="Template categories">
             <CategoryFilterButton
               active={category === "all"}
@@ -145,8 +145,8 @@ export function MarketplaceBrowser({
         </div>
       </div>
 
-      <div className="mt-7 flex flex-col gap-3 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
-        <p className="font-semibold text-slate-900" aria-live="polite">
+      <div className="mt-7 flex flex-col gap-3 border-b border-white/10 pb-5 sm:flex-row sm:items-center sm:justify-between">
+        <p className="font-semibold text-slate-100" aria-live="polite">
           {filteredTemplates.length} template
           {filteredTemplates.length === 1 ? "" : "s"} found
         </p>
@@ -155,7 +155,7 @@ export function MarketplaceBrowser({
             <button
               type="button"
               onClick={resetFilters}
-              className="rounded-md border border-slate-200 bg-white px-3 py-2 font-semibold text-slate-700 transition hover:border-blue-300 hover:text-blue-700"
+              className="rounded-md border border-white/15 bg-white/[0.035] px-3 py-2 font-semibold text-slate-300 transition hover:border-blue-400/60 hover:text-blue-300"
             >
               Clear filters
             </button>
@@ -177,18 +177,18 @@ export function MarketplaceBrowser({
           ))}
         </div>
       ) : (
-        <div className="mt-7 border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
-          <p className="text-2xl font-bold text-slate-950">
+        <div className="app-panel-soft mt-7 rounded-lg border-dashed px-6 py-16 text-center">
+          <p className="text-2xl font-bold text-slate-50">
             No templates match those filters.
           </p>
-          <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-600">
+          <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-400">
             Try a broader search, choose another category, or clear the price
             filter to see more website directions.
           </p>
           <button
             type="button"
             onClick={resetFilters}
-            className="mt-6 h-11 rounded-lg bg-slate-950 px-5 text-sm font-semibold text-white transition hover:bg-slate-800"
+            className="mt-6 h-11 rounded-lg border border-blue-500 bg-blue-600 px-5 text-sm font-semibold text-white transition hover:bg-blue-500"
           >
             Show all templates
           </button>
@@ -214,8 +214,8 @@ function CategoryFilterButton({
       aria-pressed={active}
       className={`shrink-0 rounded-md border px-3 py-2 text-sm font-medium transition ${
         active
-          ? "border-slate-950 bg-slate-950 text-white"
-          : "border-slate-200 bg-slate-50 text-slate-700 hover:border-blue-300 hover:bg-blue-50"
+          ? "border-blue-500 bg-blue-600 text-white shadow-[0_8px_20px_rgba(37,99,235,0.2)]"
+          : "border-white/12 bg-white/[0.035] text-slate-400 hover:border-blue-400/50 hover:bg-blue-500/10 hover:text-blue-200"
       }`}
     >
       {children}

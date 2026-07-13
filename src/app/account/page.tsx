@@ -71,8 +71,8 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
 
   if (!profile) {
     return (
-      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
-        <div className="rounded-lg border border-rose-200 bg-rose-50 p-6 text-rose-900">
+      <section className="app-page mx-auto max-w-3xl px-4 py-20 sm:px-6">
+        <div className="rounded-lg border border-rose-400/25 bg-rose-500/10 p-6 text-rose-100">
           We could not load your profile. Please sign out and sign in again.
         </div>
       </section>
@@ -91,10 +91,10 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
   const receivedRequests = receivedResult?.data ?? [];
 
   return (
-    <section className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+    <section className="app-page mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
       {listing === "submitted" ? (
         <div
-          className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-900"
+          className="mb-6 rounded-lg border border-emerald-400/25 bg-emerald-500/10 px-4 py-3 text-sm font-semibold text-emerald-100"
           role="status"
         >
           Your template was submitted for review.
@@ -102,14 +102,14 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
       ) : null}
 
       <div className="grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
-        <aside className="h-fit rounded-lg border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-24">
-          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-950 text-sm font-bold text-white">
+        <aside className="app-panel h-fit rounded-lg p-5 lg:sticky lg:top-24">
+          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-violet-600 text-sm font-bold text-white shadow-[0_10px_24px_rgba(37,99,235,0.25)]">
             {initials || "W"}
           </span>
-          <h1 className="mt-4 text-xl font-bold text-slate-950">{viewer.fullName}</h1>
+          <h1 className="mt-4 text-xl font-bold text-slate-50">{viewer.fullName}</h1>
           <p className="mt-1 break-all text-sm text-slate-500">{viewer.email}</p>
 
-          <div className="mt-6 grid gap-2 border-t border-slate-200 pt-5">
+          <div className="mt-6 grid gap-2 border-t border-white/10 pt-5">
             <ButtonLink href="/templates/new" className="w-full">
               List your work
             </ButtonLink>
@@ -128,11 +128,11 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
         </aside>
 
         <div className="min-w-0 space-y-6">
-          <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
-            <div className="mb-7 border-b border-slate-200 pb-5">
-              <p className="text-xs font-bold uppercase text-blue-700">Account settings</p>
-              <h2 className="mt-2 text-2xl font-bold text-slate-950">Your profile</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-600">
+          <section className="app-panel rounded-lg p-5 sm:p-7">
+            <div className="mb-7 border-b border-white/10 pb-5">
+              <p className="text-xs font-bold uppercase text-blue-400">Account settings</p>
+              <h2 className="mt-2 text-2xl font-bold text-slate-50">Your profile</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-400">
                 Keep your name, username, location, and short bio up to date.
               </p>
             </div>
@@ -235,10 +235,10 @@ function ActivityPanel({
   const hasItems = count > 0;
 
   return (
-    <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-      <div className="flex items-center justify-between gap-4 border-b border-slate-200 px-5 py-4">
+    <section className="app-panel-soft overflow-hidden rounded-lg">
+      <div className="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-4">
         <div>
-          <h2 className="font-bold text-slate-950">{title}</h2>
+          <h2 className="font-bold text-slate-50">{title}</h2>
           <p className="mt-1 text-xs text-slate-500">{count} total</p>
         </div>
         <ButtonLink href={href} size="sm" variant="ghost">
@@ -246,7 +246,7 @@ function ActivityPanel({
         </ButtonLink>
       </div>
       {hasItems ? (
-        <div className="divide-y divide-slate-200 px-5">{children}</div>
+        <div className="divide-y divide-white/10 px-5">{children}</div>
       ) : (
         <p className="px-5 py-8 text-center text-sm leading-6 text-slate-500">{empty}</p>
       )}
@@ -268,7 +268,7 @@ function ActivityRow({
   const content = (
     <>
       <div className="min-w-0">
-        <p className="truncate text-sm font-semibold text-slate-900">{title}</p>
+        <p className="truncate text-sm font-semibold text-slate-100">{title}</p>
         <p className="mt-1 truncate text-xs text-slate-500">{meta}</p>
       </div>
       {status ? <StatusBadge status={status} /> : null}
@@ -276,7 +276,7 @@ function ActivityRow({
   );
 
   return href ? (
-    <Link href={href} className="flex items-center justify-between gap-3 py-4 hover:text-blue-700">
+    <Link href={href} className="flex items-center justify-between gap-3 py-4 hover:text-blue-300">
       {content}
     </Link>
   ) : (
@@ -286,7 +286,7 @@ function ActivityRow({
 
 function StatusBadge({ status }: { status: string }) {
   return (
-    <span className="w-fit shrink-0 rounded-md bg-slate-100 px-2.5 py-1 text-[10px] font-bold uppercase text-slate-600">
+    <span className="w-fit shrink-0 rounded-md border border-white/10 bg-white/[0.05] px-2.5 py-1 text-[10px] font-bold uppercase text-slate-400">
       {status.replace("_", " ")}
     </span>
   );

@@ -78,8 +78,8 @@ export function TemplateForm({ template }: { template?: TemplateRow | null }) {
         <div
           className={`rounded-lg border px-4 py-3 text-sm font-medium ${
             state.status === "success"
-              ? "border-emerald-200 bg-emerald-50 text-emerald-900"
-              : "border-rose-200 bg-rose-50 text-rose-800"
+              ? "border-emerald-400/25 bg-emerald-500/10 text-emerald-100"
+              : "border-rose-400/25 bg-rose-500/10 text-rose-100"
           }`}
           role="status"
         >
@@ -97,12 +97,12 @@ export function TemplateForm({ template }: { template?: TemplateRow | null }) {
             required
           />
           <label className="grid gap-2">
-            <span className="text-sm font-semibold text-slate-800">Category</span>
+            <span className="text-sm font-semibold text-slate-300">Category</span>
             <select
               name="category"
               defaultValue={template?.category ?? ""}
               required
-              className="h-12 rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-950 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              className="dark-field h-12 rounded-lg px-3 text-sm outline-none"
             >
               <option value="" disabled>Choose a category</option>
               {categories.map((category) => (
@@ -197,25 +197,25 @@ export function TemplateForm({ template }: { template?: TemplateRow | null }) {
             placeholder="https://your-preview.com"
           />
           <label className="grid gap-2">
-            <span className="text-sm font-semibold text-slate-800">Preview image URL</span>
+            <span className="text-sm font-semibold text-slate-300">Preview image URL</span>
             <input
               name="previewImageUrl"
               type="url"
               value={previewImageUrl}
               onChange={(event) => setPreviewImageUrl(event.target.value)}
               placeholder="https://..."
-              className="h-12 rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-950 outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              className="dark-field h-12 rounded-lg px-4 text-sm outline-none"
             />
           </label>
         </div>
-        <label className="grid gap-2 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-5">
-          <span className="text-sm font-semibold text-slate-800">Upload preview image</span>
+        <label className="grid gap-2 rounded-lg border border-dashed border-white/20 bg-black/20 p-5">
+          <span className="text-sm font-semibold text-slate-300">Upload preview image</span>
           <input
             type="file"
             accept="image/png,image/jpeg,image/webp"
             onChange={uploadPreview}
             disabled={isUploading}
-            className="block w-full text-sm text-slate-600 file:mr-4 file:rounded-md file:border-0 file:bg-slate-950 file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-800"
+            className="block w-full text-sm text-slate-400 file:mr-4 file:rounded-md file:border file:border-white/15 file:bg-white/[0.06] file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-white hover:file:bg-white/10"
           />
           <span className="text-xs text-slate-500">PNG, JPEG, or WebP. Maximum 5 MB.</span>
           {uploadMessage ? (
@@ -226,10 +226,10 @@ export function TemplateForm({ template }: { template?: TemplateRow | null }) {
         </label>
       </FormSection>
 
-      <div className="flex flex-col gap-3 rounded-lg border border-blue-200 bg-blue-50 p-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 rounded-lg border border-blue-400/20 bg-blue-500/10 p-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="font-semibold text-blue-950">New templates are reviewed first</p>
-          <p className="mt-1 text-sm text-blue-800">Submitting sets this template to pending until an admin approves it.</p>
+          <p className="font-semibold text-blue-100">New templates are reviewed first</p>
+          <p className="mt-1 text-sm text-blue-200/75">Submitting sets this template to pending until an admin approves it.</p>
         </div>
         <Button type="submit" size="lg" disabled={isPending || isUploading} className="w-full shrink-0 sm:w-auto">
           {isUploading ? "Uploading preview..." : isPending ? "Submitting..." : template ? "Submit changes" : "Submit template"}
@@ -249,9 +249,9 @@ function FormSection({
   children: React.ReactNode;
 }) {
   return (
-    <section className="grid gap-5 border-b border-slate-200 pb-7 last:border-0 last:pb-0">
+    <section className="grid gap-5 border-b border-white/10 pb-7 last:border-0 last:pb-0">
       <div>
-        <h2 className="text-lg font-bold text-slate-950">{title}</h2>
+        <h2 className="text-lg font-bold text-slate-50">{title}</h2>
         <p className="mt-1 text-sm text-slate-500">{description}</p>
       </div>
       {children}
@@ -280,7 +280,7 @@ function FormField({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-semibold text-slate-800">{label}</span>
+      <span className="text-sm font-semibold text-slate-300">{label}</span>
       <input
         name={name}
         defaultValue={defaultValue}
@@ -289,7 +289,7 @@ function FormField({
         required={required}
         min={min}
         step={step}
-        className="h-12 rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-950 outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+        className="dark-field h-12 rounded-lg px-4 text-sm outline-none"
       />
     </label>
   );
@@ -316,7 +316,7 @@ function TextareaField({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-semibold text-slate-800">{label}</span>
+      <span className="text-sm font-semibold text-slate-300">{label}</span>
       <textarea
         name={name}
         defaultValue={defaultValue}
@@ -324,7 +324,7 @@ function TextareaField({
         rows={rows}
         maxLength={maxLength}
         required={required}
-        className="w-full resize-y rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-950 outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+        className="dark-field w-full resize-y rounded-lg px-4 py-3 text-sm outline-none"
       />
       {hint ? <span className="text-xs text-slate-500">{hint}</span> : null}
     </label>

@@ -19,21 +19,21 @@ export function SectionHeading({
     <div className={`max-w-3xl ${alignment}`}>
       <p
         className={`text-sm font-semibold uppercase ${
-          inverse ? "text-blue-300" : "text-blue-700"
+          inverse ? "text-blue-300" : "text-blue-400"
         }`}
       >
         {eyebrow}
       </p>
       <h2
         className={`mt-3 text-balance text-3xl font-bold leading-[1.08] sm:text-4xl lg:text-[44px] ${
-          inverse ? "text-white" : "text-slate-950"
+          inverse ? "text-white" : "text-slate-50"
         }`}
       >
         {title}
       </h2>
       <p
         className={`mt-4 text-base leading-7 sm:text-lg ${
-          inverse ? "text-slate-300" : "text-slate-600"
+          inverse ? "text-slate-300" : "text-slate-400"
         }`}
       >
         {description}

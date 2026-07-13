@@ -228,15 +228,15 @@ export function SignupVerificationWait({
           @
         </div>
         <div>
-          <p className="text-sm font-semibold uppercase text-blue-700">
+          <p className="text-sm font-semibold uppercase text-blue-400">
             Activate your account
           </p>
-          <h2 className="mt-2 text-2xl font-bold leading-tight text-slate-950 sm:text-3xl">
+          <h2 className="mt-2 text-2xl font-bold leading-tight text-slate-50 sm:text-3xl">
             Check your email to activate your account.
           </h2>
-          <p className="mt-3 text-sm leading-6 text-slate-600 sm:text-base">
+          <p className="mt-3 text-sm leading-6 text-slate-400 sm:text-base">
             We sent a verification link to{" "}
-            <strong className="break-all text-slate-950">{email}</strong>. Keep
+            <strong className="break-all text-slate-100">{email}</strong>. Keep
             this tab open while you confirm it on this device or another one.
           </p>
         </div>
@@ -245,12 +245,12 @@ export function SignupVerificationWait({
       <div
         className={`border-l-4 px-4 py-3 ${
           verified
-            ? "border-emerald-500 bg-emerald-50 text-emerald-950"
+            ? "border-emerald-400 bg-emerald-500/10 text-emerald-100"
             : terminal
-              ? "border-rose-500 bg-rose-50 text-rose-950"
+              ? "border-rose-400 bg-rose-500/10 text-rose-100"
               : status === "paused"
-                ? "border-amber-500 bg-amber-50 text-amber-950"
-                : "border-blue-500 bg-blue-50 text-blue-950"
+                ? "border-amber-400 bg-amber-500/10 text-amber-100"
+                : "border-blue-400 bg-blue-500/10 text-blue-100"
         }`}
         role="status"
         aria-live="polite"
@@ -287,16 +287,16 @@ export function SignupVerificationWait({
         </ButtonLink>
       ) : null}
 
-      <div className="grid gap-3 border-t border-slate-200 pt-5 text-center text-sm text-slate-600 sm:grid-cols-2 sm:text-left">
+      <div className="grid gap-3 border-t border-white/10 pt-5 text-center text-sm text-slate-400 sm:grid-cols-2 sm:text-left">
         <a
           href="/signup"
-          className="font-semibold text-blue-700 hover:text-blue-800"
+          className="font-semibold text-blue-400 hover:text-blue-300"
         >
           Change email / Back to signup
         </a>
         <Link
           href="/login"
-          className="font-semibold text-blue-700 hover:text-blue-800 sm:text-right"
+          className="font-semibold text-blue-400 hover:text-blue-300 sm:text-right"
         >
           Open login page
         </Link>

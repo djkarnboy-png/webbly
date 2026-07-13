@@ -14,9 +14,9 @@ const requestTips = [
 
 export default function RequestPage() {
   return (
-    <section className="bg-[#f6f7fb] px-5 py-10 sm:px-6 sm:py-14 lg:px-8">
+    <section className="app-page px-5 py-10 sm:px-6 sm:py-14 lg:px-8">
       <div className="mx-auto grid max-w-[1180px] gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
-        <aside className="site-grid overflow-hidden rounded-lg bg-slate-950 p-7 text-white lg:sticky lg:top-24 sm:p-9">
+        <aside className="app-panel site-grid overflow-hidden rounded-lg p-7 text-white lg:sticky lg:top-24 sm:p-9">
           <p className="text-sm font-semibold uppercase text-blue-300">Request a website</p>
           <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">
             Tell the creator what kind of website you want.

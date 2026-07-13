@@ -84,18 +84,18 @@ export default async function Home() {
 
   return (
     <>
-      <section className="relative isolate overflow-hidden border-b border-slate-200 bg-white">
+      <section className="app-page relative isolate overflow-hidden border-b border-white/10">
         <HeroTemplateStack templates={heroTemplates} />
         <div className="relative mx-auto flex min-h-[450px] max-w-[1280px] items-center px-5 py-12 sm:min-h-[520px] sm:px-6 sm:py-16 lg:min-h-[570px] lg:px-8">
           <div className="max-w-[660px]">
-            <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/90 px-3 py-2 text-sm font-semibold text-blue-800 shadow-sm backdrop-blur">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-blue-400/25 bg-blue-500/10 px-3 py-2 text-sm font-semibold text-blue-200 shadow-sm backdrop-blur">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.7)]" />
               Website inspiration with a creator attached
             </div>
-            <h1 className="mt-5 text-balance text-[44px] font-bold leading-[1.02] text-slate-950 sm:text-[56px] lg:text-[60px]">
+            <h1 className="mt-5 text-balance text-[44px] font-bold leading-[1.02] text-white sm:text-[56px] lg:text-[60px]">
               Find a website style you love. Hire the creator behind it.
             </h1>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+            <p className="mt-5 max-w-2xl text-base leading-7 text-slate-400 sm:text-lg sm:leading-8">
               Browse real website directions, then contact the creator to adapt
               one for your business.
             </p>
@@ -107,25 +107,48 @@ export default async function Home() {
                 Request a Website
               </RequestButton>
             </div>
-            <div className="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium text-slate-600">
+            <div className="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium text-slate-400">
               <span className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
+                <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
                 Preview before you hire
               </span>
               <span className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-violet-600" />
+                <span className="h-1.5 w-1.5 rounded-full bg-violet-400" />
                 Verified creators
               </span>
               <span className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                 No blank briefs
               </span>
             </div>
+            {heroTemplates[0] ? (
+              <div className="app-panel mt-8 overflow-hidden rounded-lg p-2 lg:hidden">
+                <BusinessPreview
+                  category={heroTemplates[0].category}
+                  name={heroTemplates[0].name}
+                  gradient={heroTemplates[0].gradient}
+                  variant="stack"
+                />
+                <div className="flex items-center justify-between gap-4 px-2 pb-1 pt-3">
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-bold uppercase text-blue-400">
+                      {heroTemplates[0].category}
+                    </p>
+                    <p className="mt-1 truncate text-sm font-bold text-slate-100">
+                      {heroTemplates[0].name}
+                    </p>
+                  </div>
+                  <p className="shrink-0 text-base font-bold text-white">
+                    ${heroTemplates[0].price}
+                  </p>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </section>
 
-      <section className="border-b border-slate-800 bg-slate-950 text-white">
+      <section className="border-b border-white/10 bg-[#070b12] text-white">
         <div className="mx-auto grid max-w-[1280px] grid-cols-3 divide-x divide-white/10 px-4 sm:px-6 lg:px-8">
           {browseSteps.map(([number, title]) => (
             <div key={title} className="flex items-center justify-center gap-2 px-2 py-4 sm:gap-4 sm:px-5 sm:py-5">
@@ -136,10 +159,10 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="categories" className="bg-[#f6f7fb] px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section id="categories" className="app-section px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-[1280px]">
           {marketplaceError ? (
-            <div className="mb-7 rounded-lg border border-rose-200 bg-white p-4 text-sm text-rose-800" role="alert">
+            <div className="mb-7 rounded-lg border border-rose-400/25 bg-rose-500/10 p-4 text-sm text-rose-100" role="alert">
               Live templates are temporarily unavailable. Please try again shortly.
             </div>
           ) : null}
@@ -165,7 +188,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="border-y border-slate-200 bg-white px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="app-section-raised border-y border-white/10 px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-[1280px]">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
@@ -173,7 +196,7 @@ export default async function Home() {
               title="Website directions you can judge at a glance."
               description="Compare the preview, price, and creator before you send a request."
             />
-            <div className="flex items-center gap-3 text-sm text-slate-600">
+            <div className="flex items-center gap-3 text-sm text-slate-400">
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
               12 curated concepts in this preview
             </div>
@@ -191,7 +214,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="how-it-works" className="border-y border-slate-200 bg-white px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section id="how-it-works" className="app-section border-y border-white/10 px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-[1280px]">
           <SectionHeading
             eyebrow="How it works"
@@ -202,7 +225,7 @@ export default async function Home() {
             {browseSteps.map(([number, title, copy], index) => (
               <li
                 key={title}
-                className="border-t-2 border-slate-200 pt-5"
+                className="border-t-2 border-white/12 pt-5"
               >
                 <HowStepVisual step={index} />
                 <div className="mt-5 flex items-start gap-4">
@@ -210,8 +233,8 @@ export default async function Home() {
                     {number}
                   </span>
                   <div>
-                    <h3 className="text-xl font-bold text-slate-950">{title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{copy}</p>
+                    <h3 className="text-xl font-bold text-slate-50">{title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-400">{copy}</p>
                   </div>
                 </div>
               </li>
@@ -220,7 +243,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-[#eef3ff] px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="border-y border-blue-400/10 bg-[linear-gradient(180deg,#0b111c_0%,#080c13_100%)] px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-[1280px]">
           <SectionHeading
             eyebrow="Why businesses use Webbly"
@@ -231,41 +254,41 @@ export default async function Home() {
             {businessBenefits.map((benefit) => (
               <article
                 key={benefit.title}
-                className="rounded-lg border border-blue-200 bg-white p-5 shadow-[0_10px_28px_rgba(37,99,235,0.07)]"
+                className="app-panel-soft rounded-lg p-5"
               >
                 <BusinessBenefitVisual kind={benefit.visual} />
-                <h3 className="mt-5 text-xl font-bold leading-tight text-slate-950">
+                <h3 className="mt-5 text-xl font-bold leading-tight text-slate-50">
                   {benefit.title}
                 </h3>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{benefit.copy}</p>
+                <p className="mt-2 text-sm leading-6 text-slate-400">{benefit.copy}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-white px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <div className="mx-auto grid max-w-[1280px] overflow-hidden rounded-lg border border-slate-200 lg:grid-cols-2">
+      <section className="app-section px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="edge-glow mx-auto grid max-w-[1280px] overflow-hidden rounded-lg border border-white/12 lg:grid-cols-2">
           {audiencePanels.map((panel) => (
             <article
               key={panel.eyebrow}
               className={`p-7 sm:p-10 ${
                 panel.tone === "dark"
-                  ? "bg-slate-950 text-white"
-                  : "bg-white text-slate-950"
+                  ? "bg-[#080d15] text-white"
+                  : "bg-[#0e1520] text-white"
               }`}
             >
               <AudienceVisual tone={panel.tone} />
-              <p className={`text-sm font-semibold uppercase ${panel.tone === "dark" ? "text-blue-300" : "text-blue-700"}`}>
+              <p className="text-sm font-semibold uppercase text-blue-300">
                 {panel.eyebrow}
               </p>
               <h2 className="mt-4 text-balance text-3xl font-bold leading-tight">
                 {panel.title}
               </h2>
-              <p className={`mt-4 text-base leading-7 ${panel.tone === "dark" ? "text-slate-300" : "text-slate-600"}`}>
+              <p className={`mt-4 text-base leading-7 ${panel.tone === "dark" ? "text-slate-300" : "text-slate-400"}`}>
                 {panel.copy}
               </p>
-              <ul className={`mt-7 divide-y ${panel.tone === "dark" ? "divide-white/10" : "divide-slate-200"}`}>
+              <ul className="mt-7 divide-y divide-white/10">
                 {panel.points.map((point) => (
                   <li key={point} className="flex items-center gap-3 py-3 text-sm font-medium">
                     <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-[11px] font-bold text-white">
@@ -278,7 +301,7 @@ export default async function Home() {
               <ButtonLink
                 href={panel.href}
                 variant={panel.tone === "dark" ? "outline" : "secondary"}
-                className={`mt-7 ${panel.tone === "dark" ? "border-white/25 bg-white text-slate-950 hover:bg-blue-50" : ""}`}
+                className="mt-7"
               >
                 {panel.action}
               </ButtonLink>
@@ -287,7 +310,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="border-t border-slate-200 bg-[#f6f7fb] px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="app-section-raised border-t border-white/10 px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-[1280px]">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
@@ -330,7 +353,8 @@ function HeroTemplateStack({ templates }: { templates: Template[] }) {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
       <div className="site-grid absolute inset-0 opacity-35" />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_54%,rgba(255,255,255,0.92)_68%,rgba(255,255,255,0.25)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,#05070b_0%,#05070b_52%,rgba(5,7,11,0.92)_67%,rgba(5,7,11,0.18)_100%)]" />
+      <div className="absolute inset-y-0 right-0 w-[58%] bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.14),rgba(109,40,217,0.06)_42%,transparent_72%)]" />
       <div className="absolute right-4 top-1/2 hidden h-[520px] w-[560px] -translate-y-1/2 lg:block lg:opacity-50 xl:right-[calc((100vw-1280px)/2+96px)] xl:opacity-100">
         {templates.map((template, index) => (
           <HeroStackCard
@@ -356,9 +380,9 @@ function HeroStackCard({
 }) {
   return (
     <article
-      className={`absolute overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_24px_60px_rgba(16,24,40,0.16)] ${className}`}
+      className={`absolute overflow-hidden rounded-lg border border-white/15 bg-[#0b1018] shadow-[0_30px_80px_rgba(0,0,0,0.52),0_0_40px_rgba(37,99,235,0.08)] ${className}`}
     >
-      <div className="relative border-b border-slate-200 bg-slate-50 p-1.5">
+      <div className="relative border-b border-white/10 bg-[#070b12] p-1.5">
         <BusinessPreview
           category={template.category}
           name={template.name}
@@ -375,23 +399,23 @@ function HeroStackCard({
         <div className="p-4">
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0">
-              <span className="text-[10px] font-bold uppercase text-blue-700">
+              <span className="text-[10px] font-bold uppercase text-blue-400">
                 {template.category}
               </span>
-              <p className="mt-1 text-base font-bold text-slate-950">
+              <p className="mt-1 text-base font-bold text-slate-50">
                 {template.name}
               </p>
             </div>
-            <p className="shrink-0 text-lg font-bold text-slate-950">
+            <p className="shrink-0 text-lg font-bold text-white">
               ${template.price}
             </p>
           </div>
-          <div className="mt-3 flex items-center justify-between gap-3 border-t border-slate-100 pt-3">
+          <div className="mt-3 flex items-center justify-between gap-3 border-t border-white/10 pt-3">
             <div className="flex min-w-0 items-center gap-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-950 text-[9px] font-bold text-white">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-violet-600 text-[9px] font-bold text-white">
                 {template.creator.avatar}
               </span>
-              <p className="text-xs font-semibold text-slate-700">
+              <p className="text-xs font-semibold text-slate-300">
                 {template.creator.name} / {template.creator.rating.toFixed(1)}
               </p>
             </div>

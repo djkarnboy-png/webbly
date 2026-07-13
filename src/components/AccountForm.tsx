@@ -20,8 +20,8 @@ export function AccountForm({ profile }: { profile: ProfileRow }) {
         <div
           className={`rounded-lg border px-4 py-3 text-sm font-medium ${
             state.status === "success"
-              ? "border-emerald-200 bg-emerald-50 text-emerald-900"
-              : "border-rose-200 bg-rose-50 text-rose-800"
+              ? "border-emerald-400/25 bg-emerald-500/10 text-emerald-100"
+              : "border-rose-400/25 bg-rose-500/10 text-rose-100"
           }`}
           role="status"
         >
@@ -54,19 +54,19 @@ export function AccountForm({ profile }: { profile: ProfileRow }) {
       </div>
 
       <label className="grid gap-2">
-        <span className="text-sm font-semibold text-slate-800">Short bio</span>
+        <span className="text-sm font-semibold text-slate-300">Short bio</span>
         <textarea
           name="bio"
           defaultValue={profile.bio ?? ""}
           rows={5}
           maxLength={320}
           placeholder="Share a little about your business, interests, or work."
-          className="w-full resize-none rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+          className="dark-field w-full resize-none rounded-lg px-4 py-3 text-sm outline-none transition"
         />
         <span className="text-xs text-slate-500">Up to 320 characters.</span>
       </label>
 
-      <div className="flex justify-end border-t border-slate-200 pt-5">
+      <div className="flex justify-end border-t border-white/10 pt-5">
         <Button type="submit" disabled={isPending} className="w-full sm:w-auto">
           {isPending ? "Saving..." : "Save profile"}
         </Button>
@@ -99,7 +99,7 @@ function AccountField({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-semibold text-slate-800">{label}</span>
+      <span className="text-sm font-semibold text-slate-300">{label}</span>
       <input
         name={name}
         defaultValue={defaultValue}
@@ -107,7 +107,7 @@ function AccountField({
         autoComplete={autoComplete}
         placeholder={placeholder}
         required={required}
-        className="h-12 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+        className="dark-field h-12 w-full rounded-lg px-4 text-sm outline-none transition"
       />
     </label>
   );

@@ -23,8 +23,8 @@ export default async function VerifiedPage({
     : "/login";
 
   return (
-    <section className="site-grid bg-[#f6f7fb] px-5 py-14 sm:px-6 sm:py-20 lg:px-8">
-      <div className="mx-auto max-w-2xl rounded-lg border border-slate-200 bg-white p-6 text-center shadow-[0_24px_60px_rgba(16,24,40,0.1)] sm:p-10">
+    <section className="app-page px-5 py-14 sm:px-6 sm:py-20 lg:px-8">
+      <div className="app-panel mx-auto max-w-2xl rounded-lg p-6 text-center sm:p-10">
         {verified ? (
           <>
             <div
@@ -33,16 +33,16 @@ export default async function VerifiedPage({
             >
               ✓
             </div>
-            <p className="mt-6 text-sm font-semibold uppercase text-emerald-700">
+            <p className="mt-6 text-sm font-semibold uppercase text-emerald-300">
               Account activated
             </p>
-            <h1 className="mt-3 text-3xl font-bold leading-tight text-slate-950 sm:text-4xl">
+            <h1 className="mt-3 text-3xl font-bold leading-tight text-slate-50 sm:text-4xl">
               Email verified successfully
             </h1>
-            <p className="mt-4 text-base leading-7 text-slate-600">
+            <p className="mt-4 text-base leading-7 text-slate-400">
               Your Webbly account is active.
             </p>
-            <p className="mt-1 text-base leading-7 text-slate-600">
+            <p className="mt-1 text-base leading-7 text-slate-400">
               You can return to the device where you signed up.
             </p>
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
@@ -62,18 +62,18 @@ export default async function VerifiedPage({
         ) : (
           <>
             <div
-              className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-rose-100 text-4xl font-bold text-rose-700"
+              className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-rose-400/25 bg-rose-500/10 text-4xl font-bold text-rose-300"
               aria-hidden="true"
             >
               !
             </div>
-            <p className="mt-6 text-sm font-semibold uppercase text-rose-700">
+            <p className="mt-6 text-sm font-semibold uppercase text-rose-300">
               Link unavailable
             </p>
-            <h1 className="mt-3 text-3xl font-bold leading-tight text-slate-950 sm:text-4xl">
+            <h1 className="mt-3 text-3xl font-bold leading-tight text-slate-50 sm:text-4xl">
               Verification could not be completed
             </h1>
-            <p className="mt-4 text-base leading-7 text-slate-600">
+            <p className="mt-4 text-base leading-7 text-slate-400">
               This verification link may be expired or already used. Request a
               fresh link, or return to login if your account is already active.
             </p>

@@ -64,7 +64,7 @@ export function BusinessPreview({
 
   return (
     <div
-      className={`relative isolate overflow-hidden rounded-md border border-white/80 shadow-inner ${
+      className={`preview-canvas relative isolate overflow-hidden rounded-md border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_14px_34px_rgba(0,0,0,0.18)] ${
         variant === "hero"
           ? "min-h-[430px] sm:min-h-[500px]"
           : variant === "stack"
@@ -121,7 +121,7 @@ function PreviewShell({
 
   return (
     <div
-      className={`absolute ${inset} rounded-lg border border-white/80 bg-white/55 p-1.5 shadow-[0_18px_50px_rgba(15,23,42,0.16)] backdrop-blur transition duration-500 group-hover:-translate-y-0.5`}
+      className={`absolute ${inset} rounded-lg border border-white/70 bg-white/55 p-1.5 shadow-[0_24px_55px_rgba(15,23,42,0.24)] backdrop-blur transition duration-500 group-hover:-translate-y-0.5`}
     >
       <div
         className={`flex h-full flex-col overflow-hidden rounded-md ring-1 ring-black/5 ${

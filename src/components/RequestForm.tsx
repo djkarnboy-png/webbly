@@ -101,34 +101,34 @@ export function RequestForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className={`grid gap-6 bg-white ${
+      className={`grid gap-6 bg-transparent ${
         embedded
           ? ""
-          : "rounded-lg border border-slate-200 p-5 shadow-[0_18px_45px_rgba(16,24,40,0.08)] sm:p-7"
+          : "app-panel rounded-lg p-5 sm:p-7"
       }`}
       noValidate
     >
-      <div className="border-b border-slate-200 pb-5">
+      <div className="border-b border-white/10 pb-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <p className="font-semibold text-slate-950">Share your project brief</p>
-            <p className="mt-1 max-w-xl text-sm leading-6 text-slate-600">{helperText}</p>
+            <p className="font-semibold text-slate-50">Share your project brief</p>
+            <p className="mt-1 max-w-xl text-sm leading-6 text-slate-400">{helperText}</p>
           </div>
-          <span className="w-fit shrink-0 rounded-md bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
+          <span className="w-fit shrink-0 rounded-md border border-emerald-400/20 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-300">
             Secure request
           </span>
         </div>
-        <div className="mt-4 flex flex-wrap gap-3 text-xs font-semibold text-slate-600">
+        <div className="mt-4 flex flex-wrap gap-3 text-xs font-semibold text-slate-400">
           {["Share", "Match style", "Creator reply"].map((step, index) => (
             <span key={step} className="inline-flex items-center gap-2">
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-slate-950 text-[10px] text-white">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-[10px] text-white">
                 {index + 1}
               </span>
               {step}
             </span>
           ))}
         </div>
-        <p className="mt-4 rounded-md bg-slate-50 px-3 py-2 text-xs leading-5 text-slate-600">
+        <p className="mt-4 rounded-md border border-white/[0.07] bg-black/20 px-3 py-2 text-xs leading-5 text-slate-400">
           No purchase is made now. A creator can reply with timing and a quote.
         </p>
       </div>
@@ -137,8 +137,8 @@ export function RequestForm({
         <div
           className={`rounded-md border p-4 ${
             status.success
-              ? "border-emerald-200 bg-emerald-50"
-              : "border-rose-200 bg-rose-50"
+              ? "border-emerald-400/25 bg-emerald-500/10"
+              : "border-rose-400/25 bg-rose-500/10"
           }`}
           role="status"
           aria-live="polite"
@@ -152,10 +152,10 @@ export function RequestForm({
               {status.success ? "OK" : "!"}
             </span>
             <div>
-              <p className={`font-semibold ${status.success ? "text-emerald-950" : "text-rose-900"}`}>
+              <p className={`font-semibold ${status.success ? "text-emerald-100" : "text-rose-100"}`}>
                 {status.success ? "Request sent" : "Request not sent"}
               </p>
-              <p className={`mt-1 text-sm leading-6 ${status.success ? "text-emerald-900" : "text-rose-800"}`}>
+              <p className={`mt-1 text-sm leading-6 ${status.success ? "text-emerald-200" : "text-rose-200"}`}>
                 {status.message}
               </p>
             </div>
@@ -218,7 +218,7 @@ export function RequestForm({
         />
 
         <label className="grid gap-2">
-          <span className="text-sm font-semibold text-slate-700">Message</span>
+          <span className="text-sm font-semibold text-slate-300">Message</span>
           <textarea
             name="message"
             value={values.message}
@@ -227,10 +227,10 @@ export function RequestForm({
             placeholder="Share the pages, features, timeline, and anything important about your business."
             aria-invalid={Boolean(errors.message)}
             aria-describedby={errors.message ? "message-error" : "message-help"}
-            className={`w-full resize-none rounded-md border px-4 py-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:bg-white focus:ring-4 ${
+            className={`w-full resize-none rounded-md border bg-[#05090f] px-4 py-3 text-sm text-slate-50 outline-none transition placeholder:text-slate-600 focus:ring-4 ${
               errors.message
-                ? "border-rose-300 bg-rose-50 focus:border-rose-500 focus:ring-rose-100"
-                : "border-slate-300 bg-white focus:border-blue-500 focus:ring-blue-100"
+                ? "border-rose-400/60 focus:border-rose-400 focus:ring-rose-500/10"
+                : "border-white/20 focus:border-blue-500 focus:ring-blue-500/10"
             }`}
           />
           {errors.message ? (
@@ -245,7 +245,7 @@ export function RequestForm({
         </label>
       </fieldset>
 
-      <div className="flex flex-col gap-3 border-t border-slate-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs leading-5 text-slate-500">
           Your details are saved securely so the right creator can follow up.
         </p>
@@ -285,7 +285,7 @@ function Field({
 
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-semibold text-slate-700">{label}</span>
+      <span className="text-sm font-semibold text-slate-300">{label}</span>
       <input
         name={name}
         value={value}
@@ -295,10 +295,10 @@ function Field({
         placeholder={placeholder}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? errorId : undefined}
-        className={`h-12 w-full rounded-md border px-4 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:bg-white focus:ring-4 ${
+        className={`h-12 w-full rounded-md border bg-[#05090f] px-4 text-sm text-slate-50 outline-none transition placeholder:text-slate-600 focus:ring-4 ${
           error
-            ? "border-rose-300 bg-rose-50 focus:border-rose-500 focus:ring-rose-100"
-            : "border-slate-300 bg-white focus:border-blue-500 focus:ring-blue-100"
+            ? "border-rose-400/60 focus:border-rose-400 focus:ring-rose-500/10"
+            : "border-white/20 focus:border-blue-500 focus:ring-blue-500/10"
         }`}
       />
       {error ? (
@@ -331,19 +331,19 @@ function SelectField({
 
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-semibold text-slate-700">{label}</span>
+      <span className="text-sm font-semibold text-slate-300">{label}</span>
       <select
         name={name}
         value={value}
         onChange={(event) => onChange(name, event.target.value)}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? errorId : undefined}
-        className={`h-12 w-full rounded-md border bg-white px-3 text-sm outline-none transition focus:ring-4 ${
-          value ? "text-slate-950" : "text-slate-500"
+        className={`h-12 w-full rounded-md border bg-[#05090f] px-3 text-sm outline-none transition focus:ring-4 ${
+          value ? "text-slate-50" : "text-slate-500"
         } ${
           error
-            ? "border-rose-300 focus:border-rose-500 focus:ring-rose-100"
-            : "border-slate-300 focus:border-blue-500 focus:ring-blue-100"
+            ? "border-rose-400/60 focus:border-rose-400 focus:ring-rose-500/10"
+            : "border-white/20 focus:border-blue-500 focus:ring-blue-500/10"
         }`}
       >
         <option value="">{placeholder}</option>

@@ -73,14 +73,14 @@ export const metadata = {
 export default function PricingPage() {
   return (
     <>
-      <section className="border-b border-slate-200 bg-white px-5 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <section className="app-page border-b border-white/10 px-5 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="mx-auto max-w-[1280px]">
           <div className="mx-auto max-w-4xl text-center">
-            <p className="text-sm font-semibold uppercase text-blue-700">Creator pricing</p>
-            <h1 className="mt-4 text-balance text-[42px] font-bold leading-[1.04] text-slate-950 sm:text-[56px]">
+            <p className="text-sm font-semibold uppercase text-blue-400">Creator pricing</p>
+            <h1 className="mt-4 text-balance text-[42px] font-bold leading-[1.04] text-white sm:text-[56px]">
               Simple plans for every stage.
             </h1>
-            <p className="mx-auto mt-5 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+            <p className="mx-auto mt-5 max-w-3xl text-base leading-7 text-slate-400 sm:text-lg sm:leading-8">
               Start free, test demand, and keep control of your pricing.
             </p>
           </div>
@@ -92,7 +92,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section className="bg-[#f6f7fb] px-5 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <section className="app-section-raised px-5 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="mx-auto grid max-w-[1180px] gap-6 lg:grid-cols-3">
           {plans.map((plan) => (
             <PricingCard key={plan.name} {...plan} />
@@ -100,16 +100,16 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section className="border-y border-slate-200 bg-white px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="app-section border-y border-white/10 px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-[1180px]">
           <SectionHeading
             eyebrow="Compare plans"
             title="Pick the reach you need."
             description="A quick look at the planned creator options."
           />
-          <div className="mt-9 overflow-x-auto rounded-lg border border-slate-200">
+          <div className="app-panel mt-9 overflow-x-auto rounded-lg">
             <table className="min-w-[760px] w-full border-collapse text-left text-sm">
-              <thead className="bg-slate-950 text-white">
+              <thead className="bg-[#070b12] text-white">
                 <tr>
                   <th className="px-5 py-4 font-semibold">Feature</th>
                   <th className="px-5 py-4 font-semibold">Free</th>
@@ -117,13 +117,13 @@ export default function PricingPage() {
                   <th className="px-5 py-4 font-semibold">Commission</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200 bg-white">
+              <tbody className="divide-y divide-white/10 bg-[#0b1018]">
                 {comparisonRows.map((row) => (
-                  <tr key={row[0]} className="transition hover:bg-slate-50">
+                  <tr key={row[0]} className="transition hover:bg-white/[0.03]">
                     {row.map((cell, index) => (
                       <td
                         key={`${row[0]}-${index}`}
-                        className={`px-5 py-4 ${index === 0 ? "font-semibold text-slate-950" : "text-slate-600"}`}
+                        className={`px-5 py-4 ${index === 0 ? "font-semibold text-slate-100" : "text-slate-400"}`}
                       >
                         {cell}
                       </td>
@@ -136,36 +136,36 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section className="bg-[#eef3ff] px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="border-y border-blue-400/10 bg-[linear-gradient(180deg,#0b111c_0%,#080c13_100%)] px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto grid max-w-[1180px] gap-10 lg:grid-cols-[0.72fr_1.28fr]">
           <SectionHeading
             eyebrow="Pricing FAQ"
             title="Quick answers."
             description="What creators can expect from the current preview."
           />
-          <div className="border-t border-blue-200">
+          <div className="border-t border-blue-400/15">
             {faqs.map(([question, answer]) => (
-              <details key={question} className="group border-b border-blue-200 py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-slate-950">
+              <details key={question} className="group border-b border-blue-400/15 py-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-slate-100">
                   {question}
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-blue-200 bg-white text-blue-700 transition group-open:rotate-45">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-blue-400/25 bg-blue-500/10 text-blue-300 transition group-open:rotate-45">
                     +
                   </span>
                 </summary>
-                <p className="max-w-2xl pt-3 text-sm leading-6 text-slate-600">{answer}</p>
+                <p className="max-w-2xl pt-3 text-sm leading-6 text-slate-400">{answer}</p>
               </details>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="site-grid border-t border-slate-200 bg-white px-5 py-16 sm:px-6 lg:px-8">
+      <section className="app-page border-t border-white/10 px-5 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase text-blue-700">Creator preview</p>
-          <h2 className="mt-4 text-balance text-3xl font-bold leading-tight text-slate-950 sm:text-4xl">
+          <p className="text-sm font-semibold uppercase text-blue-400">Creator preview</p>
+          <h2 className="mt-4 text-balance text-3xl font-bold leading-tight text-slate-50 sm:text-4xl">
             Shape your first listing.
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-600">
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-400">
             Organize your template, tools, price, and preview in one place.
           </p>
           <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">

@@ -55,7 +55,7 @@ export function SaveTemplateButton({
       } ${
         saved
           ? "border-blue-600 bg-blue-600 text-white hover:bg-blue-700"
-          : "border-white/80 bg-white/95 text-slate-800 hover:border-blue-300 hover:text-blue-700"
+          : "border-white/15 bg-[#070b12]/90 text-slate-200 hover:border-blue-400/60 hover:bg-blue-500/10 hover:text-blue-200"
       }`}
     >
       <span aria-live="polite">

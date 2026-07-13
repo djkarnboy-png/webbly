@@ -13,12 +13,12 @@ export default async function SavedTemplatesPage() {
   const { data: templates, error } = await getSavedTemplates(viewer.id);
 
   return (
-    <section className="mx-auto w-full max-w-[1280px] px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
-      <div className="flex flex-col gap-5 border-b border-slate-200 pb-7 sm:flex-row sm:items-end sm:justify-between">
+    <section className="app-page mx-auto w-full max-w-[1280px] px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+      <div className="flex flex-col gap-5 border-b border-white/10 pb-7 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-xs font-bold uppercase text-blue-700">Your shortlist</p>
-          <h1 className="mt-3 text-4xl font-bold text-slate-950">Saved templates</h1>
-          <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600">
+          <p className="text-xs font-bold uppercase text-blue-400">Your shortlist</p>
+          <h1 className="mt-3 text-4xl font-bold text-slate-50">Saved templates</h1>
+          <p className="mt-3 max-w-2xl text-base leading-7 text-slate-400">
             Keep promising website directions together while you compare creators and styles.
           </p>
         </div>
@@ -43,9 +43,9 @@ export default async function SavedTemplatesPage() {
           ))}
         </div>
       ) : (
-        <div className="mt-8 rounded-lg border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
-          <h2 className="text-2xl font-bold text-slate-950">Your shortlist is empty</h2>
-          <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-600">
+        <div className="app-panel-soft mt-8 rounded-lg border-dashed px-6 py-16 text-center">
+          <h2 className="text-2xl font-bold text-slate-50">Your shortlist is empty</h2>
+          <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-400">
             Save templates that feel close to your business so you can compare them here.
           </p>
           <ButtonLink href="/templates" className="mt-6">

@@ -9,11 +9,12 @@ const links = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-slate-800 bg-slate-950 px-6 py-12 text-white">
+    <footer className="border-t border-white/10 bg-[#030509] px-6 py-12 text-white">
       <div className="mx-auto max-w-[1280px]">
         <div className="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[1fr_auto] md:items-end">
           <div>
-            <Link href="/" className="text-2xl font-semibold text-white">
+            <Link href="/" className="inline-flex items-center gap-2 text-2xl font-semibold text-white">
+              <span className="h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_16px_rgba(96,165,250,0.8)]" />
               webbly
             </Link>
             <p className="mt-3 max-w-lg text-sm leading-6 text-slate-400">
