@@ -70,7 +70,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
 
       {submitted === "1" ? (
         <div className="mt-6 rounded-lg border border-emerald-400/25 bg-emerald-500/10 px-4 py-3 text-sm font-semibold text-emerald-100" role="status">
-          Template submitted for review.
+          Template published.
         </div>
       ) : null}
       {data.error ? (

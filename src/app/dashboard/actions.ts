@@ -54,7 +54,7 @@ export async function createTemplateAction(
     slug,
     creator_id: creator.id,
     preview_image_url: previewImage.url,
-    status: "pending",
+    status: "published",
     is_featured: false,
   });
 
@@ -65,6 +65,7 @@ export async function createTemplateAction(
 
   revalidatePath("/account");
   revalidatePath("/dashboard");
+  revalidatePath("/templates");
   redirect("/account?listing=submitted");
 }
 
@@ -109,7 +110,7 @@ export async function updateTemplateAction(
     .update({
       ...parsed.values,
       preview_image_url: previewImage.url,
-      status: "pending",
+      status: "published",
       is_featured: false,
     })
     .eq("id", templateId)
@@ -120,6 +121,7 @@ export async function updateTemplateAction(
   }
 
   revalidatePath("/dashboard");
+  revalidatePath("/templates");
   revalidatePath(`/dashboard/templates/${templateId}/edit`);
   redirect("/dashboard?submitted=1");
 }

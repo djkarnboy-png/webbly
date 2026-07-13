@@ -97,7 +97,7 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
           className="mb-6 rounded-lg border border-emerald-400/25 bg-emerald-500/10 px-4 py-3 text-sm font-semibold text-emerald-100"
           role="status"
         >
-          Your template was submitted for review.
+          Your template is now live on the marketplace.
         </div>
       ) : null}
 

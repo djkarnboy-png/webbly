@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Button, ButtonLink } from "@/components/Button";
+import { ButtonLink } from "@/components/Button";
 import { MvpNotice } from "@/components/MvpNotice";
 import { getViewer } from "@/lib/auth";
 import { getWebsiteForDetailsPage } from "@/lib/websites-server";
@@ -137,13 +137,17 @@ export default async function WebsiteDetailsPage({ params }: PageProps) {
               </div>
 
               <div className="mt-6 grid gap-3">
-                <Button size="lg" variant="outline" disabled>
-                  Buy website &mdash; coming soon
-                </Button>
+                <a
+                  href={`/marketplace/${website.id}/download`}
+                  download
+                  className="inline-flex h-12 items-center justify-center rounded-lg border border-blue-500 bg-blue-600 px-6 text-base font-semibold text-white shadow-[0_10px_28px_rgba(37,99,235,0.28)] transition duration-200 hover:border-blue-400 hover:bg-blue-500 hover:shadow-[0_14px_34px_rgba(37,99,235,0.34)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 active:translate-y-px"
+                >
+                  Download website files
+                </a>
               </div>
               <div className="mt-5">
-                <MvpNotice tone="slate" title="Payments coming soon">
-                  Preview the live site now. Checkout and instant delivery will be added later.
+                <MvpNotice tone="slate" title="Free during early access">
+                  Preview the live site, then download the full source. Paid checkout will be added later.
                 </MvpNotice>
               </div>
             </div>

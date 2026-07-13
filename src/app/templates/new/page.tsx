@@ -35,7 +35,7 @@ export default async function NewTemplatePage() {
           <p className="text-xs font-bold uppercase text-blue-400">Marketplace submission</p>
           <h1 className="mt-3 text-3xl font-bold text-slate-50 sm:text-4xl">List your work</h1>
           <p className="mt-2 text-sm leading-6 text-slate-400">
-            Add a clear preview, price, and project details for review.
+            Add a clear preview, price, and project details. Your listing goes live immediately.
           </p>
         </div>
         <ButtonLink href="/account" variant="outline">

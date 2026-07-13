@@ -46,7 +46,7 @@ export default async function AdminPage() {
         <div>
           <p className="text-xs font-bold uppercase text-blue-400">Admin workspace</p>
           <h1 className="mt-3 text-3xl font-bold text-slate-50 sm:text-4xl">Marketplace review</h1>
-          <p className="mt-2 text-sm leading-6 text-slate-400">Approve creator submissions and monitor marketplace activity.</p>
+          <p className="mt-2 text-sm leading-6 text-slate-400">Templates publish immediately on submission. Reject, feature, or unfeature listings here.</p>
         </div>
         <ButtonLink href="/templates" variant="outline">View public marketplace</ButtonLink>
       </div>

@@ -228,8 +228,8 @@ export function TemplateForm({ template }: { template?: TemplateRow | null }) {
 
       <div className="flex flex-col gap-3 rounded-lg border border-blue-400/20 bg-blue-500/10 p-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="font-semibold text-blue-100">New templates are reviewed first</p>
-          <p className="mt-1 text-sm text-blue-200/75">Submitting sets this template to pending until an admin approves it.</p>
+          <p className="font-semibold text-blue-100">Your template goes live immediately</p>
+          <p className="mt-1 text-sm text-blue-200/75">Submitting publishes this template to the marketplace right away.</p>
         </div>
         <Button type="submit" size="lg" disabled={isPending || isUploading} className="w-full shrink-0 sm:w-auto">
           {isUploading ? "Uploading preview..." : isPending ? "Submitting..." : template ? "Submit changes" : "Submit template"}
