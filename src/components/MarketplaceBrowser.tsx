@@ -18,6 +18,7 @@ type MarketplaceBrowserProps = {
   loadError?: string | null;
   savedTemplateIds?: string[];
   canSave?: boolean;
+  verified?: boolean;
   websites?: WebsiteListItem[];
   websitesError?: string | null;
 };
@@ -31,6 +32,7 @@ export function MarketplaceBrowser({
   loadError,
   savedTemplateIds = [],
   canSave = false,
+  verified = false,
   websites = [],
   websitesError,
 }: MarketplaceBrowserProps) {
@@ -183,6 +185,7 @@ export function MarketplaceBrowser({
               key={template.slug}
               template={template}
               canSave={canSave}
+              verified={verified}
               isSaved={Boolean(template.id && savedTemplateIds.includes(template.id))}
             />
           ))}

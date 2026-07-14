@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { AccountForm } from "@/components/AccountForm";
 import { ButtonLink } from "@/components/Button";
-import { getProfile, requireViewer } from "@/lib/auth";
+import { getProfile, requireVerifiedViewer } from "@/lib/auth";
 import { getCreatorByProfileId } from "@/lib/dashboard";
 import { createClient } from "@/lib/supabase/server";
 
@@ -25,7 +25,7 @@ type SavedRow = {
 };
 
 export default async function AccountPage({ searchParams }: AccountPageProps) {
-  const viewer = await requireViewer("/account");
+  const viewer = await requireVerifiedViewer("/account");
   const profile = await getProfile(viewer.id);
   const { listing } = await searchParams;
   const supabase = await createClient();

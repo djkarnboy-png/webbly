@@ -1,4 +1,5 @@
 import { RequestForm } from "@/components/RequestForm";
+import { requireVerifiedViewer } from "@/lib/auth";
 
 export const metadata = {
   title: "Request a Website | Webbly",
@@ -12,7 +13,9 @@ const requestTips = [
   ["Add useful constraints", "Share the rough budget, required pages, features, and launch timing."],
 ];
 
-export default function RequestPage() {
+export default async function RequestPage() {
+  await requireVerifiedViewer("/request");
+
   return (
     <section className="app-page px-5 py-10 sm:px-6 sm:py-14 lg:px-8">
       <div className="mx-auto grid max-w-[1180px] gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">

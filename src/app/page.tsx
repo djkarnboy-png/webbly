@@ -60,7 +60,9 @@ export default async function Home() {
   const { data: templates, error: marketplaceError } =
     await getPublishedTemplates();
   const viewer = await getViewer();
-  const savedTemplateIds = await getSavedTemplateIds(viewer?.id);
+  const savedTemplateIds = await getSavedTemplateIds(
+    viewer?.emailVerified ? viewer.id : undefined,
+  );
   const featured = [
     "restaurant-menu-website",
     "premium-salon-booking-site",
@@ -207,6 +209,7 @@ export default async function Home() {
                 key={template.slug}
                 template={template}
                 canSave={Boolean(viewer)}
+                verified={Boolean(viewer?.emailVerified)}
                 isSaved={Boolean(template.id && savedTemplateIds.includes(template.id))}
               />
             ))}

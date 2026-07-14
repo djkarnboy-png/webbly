@@ -1,6 +1,7 @@
 "use server";
 
 import type { WebsiteRequestInput } from "@/lib/marketplace";
+import { requireVerifiedViewer } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 
 export type RequestActionResult = {
@@ -11,7 +12,9 @@ export type RequestActionResult = {
 
 export async function submitWebsiteRequest(
   input: WebsiteRequestInput,
+  returnTo = "/request",
 ): Promise<RequestActionResult> {
+  const viewer = await requireVerifiedViewer(returnTo);
   const fieldErrors = validateRequest(input);
 
   if (Object.keys(fieldErrors).length > 0) {
@@ -23,15 +26,13 @@ export async function submitWebsiteRequest(
   }
 
   const supabase = await createClient();
-  const { data } = await supabase.auth.getClaims();
-  const buyerId = typeof data?.claims?.sub === "string" ? data.claims.sub : null;
   const templateId = isUuid(input.templateId) ? input.templateId : null;
   const creatorId = isUuid(input.creatorId) ? input.creatorId : null;
 
   const { error } = await supabase.from("website_requests").insert({
     template_id: templateId,
     creator_id: creatorId,
-    buyer_id: buyerId,
+    buyer_id: viewer.id,
     name: input.name.trim(),
     email: input.email.trim().toLowerCase(),
     business_type: input.businessType.trim(),

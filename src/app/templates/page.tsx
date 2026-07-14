@@ -19,7 +19,9 @@ export default async function TemplatesPage({ searchParams }: TemplatesPageProps
   const { data: templates, error } = await getPublishedTemplates();
   const { data: websites, error: websitesError } = await getListedWebsites();
   const viewer = await getViewer();
-  const savedTemplateIds = await getSavedTemplateIds(viewer?.id);
+  const savedTemplateIds = await getSavedTemplateIds(
+    viewer?.emailVerified ? viewer.id : undefined,
+  );
   const categories = getCategories();
 
   return (
@@ -61,6 +63,7 @@ export default async function TemplatesPage({ searchParams }: TemplatesPageProps
             loadError={error}
             savedTemplateIds={savedTemplateIds}
             canSave={Boolean(viewer)}
+            verified={Boolean(viewer?.emailVerified)}
             websites={websites}
             websitesError={websitesError}
           />

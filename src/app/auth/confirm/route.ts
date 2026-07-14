@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { logAuthError } from "@/lib/auth-errors";
+import { safeNextPath } from "@/lib/auth-redirect";
 import { clearEmailVerificationState } from "@/lib/auth-verification";
 import { createClient } from "@/lib/supabase/server";
 
@@ -7,6 +8,7 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const tokenHash = url.searchParams.get("token_hash")?.trim() ?? "";
   const type = url.searchParams.get("type");
+  const requestedNext = safeNextPath(url.searchParams.get("next"));
 
   if (!isValidTokenHash(tokenHash) || type !== "email") {
     return verificationResult(url.origin, false);
@@ -26,7 +28,14 @@ export async function GET(request: Request) {
   }
 
   await clearEmailVerificationState();
-  return verificationResult(url.origin, true);
+  const metadataNext = safeNextPath(
+    typeof data.user.user_metadata?.next === "string"
+      ? data.user.user_metadata.next
+      : "",
+  );
+  return NextResponse.redirect(
+    new URL(requestedNext || metadataNext || "/account", url.origin),
+  );
 }
 
 function isValidTokenHash(value: string) {

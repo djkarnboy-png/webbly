@@ -2,14 +2,24 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ButtonLink } from "@/components/Button";
 import { getViewer } from "@/lib/auth";
+import { safeNextPath } from "@/lib/auth-redirect";
+
+type CheckEmailPageProps = {
+  searchParams: Promise<{ next?: string }>;
+};
 
 export const metadata = { title: "Check Your Email | Webbly" };
 
-export default async function CheckEmailPage() {
+export default async function CheckEmailPage({ searchParams }: CheckEmailPageProps) {
+  const { next: requestedNext } = await searchParams;
+  const next = safeNextPath(requestedNext, "/account");
   const viewer = await getViewer();
-  if (viewer) {
-    redirect(viewer.role === "admin" ? "/admin" : "/account");
+  if (viewer?.emailVerified) {
+    redirect(next);
   }
+
+  const loginHref = `/login?next=${encodeURIComponent(next)}`;
+  const signupHref = `/signup?next=${encodeURIComponent(next)}`;
 
   return (
     <section className="app-page px-5 py-14 sm:px-6 sm:py-20 lg:px-8">
@@ -27,7 +37,7 @@ export default async function CheckEmailPage() {
         </p>
 
         <div className="mt-8 grid gap-4">
-          <ButtonLink href="/login" variant="outline" size="lg" className="w-full">
+          <ButtonLink href={loginHref} variant="outline" size="lg" className="w-full">
             Open login page
           </ButtonLink>
         </div>
@@ -35,7 +45,7 @@ export default async function CheckEmailPage() {
         <p className="mt-6 text-center text-sm text-slate-400">
           Used the wrong address?{" "}
           <Link
-            href="/signup"
+            href={signupHref}
             className="font-semibold text-blue-400 hover:text-blue-300"
           >
             Change email / Back to signup

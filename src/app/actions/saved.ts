@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { getViewer } from "@/lib/auth";
+import { requireVerifiedViewer } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 
 export type SaveTemplateResult = {
@@ -13,17 +13,9 @@ export type SaveTemplateResult = {
 
 export async function toggleSavedTemplate(
   templateId: string,
+  returnTo = "/saved",
 ): Promise<SaveTemplateResult> {
-  const viewer = await getViewer();
-
-  if (!viewer) {
-    return {
-      success: false,
-      saved: false,
-      loginRequired: true,
-      message: "Log in to save templates.",
-    };
-  }
+  const viewer = await requireVerifiedViewer(returnTo);
 
   if (!isUuid(templateId)) {
     return { success: false, saved: false, message: "This template cannot be saved." };

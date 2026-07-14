@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { submitWebsiteRequest } from "@/app/actions/request";
 import { categories } from "@/data/categories";
 import type { WebsiteRequestInput } from "@/lib/marketplace";
+import { withAuthAction } from "@/lib/auth-redirect";
 import { Button } from "./Button";
 import type { RequestModalContextValue } from "./RequestModalProvider";
 
@@ -78,7 +79,15 @@ export function RequestForm({
     }
 
     setIsSubmitting(true);
-    const result = await submitWebsiteRequest(values);
+    const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    const returnTo = withAuthAction(currentPath, "request", {
+      requestType: values.requestType,
+      templateName: values.templateName,
+      creatorName: values.creatorName,
+      templateId: values.templateId,
+      creatorId: values.creatorId,
+    });
+    const result = await submitWebsiteRequest(values, returnTo);
     setIsSubmitting(false);
     setStatus({ success: result.success, message: result.message });
 

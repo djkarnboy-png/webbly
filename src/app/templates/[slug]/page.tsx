@@ -37,7 +37,9 @@ export default async function TemplateDetailsPage({ params }: PageProps) {
   const { slug } = await params;
   const { data: template, error } = await getPublishedTemplateBySlug(slug);
   const viewer = await getViewer();
-  const savedTemplateIds = await getSavedTemplateIds(viewer?.id);
+  const savedTemplateIds = await getSavedTemplateIds(
+    viewer?.emailVerified ? viewer.id : undefined,
+  );
 
   if (!template) {
     if (error) {
@@ -157,6 +159,7 @@ export default async function TemplateDetailsPage({ params }: PageProps) {
                       templateId={template.id}
                       initialSaved={savedTemplateIds.includes(template.id)}
                       canSave={Boolean(viewer)}
+                      verified={Boolean(viewer?.emailVerified)}
                     />
                   ) : null}
                   <RequestButton
@@ -227,6 +230,7 @@ export default async function TemplateDetailsPage({ params }: PageProps) {
                 template={item}
                 compact
                 canSave={Boolean(viewer)}
+                verified={Boolean(viewer?.emailVerified)}
                 isSaved={Boolean(item.id && savedTemplateIds.includes(item.id))}
               />
             ))}

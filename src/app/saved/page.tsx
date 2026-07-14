@@ -1,6 +1,6 @@
 import { ButtonLink } from "@/components/Button";
 import { TemplateCard } from "@/components/TemplateCard";
-import { requireViewer } from "@/lib/auth";
+import { requireVerifiedViewer } from "@/lib/auth";
 import { getSavedTemplates } from "@/lib/marketplace-server";
 
 export const metadata = {
@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 export default async function SavedTemplatesPage() {
-  const viewer = await requireViewer("/saved");
+  const viewer = await requireVerifiedViewer("/saved");
   const { data: templates, error } = await getSavedTemplates(viewer.id);
 
   return (

@@ -1,10 +1,12 @@
 import { ButtonLink } from "@/components/Button";
 import { getViewer } from "@/lib/auth";
+import { safeNextPath } from "@/lib/auth-redirect";
 
 type VerifiedPageProps = {
   searchParams: Promise<{
     success?: string;
     error?: string;
+    next?: string;
   }>;
 };
 
@@ -13,14 +15,13 @@ export const metadata = { title: "Email Verification | Webbly" };
 export default async function VerifiedPage({
   searchParams,
 }: VerifiedPageProps) {
-  const { success } = await searchParams;
+  const { success, next: requestedNext } = await searchParams;
+  const next = safeNextPath(requestedNext, "/account");
   const viewer = success === "true" ? await getViewer() : null;
   const verified = success === "true" && viewer !== null;
   const continueHref = viewer
-    ? viewer.role === "admin"
-      ? "/admin"
-      : "/account"
-    : "/login";
+    ? next
+    : `/login?next=${encodeURIComponent(next)}`;
 
   return (
     <section className="app-page px-5 py-14 sm:px-6 sm:py-20 lg:px-8">

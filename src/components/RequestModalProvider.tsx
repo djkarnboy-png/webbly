@@ -9,6 +9,14 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { useRouter } from "next/navigation";
+import {
+  AUTH_ACTION_PARAM,
+  loginPathFor,
+  verificationPathFor,
+  withAuthAction,
+  withoutAuthAction,
+} from "@/lib/auth-redirect";
 import { RequestForm } from "./RequestForm";
 
 type RequestType = "similar" | "contact" | "general";
@@ -28,7 +36,16 @@ type RequestModalApi = {
 
 const RequestModalContext = createContext<RequestModalApi | null>(null);
 
-export function RequestModalProvider({ children }: { children: ReactNode }) {
+export function RequestModalProvider({
+  authenticated,
+  verified,
+  children,
+}: {
+  authenticated: boolean;
+  verified: boolean;
+  children: ReactNode;
+}) {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [context, setContext] = useState<RequestModalContextValue>({
     requestType: "general",
@@ -37,6 +54,25 @@ export function RequestModalProvider({ children }: { children: ReactNode }) {
   const closeRequestModal = useCallback(() => setIsOpen(false), []);
   const openRequestModal = useCallback(
     (value: Partial<RequestModalContextValue> = {}) => {
+      const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      const next = withAuthAction(currentPath, "request", {
+        requestType: value.requestType ?? "general",
+        templateName: value.templateName,
+        creatorName: value.creatorName,
+        templateId: value.templateId,
+        creatorId: value.creatorId,
+      });
+
+      if (!authenticated) {
+        router.push(loginPathFor(next));
+        return;
+      }
+
+      if (!verified) {
+        router.push(verificationPathFor(next));
+        return;
+      }
+
       setContext({
         requestType: value.requestType ?? "general",
         templateName: value.templateName,
@@ -46,8 +82,41 @@ export function RequestModalProvider({ children }: { children: ReactNode }) {
       });
       setIsOpen(true);
     },
-    [],
+    [authenticated, router, verified],
   );
+
+  useEffect(() => {
+    if (!verified) {
+      return;
+    }
+
+    const url = new URL(window.location.href);
+    if (url.searchParams.get(AUTH_ACTION_PARAM) !== "request") {
+      return;
+    }
+
+    const requestType = url.searchParams.get("requestType");
+    const currentPath = `${url.pathname}${url.search}${url.hash}`;
+    window.history.replaceState(
+      window.history.state,
+      "",
+      withoutAuthAction(currentPath),
+    );
+    const timer = window.setTimeout(() => {
+      openRequestModal({
+        requestType:
+          requestType === "contact" || requestType === "similar"
+            ? requestType
+            : "general",
+        templateName: url.searchParams.get("templateName") ?? undefined,
+        creatorName: url.searchParams.get("creatorName") ?? undefined,
+        templateId: url.searchParams.get("templateId") ?? undefined,
+        creatorId: url.searchParams.get("creatorId") ?? undefined,
+      });
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, [openRequestModal, verified]);
 
   useEffect(() => {
     if (!isOpen) {

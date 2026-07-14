@@ -10,6 +10,7 @@ type TemplateCardProps = {
   compact?: boolean;
   isSaved?: boolean;
   canSave?: boolean;
+  verified?: boolean;
 };
 
 export function TemplateCard({
@@ -17,6 +18,7 @@ export function TemplateCard({
   compact = false,
   isSaved = false,
   canSave = false,
+  verified = false,
 }: TemplateCardProps) {
   const responseTime = template.creator.responseTime.replace(/^Usually\s+/i, "");
 
@@ -32,6 +34,7 @@ export function TemplateCard({
               templateId={template.id}
               initialSaved={isSaved}
               canSave={canSave}
+              verified={verified}
               compact
             />
           </div>

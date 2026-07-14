@@ -1,6 +1,6 @@
 import { ButtonLink } from "@/components/Button";
 import { DashboardWebsiteActions } from "@/components/DashboardWebsiteActions";
-import { requireViewer } from "@/lib/auth";
+import { requireVerifiedViewer } from "@/lib/auth";
 import { getOwnedWebsites } from "@/lib/websites-server";
 
 export const metadata = {
@@ -15,7 +15,7 @@ type DashboardWebsitesPageProps = {
 export default async function DashboardWebsitesPage({
   searchParams,
 }: DashboardWebsitesPageProps) {
-  const viewer = await requireViewer("/dashboard/websites");
+  const viewer = await requireVerifiedViewer("/dashboard/websites");
   const { created } = await searchParams;
   const { data: websites, error } = await getOwnedWebsites(viewer.id);
 

@@ -36,7 +36,10 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-[#05070b] text-slate-100">
-        <RequestModalProvider>
+        <RequestModalProvider
+          authenticated={Boolean(viewer)}
+          verified={Boolean(viewer?.emailVerified)}
+        >
           <Navbar viewer={viewer} />
           <main className="flex-1 pt-[68px]">
             <div className="border-b border-white/10 bg-[#080d15] px-4 py-2.5 text-center text-xs font-medium text-slate-300 sm:text-sm">

@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireViewer } from "@/lib/auth";
+import { requireVerifiedViewer } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 
 export type AccountActionState = {
@@ -13,7 +13,7 @@ export async function updateAccountAction(
   _previousState: AccountActionState,
   formData: FormData,
 ): Promise<AccountActionState> {
-  const viewer = await requireViewer("/account");
+  const viewer = await requireVerifiedViewer("/account");
   const fullName = getText(formData, "fullName");
   const username = getText(formData, "username").toLowerCase();
   const location = getText(formData, "location");

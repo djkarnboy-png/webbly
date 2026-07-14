@@ -2,21 +2,35 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { LoginForm } from "@/components/AuthForms";
 import { getViewer } from "@/lib/auth";
+import {
+  AUTH_REQUIRED_MESSAGE,
+  AUTH_REQUIRED_REASON,
+  safeNextPath,
+} from "@/lib/auth-redirect";
 
 type LoginPageProps = {
-  searchParams: Promise<{ next?: string; error?: string }>;
+  searchParams: Promise<{ next?: string; error?: string; reason?: string }>;
 };
 
 export const metadata = { title: "Log In | Webbly" };
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const { next: requestedNext, error, reason } = await searchParams;
+  const next = safeNextPath(requestedNext, "/account");
   const viewer = await getViewer();
-  if (viewer) redirect("/account");
-  const { next, error } = await searchParams;
+  if (viewer) {
+    if (!viewer.emailVerified) {
+      redirect(`/check-email?next=${encodeURIComponent(next)}`);
+    }
+    redirect(next);
+  }
   const initialMessage =
     error === "verification_failed"
       ? "We could not verify that email link. Request a new link or try again."
+      : reason === AUTH_REQUIRED_REASON
+        ? AUTH_REQUIRED_MESSAGE
       : "";
+  const signupHref = `/signup?next=${encodeURIComponent(next)}`;
 
   return (
     <section className="app-page px-5 py-14 sm:px-6 sm:py-20 lg:px-8">
@@ -37,7 +51,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <div className="mt-7">
             <LoginForm next={next} initialMessage={initialMessage} />
           </div>
-          <p className="mt-6 text-sm text-slate-400">New to Webbly? <Link href="/signup" className="font-semibold text-blue-400 hover:text-blue-300">Create an account</Link></p>
+          <p className="mt-6 text-sm text-slate-400">New to Webbly? <Link href={signupHref} className="font-semibold text-blue-400 hover:text-blue-300">Create an account</Link></p>
         </div>
       </div>
     </section>

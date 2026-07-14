@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { logAuthError } from "@/lib/auth-errors";
 import { clearEmailVerificationState } from "@/lib/auth-verification";
+import { safeNextPath } from "@/lib/auth-redirect";
 import { logSupabaseQueryError } from "@/lib/supabase/diagnostics";
 import { createClient } from "@/lib/supabase/server";
 
@@ -47,17 +48,12 @@ export async function GET(request: Request) {
 
     await clearEmailVerificationState();
 
-    const destination =
-      profile?.role === "admin" ? "/admin" : next || "/account";
+    const destination = next || (profile?.role === "admin" ? "/admin" : "/account");
 
     return NextResponse.redirect(new URL(destination, url.origin));
   }
 
   return verificationFailure(url.origin);
-}
-
-function safeNextPath(value: string | null) {
-  return value?.startsWith("/") && !value.startsWith("//") ? value : "";
 }
 
 function verificationFailure(origin: string) {

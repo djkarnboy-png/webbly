@@ -36,7 +36,7 @@ export function LoginForm({
   );
 }
 
-export function SignupForm() {
+export function SignupForm({ next = "" }: { next?: string }) {
   const [state, action, pending] = useActionState(
     signupAction,
     initialAuthState,
@@ -57,6 +57,7 @@ export function SignupForm() {
       <SignupVerificationWait
         email={state.verification.email}
         password={password}
+        next={next}
         initialResendSeconds={state.verification.resendCooldownSeconds}
         onClearCredentials={clearCredentials}
       />
@@ -65,6 +66,7 @@ export function SignupForm() {
 
   return (
     <form action={action} className="grid gap-5">
+      <input type="hidden" name="next" value={next} />
       <AuthMessage state={state} />
       <AuthField label="Full name" name="fullName" autoComplete="name" placeholder="Avery Johnson" />
       <AuthField label="Email" name="email" type="email" autoComplete="email" placeholder="you@business.com" />

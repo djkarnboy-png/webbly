@@ -1,7 +1,7 @@
 import { Button } from "@/components/Button";
 import { ButtonLink } from "@/components/Button";
 import { DashboardTemplateActions } from "@/components/DashboardTemplateActions";
-import { requireViewer } from "@/lib/auth";
+import { requireVerifiedViewer } from "@/lib/auth";
 import { getCreatorDashboardData } from "@/lib/dashboard";
 import { updateRequestStatusAction } from "./actions";
 
@@ -15,7 +15,7 @@ type DashboardPageProps = {
 };
 
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
-  const viewer = await requireViewer("/dashboard");
+  const viewer = await requireVerifiedViewer("/dashboard");
   const { submitted } = await searchParams;
   const data = await getCreatorDashboardData(viewer.id);
 

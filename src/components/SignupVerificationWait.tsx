@@ -22,6 +22,7 @@ type VerificationStatus =
 type SignupVerificationWaitProps = {
   email: string;
   password: string;
+  next: string;
   initialResendSeconds: number;
   onClearCredentials: () => void;
 };
@@ -29,6 +30,7 @@ type SignupVerificationWaitProps = {
 export function SignupVerificationWait({
   email,
   password,
+  next,
   initialResendSeconds,
   onClearCredentials,
 }: SignupVerificationWaitProps) {
@@ -101,7 +103,7 @@ export function SignupVerificationWait({
           clearInMemoryCredentials();
 
           redirectRef.current = window.setTimeout(() => {
-            router.replace("/account");
+            router.replace(next || "/account");
             router.refresh();
           }, REDIRECT_DELAY_MS);
           return;
@@ -155,7 +157,7 @@ export function SignupVerificationWait({
         inFlightRef.current = false;
       }
     },
-    [clearInMemoryCredentials, router, stopAutomaticChecks],
+    [clearInMemoryCredentials, next, router, stopAutomaticChecks],
   );
 
   useEffect(() => {
@@ -282,20 +284,24 @@ export function SignupVerificationWait({
       ) : null}
 
       {terminal ? (
-        <ButtonLink href="/login" size="lg" className="w-full">
+        <ButtonLink
+          href={`/login?next=${encodeURIComponent(next || "/account")}`}
+          size="lg"
+          className="w-full"
+        >
           Go to login
         </ButtonLink>
       ) : null}
 
       <div className="grid gap-3 border-t border-white/10 pt-5 text-center text-sm text-slate-400 sm:grid-cols-2 sm:text-left">
         <a
-          href="/signup"
+          href={`/signup?next=${encodeURIComponent(next || "/account")}`}
           className="font-semibold text-blue-400 hover:text-blue-300"
         >
           Change email / Back to signup
         </a>
         <Link
-          href="/login"
+          href={`/login?next=${encodeURIComponent(next || "/account")}`}
           className="font-semibold text-blue-400 hover:text-blue-300 sm:text-right"
         >
           Open login page

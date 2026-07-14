@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { friendlyAuthError, logAuthError } from "@/lib/auth-errors";
 import { isStrongPassword } from "@/lib/auth-password";
+import { safeNextPath } from "@/lib/auth-redirect";
 import {
   clearEmailVerificationState,
   getEmailVerificationRedirectTo,
@@ -27,7 +28,7 @@ export async function loginAction(
 ): Promise<AuthActionState> {
   const email = getText(formData, "email").toLowerCase();
   const password = getRawText(formData, "password");
-  const next = safeNextPath(getText(formData, "next"));
+  const next = safeNextPath(getText(formData, "next"), "/account");
 
   if (!isEmail(email) || !password) {
     return { status: "error", message: "Enter a valid email and password." };
@@ -37,13 +38,16 @@ export async function loginAction(
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
+    if (isEmailNotConfirmedError(error)) {
+      redirect(`/check-email?next=${encodeURIComponent(next)}`);
+    }
     logAuthError("loginAction", error);
     return { status: "error", message: friendlyAuthError(error) };
   }
 
   await clearEmailVerificationState();
   revalidatePath("/", "layout");
-  redirect(next || "/account");
+  redirect(next);
 }
 
 export async function signupAction(
@@ -54,6 +58,7 @@ export async function signupAction(
   const email = getText(formData, "email").toLowerCase();
   const password = getRawText(formData, "password");
   const confirmPassword = getRawText(formData, "confirmPassword");
+  const next = safeNextPath(getText(formData, "next"), "/account");
 
   if (fullName.length < 2) {
     return { status: "error", message: "Enter your full name." };
@@ -79,7 +84,7 @@ export async function signupAction(
     password,
     options: {
       emailRedirectTo,
-      data: { full_name: fullName },
+      data: { full_name: fullName, next },
     },
   });
 
@@ -91,7 +96,7 @@ export async function signupAction(
   if (data.session) {
     await clearEmailVerificationState();
     revalidatePath("/", "layout");
-    redirect("/account");
+    redirect(next);
   }
 
   await startEmailVerificationCooldown();
@@ -127,6 +132,9 @@ function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-function safeNextPath(value: string) {
-  return value.startsWith("/") && !value.startsWith("//") ? value : "";
+function isEmailNotConfirmedError(error: { code?: string; message: string }) {
+  return (
+    error.code?.toLowerCase() === "email_not_confirmed" ||
+    error.message.toLowerCase().includes("email not confirmed")
+  );
 }
