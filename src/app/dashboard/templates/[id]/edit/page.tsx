@@ -26,7 +26,7 @@ export default async function EditTemplatePage({ params }: EditTemplatePageProps
         <div>
           <p className="text-xs font-bold uppercase text-blue-400">Marketplace submission</p>
           <h1 className="mt-3 text-3xl font-bold text-slate-50 sm:text-4xl">Edit template</h1>
-          <p className="mt-2 text-sm leading-6 text-slate-400">Changes return the template to pending review.</p>
+          <p className="mt-2 text-sm leading-6 text-slate-400">Changes are published immediately.</p>
         </div>
         <ButtonLink href="/dashboard" variant="outline">Back to dashboard</ButtonLink>
       </div>

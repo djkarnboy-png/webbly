@@ -31,7 +31,7 @@ export async function GET(
 
   const { data: files } = await supabase
     .from("website_files")
-    .select("path, content")
+    .select("path, content, encoding")
     .eq("website_id", id);
 
   if (!files || files.length === 0) {
@@ -40,7 +40,7 @@ export async function GET(
 
   const zip = new JSZip();
   for (const file of files) {
-    zip.file(file.path, file.content);
+    zip.file(file.path, file.content, { base64: file.encoding === "base64" });
   }
 
   const archive = await zip.generateAsync({

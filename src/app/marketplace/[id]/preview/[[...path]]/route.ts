@@ -1,11 +1,12 @@
-import { contentTypeForPath, WEBSITE_ENTRY_FILE } from "@/lib/websites-limits";
+import {
+  contentTypeForPath,
+  isSafeWebsiteFilePath,
+  WEBSITE_ENTRY_FILE,
+} from "@/lib/websites-limits";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
-
-const SEGMENT_PATTERN = /^[A-Za-z0-9._-]+$/;
-const MAX_PATH_LENGTH = 300;
 
 type RouteParams = {
   id: string;
@@ -13,7 +14,7 @@ type RouteParams = {
 };
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<RouteParams> },
 ) {
   if (!isSupabaseConfigured()) {
@@ -39,7 +40,7 @@ export async function GET(
   const supabase = await createClient();
   const { data: file } = await supabase
     .from("website_files")
-    .select("content")
+    .select("content, encoding")
     .eq("website_id", id)
     .eq("path", requestedPath)
     .maybeSingle();
@@ -49,18 +50,19 @@ export async function GET(
   }
 
   const body =
-    contentType === "text/html"
-      ? injectBaseHref(file.content, id)
-      : file.content;
+    file.encoding === "base64"
+      ? Buffer.from(file.content, "base64")
+      : contentType === "text/html"
+        ? rewriteAbsoluteAssetAttrs(injectBaseHref(file.content, id), id)
+        : contentType === "text/css"
+          ? rewriteAbsoluteCssUrls(file.content, id)
+          : file.content;
 
   return new Response(body, {
     status: 200,
     headers: {
       "Content-Type": contentType,
-      "Content-Security-Policy":
-        "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
-        "style-src 'self' 'unsafe-inline'; img-src * data: blob:; " +
-        "frame-ancestors 'self'; base-uri 'self'; form-action 'self'",
+      "Content-Security-Policy": contentSecurityPolicy(request),
       "X-Content-Type-Options": "nosniff",
       "X-Frame-Options": "SAMEORIGIN",
       "Cache-Control": "private, no-store",
@@ -68,24 +70,28 @@ export async function GET(
   });
 }
 
+// The buyer-facing preview is embedded via an iframe with sandbox="allow-scripts
+// ..." and deliberately NO allow-same-origin, so uploaded content can't touch
+// the real Webbly origin's cookies/localStorage. That forces the framed
+// document's own origin to be opaque ("null"), which means the 'self' CSP
+// keyword can never match anything (it resolves to the protected resource's
+// origin) -- it would silently block every external <link>/<script> load.
+// Using the actual explicit origin instead works the same as 'self' would,
+// but isn't affected by the framed document's opaque origin.
+function contentSecurityPolicy(request: Request) {
+  const origin = new URL(request.url).origin;
+  return (
+    `default-src ${origin}; script-src ${origin} 'unsafe-inline' 'unsafe-eval'; ` +
+    `style-src ${origin} 'unsafe-inline'; img-src * data: blob:; ` +
+    `frame-ancestors ${origin}; base-uri ${origin}; form-action ${origin}`
+  );
+}
+
 function resolveRequestedPath(segments: string[] | undefined): string | null {
   const parts = segments && segments.length > 0 ? segments : [WEBSITE_ENTRY_FILE];
-
-  for (const part of parts) {
-    if (!part || part === "." || part === ".." || part.includes("\\")) {
-      return null;
-    }
-    if (!SEGMENT_PATTERN.test(part)) {
-      return null;
-    }
-  }
-
   const joined = parts.join("/");
-  if (joined.length > MAX_PATH_LENGTH) {
-    return null;
-  }
 
-  return joined;
+  return isSafeWebsiteFilePath(joined) ? joined : null;
 }
 
 function injectBaseHref(html: string, websiteId: string) {
@@ -98,6 +104,48 @@ function injectBaseHref(html: string, websiteId: string) {
   }
 
   return `<head>${baseTag}</head>${html}`;
+}
+
+// Root-relative asset paths (e.g. href="/css/style.css") point at the
+// Webbly app's own domain, not the sandboxed file bundle, unless rewritten
+// to go through this website's preview route. The <base> tag alone only
+// affects relative URLs, so absolute ones need to be rewritten here.
+function rewriteAbsoluteAssetAttrs(html: string, websiteId: string) {
+  const prefix = `/marketplace/${websiteId}/preview`;
+
+  const withSingleUrlAttrs = html.replace(
+    /((?:href|src|action|poster)\s*=\s*)(["'])\/(?!\/)([^"']*)\2/gi,
+    (_match, attrPrefix: string, quote: string, rest: string) =>
+      `${attrPrefix}${quote}${prefix}/${rest}${quote}`,
+  );
+
+  return withSingleUrlAttrs.replace(
+    /(srcset\s*=\s*)(["'])([^"']*)\2/gi,
+    (_match, attrPrefix: string, quote: string, value: string) => {
+      const rewritten = value
+        .split(",")
+        .map((entry) => {
+          const trimmed = entry.trim();
+          const spaceIndex = trimmed.indexOf(" ");
+          const url = spaceIndex === -1 ? trimmed : trimmed.slice(0, spaceIndex);
+          const descriptor = spaceIndex === -1 ? "" : trimmed.slice(spaceIndex);
+          return url.startsWith("/") && !url.startsWith("//")
+            ? `${prefix}${url}${descriptor}`
+            : trimmed;
+        })
+        .join(", ");
+      return `${attrPrefix}${quote}${rewritten}${quote}`;
+    },
+  );
+}
+
+function rewriteAbsoluteCssUrls(css: string, websiteId: string) {
+  const prefix = `/marketplace/${websiteId}/preview`;
+
+  return css.replace(
+    /url\(\s*(["']?)\/(?!\/)([^"')]*)\1\s*\)/gi,
+    (_match, quote: string, rest: string) => `url(${quote}${prefix}/${rest}${quote})`,
+  );
 }
 
 function notFound() {

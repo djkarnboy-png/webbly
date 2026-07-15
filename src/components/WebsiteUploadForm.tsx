@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  startTransition,
   useActionState,
   useRef,
   useState,
@@ -135,7 +136,9 @@ export function WebsiteUploadForm() {
       formData.append(`file:${entry.path}`, entry.file, entry.path);
     }
 
-    formAction(formData);
+    startTransition(() => {
+      formAction(formData);
+    });
   }
 
   return (

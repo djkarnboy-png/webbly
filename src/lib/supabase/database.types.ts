@@ -386,6 +386,7 @@ export type Database = {
           content: string;
           content_type: string;
           size_bytes: number;
+          encoding: string;
           created_at: string;
         };
         Insert: {
@@ -395,6 +396,7 @@ export type Database = {
           content: string;
           content_type: string;
           size_bytes: number;
+          encoding?: string;
           created_at?: string;
         };
         Update: {
@@ -404,6 +406,7 @@ export type Database = {
           content?: string;
           content_type?: string;
           size_bytes?: number;
+          encoding?: string;
           created_at?: string;
         };
         Relationships: [

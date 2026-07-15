@@ -130,28 +130,34 @@ export async function archiveTemplateAction(templateId: string) {
   const viewer = await requireVerifiedViewer("/dashboard");
   const creator = await requireCreatorProfile(viewer.id);
   const supabase = await createClient();
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("templates")
     .update({ status: "archived", is_featured: false })
     .eq("id", templateId)
-    .eq("creator_id", creator.id);
+    .eq("creator_id", creator.id)
+    .select("id")
+    .maybeSingle();
 
   revalidatePath("/dashboard");
-  return { success: !error, message: error ? "Could not archive template." : "Template archived." };
+  const success = !error && !!data;
+  return { success, message: success ? "Template archived." : "Could not archive template." };
 }
 
 export async function deleteTemplateAction(templateId: string) {
   const viewer = await requireVerifiedViewer("/dashboard");
   const creator = await requireCreatorProfile(viewer.id);
   const supabase = await createClient();
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("templates")
     .delete()
     .eq("id", templateId)
-    .eq("creator_id", creator.id);
+    .eq("creator_id", creator.id)
+    .select("id")
+    .maybeSingle();
 
   revalidatePath("/dashboard");
-  return { success: !error, message: error ? "Could not delete template." : "Template deleted." };
+  const success = !error && !!data;
+  return { success, message: success ? "Template deleted." : "Could not delete template." };
 }
 
 export async function updateRequestStatusAction(formData: FormData) {

@@ -1,4 +1,4 @@
-export const ALLOWED_WEBSITE_FILE_EXTENSIONS = [
+const TEXT_FILE_EXTENSIONS = [
   "html",
   "css",
   "js",
@@ -7,6 +7,25 @@ export const ALLOWED_WEBSITE_FILE_EXTENSIONS = [
   "svg",
   "txt",
   "md",
+] as const;
+
+const BINARY_FILE_EXTENSIONS = [
+  "png",
+  "jpg",
+  "jpeg",
+  "gif",
+  "webp",
+  "ico",
+  "woff",
+  "woff2",
+  "ttf",
+  "otf",
+  "eot",
+] as const;
+
+export const ALLOWED_WEBSITE_FILE_EXTENSIONS = [
+  ...TEXT_FILE_EXTENSIONS,
+  ...BINARY_FILE_EXTENSIONS,
 ] as const;
 
 export const MAX_WEBSITE_FILES = 200;
@@ -24,7 +43,24 @@ const CONTENT_TYPE_BY_EXTENSION: Record<string, string> = {
   svg: "image/svg+xml",
   txt: "text/plain",
   md: "text/markdown",
+  png: "image/png",
+  jpg: "image/jpeg",
+  jpeg: "image/jpeg",
+  gif: "image/gif",
+  webp: "image/webp",
+  ico: "image/x-icon",
+  woff: "font/woff",
+  woff2: "font/woff2",
+  ttf: "font/ttf",
+  otf: "font/otf",
+  eot: "application/vnd.ms-fontobject",
 };
+
+const BINARY_EXTENSION_SET = new Set<string>(BINARY_FILE_EXTENSIONS);
+
+export function isBinaryWebsiteExtension(extension: string): boolean {
+  return BINARY_EXTENSION_SET.has(extension.toLowerCase());
+}
 
 export function extensionOf(path: string): string {
   const dot = path.lastIndexOf(".");
@@ -46,6 +82,11 @@ export function isJunkFilePath(path: string): boolean {
   return JUNK_FILE_BASENAMES.has(basename.toLowerCase());
 }
 
+// Excludes control characters and characters that are unsafe in file paths
+// or URLs (\ < > : " | ? *), but otherwise allows normal filename
+// punctuation like spaces, parentheses, and apostrophes.
+const SAFE_PATH_SEGMENT_PATTERN = /^[^\x00-\x1f\\<>:"|?*]+$/;
+
 export function isSafeWebsiteFilePath(path: string): boolean {
   if (!path || path.length > MAX_WEBSITE_FILE_PATH_LENGTH) {
     return false;
@@ -63,7 +104,8 @@ export function isSafeWebsiteFilePath(path: string): boolean {
       segment.length > 0 &&
       segment !== "." &&
       segment !== ".." &&
-      /^[A-Za-z0-9._-]+$/.test(segment),
+      segment.trim() === segment &&
+      SAFE_PATH_SEGMENT_PATTERN.test(segment),
   );
 }
 

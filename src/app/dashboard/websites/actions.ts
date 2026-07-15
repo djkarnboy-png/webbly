@@ -7,6 +7,8 @@ import { createClient } from "@/lib/supabase/server";
 import {
   WEBSITE_ENTRY_FILE,
   contentTypeForPath,
+  extensionOf,
+  isBinaryWebsiteExtension,
   isEntryFilePath,
   validateWebsiteFileManifest,
 } from "@/lib/websites-limits";
@@ -46,17 +48,10 @@ export async function createWebsiteAction(
     content: string;
     content_type: string;
     size_bytes: number;
+    encoding: "utf8" | "base64";
   }[] = [];
 
   for (const entry of fileEntries) {
-    const content = await entry.file.text();
-    if (containsNulByte(content)) {
-      return {
-        status: "error",
-        message: `"${entry.path}" does not look like a text file.`,
-      };
-    }
-
     const contentType = contentTypeForPath(entry.path);
     if (!contentType) {
       return {
@@ -65,11 +60,34 @@ export async function createWebsiteAction(
       };
     }
 
+    const isBinary = isBinaryWebsiteExtension(extensionOf(entry.path));
+
+    if (isBinary) {
+      const buffer = Buffer.from(await entry.file.arrayBuffer());
+      filesToInsert.push({
+        path: entry.path,
+        content: buffer.toString("base64"),
+        content_type: contentType,
+        size_bytes: entry.file.size,
+        encoding: "base64",
+      });
+      continue;
+    }
+
+    const content = await entry.file.text();
+    if (containsNulByte(content)) {
+      return {
+        status: "error",
+        message: `"${entry.path}" does not look like a text file.`,
+      };
+    }
+
     filesToInsert.push({
       path: entry.path,
       content,
       content_type: contentType,
       size_bytes: entry.file.size,
+      encoding: "utf8",
     });
   }
 
@@ -127,19 +145,22 @@ export async function publishWebsiteAction(websiteId: string) {
   }
 
   const supabase = await createClient();
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("websites")
     .update({ status: "listed" })
     .eq("id", websiteId)
-    .eq("owner_id", viewer.id);
+    .eq("owner_id", viewer.id)
+    .select("id")
+    .maybeSingle();
 
   revalidatePath("/dashboard/websites");
   revalidatePath("/marketplace");
   revalidatePath(`/marketplace/${websiteId}`);
 
+  const success = !error && !!data;
   return {
-    success: !error,
-    message: error ? "Could not publish this website." : "Website published.",
+    success,
+    message: success ? "Website published." : "Could not publish this website.",
   };
 }
 
@@ -151,19 +172,22 @@ export async function unpublishWebsiteAction(websiteId: string) {
   }
 
   const supabase = await createClient();
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("websites")
     .update({ status: "draft" })
     .eq("id", websiteId)
-    .eq("owner_id", viewer.id);
+    .eq("owner_id", viewer.id)
+    .select("id")
+    .maybeSingle();
 
   revalidatePath("/dashboard/websites");
   revalidatePath("/marketplace");
   revalidatePath(`/marketplace/${websiteId}`);
 
+  const success = !error && !!data;
   return {
-    success: !error,
-    message: error ? "Could not unpublish this website." : "Website unpublished.",
+    success,
+    message: success ? "Website unpublished." : "Could not unpublish this website.",
   };
 }
 
@@ -175,17 +199,20 @@ export async function deleteWebsiteAction(websiteId: string) {
   }
 
   const supabase = await createClient();
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("websites")
     .delete()
     .eq("id", websiteId)
-    .eq("owner_id", viewer.id);
+    .eq("owner_id", viewer.id)
+    .select("id")
+    .maybeSingle();
 
   revalidatePath("/dashboard/websites");
 
+  const success = !error && !!data;
   return {
-    success: !error,
-    message: error ? "Could not delete this website." : "Website deleted.",
+    success,
+    message: success ? "Website deleted." : "Could not delete this website.",
   };
 }
 
