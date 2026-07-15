@@ -53,7 +53,7 @@ export async function GET(
     file.encoding === "base64"
       ? Buffer.from(file.content, "base64")
       : contentType === "text/html"
-        ? rewriteAbsoluteAssetAttrs(injectBaseHref(file.content, id), id)
+        ? injectBaseHref(rewriteAbsoluteAssetAttrs(file.content, id), id)
         : contentType === "text/css"
           ? rewriteAbsoluteCssUrls(file.content, id)
           : file.content;
